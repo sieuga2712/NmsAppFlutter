@@ -1,4 +1,5 @@
 import 'package:nms_app/core/values/app_color.dart';
+import 'package:nms_app/core/values/app_theme_values.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:nms_app/modules/page/home/home_controller.dart';
 import 'package:nms_app/router.dart';
@@ -48,8 +49,46 @@ class NavigationDrawer extends StatelessWidget {
                                 onTap: () {
                                   navigate('tracuuONT');
                                 }),
-                         
-                         
+                          if (nhomquyen == 11)
+                            buildDrawerItems(
+                                context: context,
+                                text: 'Tra cứu thuê bao',
+                                icon: Icons.list,
+                                textIconColor: (Get.isDarkMode
+                                    ? AppColor.whiteColor
+                                    : AppColor.helpBlue),
+                                titleColor: (Get.isDarkMode
+                                    ? AppColor.whiteColor
+                                    : AppColor.whiteColor),
+                                onTap: () {
+                                  navigate('tracuuthuebao');
+                                }),
+                          buildDrawerItems(
+                              context: context,
+                              text: 'Phiếu mở',
+                              icon: Icons.list,
+                              textIconColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.helpBlue),
+                              titleColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.whiteColor),
+                              onTap: () {
+                                navigate('phieumo');
+                              }),
+                          buildDrawerItems(
+                              context: context,
+                              text: 'Phiếu đóng',
+                              icon: Icons.list,
+                              textIconColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.helpBlue),
+                              titleColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.whiteColor),
+                              onTap: () {
+                                navigate('phieudong');
+                              }),
                           buildDrawerItems(
                               context: context,
                               text: 'Đăng xuất',
@@ -74,7 +113,17 @@ class NavigationDrawer extends StatelessWidget {
       {required String accountName, required String accountPosition}) {
     List<DropdownMenuItem<String>> listDropDownDV = [];
 
-    
+    homeController.dsChucVuKiemNhiem.value.forEach((element) {
+      listDropDownDV.add(DropdownMenuItem(
+          child: Text(element.ten_dv!.toString(),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Get.isDarkMode
+                        ? AppColor.blackColor
+                        : AppColor.whiteColor,
+                    fontWeight: FontWeight.bold,
+                  )),
+          value: element.donvi_id!.toInt().toString()));
+    });
     return Container(
         margin: EdgeInsets.only(bottom: 0.0),
         decoration: BoxDecoration(
@@ -92,17 +141,49 @@ class NavigationDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "123",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        accountName,
+                        style: TextStyle(
+                          fontSize: AppSizeValues.FontSizeMedium,
+                          color: Get.isDarkMode
+                              ? AppColor.blackColor
+                              : AppColor.whiteColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      if (listDropDownDV.length == 1)
+                        Text(
+                          accountPosition,
+                          style: TextStyle(
+                            fontSize: AppSizeValues.FontSizeMedium,
+                            color: Get.isDarkMode
+                                ? AppColor.blackColor
+                                : AppColor.whiteColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      if (listDropDownDV.length > 1)
+                        DropdownButton(
+                            items: listDropDownDV,
+                            value: homeController.selectDonVi.value,
+                            iconEnabledColor: AppColor.whiteColor,
+                            dropdownColor: AppColor.blueAccentColor,
+                            style: TextStyle(
+                              fontSize: AppSizeValues.FontSizeMedium,
                               color: Get.isDarkMode
                                   ? AppColor.blackColor
                                   : AppColor.whiteColor,
                               fontWeight: FontWeight.bold,
                             ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                            onChanged: ((value) {
+                              if (value.toString() !=
+                                  getStorage
+                                      .read(GetStorageKey.donviId)
+                                      .toString())
+                                homeController.changeDonViKiemNhiem(value!);
+                            }))
                     ]),
               ),
             )
@@ -120,19 +201,20 @@ class NavigationDrawer extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(color: AppColor.greyColor, width: 0.5),
+            bottom: BorderSide(color: AppColor.greyColor, width: 0.5),
           ),
         ),
         child: Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 10),
             child: ListTile(
               visualDensity: VisualDensity(horizontal: 0, vertical: -4),
               leading: Icon(icon, color: textIconColor),
               title: Text(
                 text,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: textIconColor,
-                    ),
+                style: TextStyle(
+                  fontSize: AppSizeValues.FontSizeMedium,
+                  color: textIconColor,
+                ),
               ),
               tileColor: titleColor,
               onTap: onTap,
@@ -148,6 +230,10 @@ class NavigationDrawer extends StatelessWidget {
       case 'home':
         Get.offNamed(Routers.HOME);
         break;
+      case 'phieumo':
+        Get.offNamed(Routers.PHIEUMO);
+        break;
+
       default:
         break;
     }

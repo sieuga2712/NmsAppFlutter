@@ -1,3 +1,4 @@
+import 'package:nms_app/core/values/app_theme_values.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -16,15 +17,19 @@ class ButtonCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return // Khoảng cách giữa button và các widget khác
+        ElevatedButton(
       onPressed: () => this.onPressed(),
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6), // Bo góc cho button
+        ),
       ),
       child: Text(
         title,
         style:
-            Theme.of(context).textTheme.bodyMedium!.copyWith(color: textColor),
+            TextStyle(fontSize: AppSizeValues.FontSizeMedium, color: textColor),
       ),
     );
   }

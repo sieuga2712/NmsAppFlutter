@@ -5,6 +5,8 @@ import 'package:nms_app/modules/page/home/home_binding.dart';
 import 'package:nms_app/modules/page/home/home_view.dart';
 import 'package:nms_app/modules/page/login/login_binding.dart';
 import 'package:nms_app/modules/page/login/login_view.dart';
+import 'package:nms_app/modules/page/phieumo/phieumo_binding.dart';
+import 'package:nms_app/modules/page/phieumo/phieumo_view.dart';
 import 'package:get/get.dart';
 
 class PageRouters {
@@ -13,7 +15,7 @@ class PageRouters {
   static const INITIAL = Routers.LOGIN;
   static const Firstpage = Routers.LOGIN;
   static final routers = [
-    GetPage(name: Paths.LOGIN, page: () => Login("",""), binding: LoginBinding()),
+    GetPage(name: Paths.LOGIN, page: () => Login(), binding: LoginBinding()),
     GetPage(
         name: Paths.HOME,
         page: () => HeaderAppbar(
@@ -22,7 +24,14 @@ class PageRouters {
             isDrawer: true,
             pathScreen: Paths.HOME),
         bindings: [HomeBinding()]),
-   
+    GetPage(
+        name: Paths.PHIEUMO,
+        page: () => HeaderAppbar(
+            body: PhieumoView(),
+            title: "Danh Sách phiếu mở",
+            isDrawer: true,
+            pathScreen: Paths.PHIEUMO),
+        bindings: [PhieumoBinding()]),
   ];
 }
 
