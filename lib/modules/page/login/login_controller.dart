@@ -5,6 +5,7 @@ import 'package:nms_app/core/ultis/full_screen_dialog_loader.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:nms_app/model/login/login_model.dart';
 import 'package:nms_app/modules/page/login/login_provider.dart';
+import 'package:nms_app/modules/page/login/login_view.dart';
 import 'package:nms_app/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,7 +76,7 @@ class LoginController extends GetxController {
 
   void performAuthentication() async {
     print("bỏ qua: " + accessToken.value.toString());
-    if (accessToken.value != "") {
+    if (accessToken.value != "null" && accessToken.value != "") {
       // Nếu đã đăng nhập, bỏ qua đăng nhập lại
       print('Người dùng đã đăng nhập. Bỏ qua đăng nhập lại.');
       /*ScaffoldMessenger.of(context).showSnackBar(
@@ -202,17 +203,30 @@ class LoginController extends GetxController {
   }
 
   Future<void> logout() async {
-    print('logoutUrl:' + logoutUrl.toString());
-    if (logoutUrl != null) {
-      try {
-        await FlutterWebAuth2.authenticate(
-          url: logoutUrl.value!,
-          callbackUrlScheme: 'com.yourapp',
-        );
-        await _clearSession();
-      } catch (e) {
-        print('Lỗi đăng xuất: $e');
+    try {
+      // Gửi yêu cầu logout tới server
+      final response = await http.get(
+        Uri.parse('https://apinpm.egov.phutho.vn/connect/endsession'),
+        headers: {
+          'Authorization': 'Bearer ${accessToken.value}',
+        },
+      );
+
+      // Xử lý redirect nếu cần
+      if (response.statusCode == 302) {
+        final redirectUrl = response.headers['location'];
+        if (redirectUrl != null) {
+          await http.get(Uri.parse(redirectUrl));
+        }
       }
+
+      // Xóa session và cập nhật giao diện
+      await _clearSession();
+      print('Logout thành công');
+    } catch (e) {
+      print('Lỗi logout: $e');
+      await _clearSession(); // Vẫn clear local session dù có lỗi
     }
+    update();
   }
 }

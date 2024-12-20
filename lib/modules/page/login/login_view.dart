@@ -52,51 +52,50 @@ class Login extends GetView<LoginController> {
                       SizedBox(
                         height: 10,
                       ),
-                      if (controller.accessToken != "")
-                        Text("Đã đăng nhập: ${controller.accessToken!}"),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      if (controller.accessToken != "")
+                      Obx(() => controller.accessToken.value.isNotEmpty
+                          ? Text("Đã đăng nhập")
+                          : SizedBox()),
+                      const SizedBox(height: 20),
+                      if (controller.accessToken.value.isNotEmpty)
                         ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColor.blueAccentColor.withOpacity(0.6),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              minimumSize: Size(
-                                  (MediaQuery.of(context).size.width - 25), 50),
-                              side: BorderSide(color: AppColor.blueAccentColor),
-                            ),
-                            onPressed: () {
-                              controller.checkbantin();
-                            },
-                            child: Text(
-                              "test api",
-                              style: TextStyle(color: AppColor.whiteColor),
-                            )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                AppColor.blueAccentColor.withOpacity(0.6),
+                            backgroundColor: AppColor.blueAccentColor.withOpacity(0.6),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            minimumSize: Size(
-                                (MediaQuery.of(context).size.width - 25), 50),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            minimumSize:
+                            Size((MediaQuery.of(context).size.width - 25), 50),
                             side: BorderSide(color: AppColor.blueAccentColor),
                           ),
                           onPressed: () {
-                            controller.logout();
+                            controller.checkbantin();
                           },
                           child: Text(
-                            "Đăng xuất",
+                            "Test API",
                             style: TextStyle(color: AppColor.whiteColor),
-                          )),
+                          ),
+                        ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColor.blueAccentColor.withOpacity(0.6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          minimumSize:
+                          Size((MediaQuery.of(context).size.width - 25), 50),
+                          side: BorderSide(color: AppColor.blueAccentColor),
+                        ),
+                        onPressed: () {
+                          controller.logout();
+                        },
+                        child: Text(
+                          "Đăng xuất",
+                          style: TextStyle(color: AppColor.whiteColor),
+                        ),
+                      ),
                     ],
-                  ),
+                  )
                 ),
               ),
             );
