@@ -1,12 +1,8 @@
-import 'dart:io';
 import 'package:nms_app/model/login/login_model.dart';
 import 'package:nms_app/network/api_list.dart';
 import 'package:nms_app/network/api_provider.dart';
 import 'package:nms_app/network/dio_exception.dart' as dioError;
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
-// ignore: implementation_imports, library_prefixes
-import 'package:dio/src/form_data.dart' as fromData;
 import 'package:get_storage/get_storage.dart';
 
 class CanBoProvider {
@@ -35,6 +31,5 @@ class CanBoProvider {
     } catch (exception) {
       return Future.error(exception.toString());
     }
-    // ignore: deprecated_member_use
   }
 }

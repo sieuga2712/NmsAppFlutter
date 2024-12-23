@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:nms_app/global_widget/header_appbar.dart';
-import 'package:nms_app/modules/page/home/home_binding.dart';
-import 'package:nms_app/modules/page/home/home_view.dart';
-import 'package:nms_app/modules/page/login/login_binding.dart';
-import 'package:nms_app/modules/page/login/login_view.dart';
-import 'package:nms_app/modules/page/phieumo/phieumo_binding.dart';
-import 'package:nms_app/modules/page/phieumo/phieumo_view.dart';
+import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsachchuongtrinh_binding.dart';
+import 'package:nms_app/modules/views/chuongtrinh/danhsachchuongtrinh_view.dart';
+import 'package:nms_app/modules/controllers/trangchu/trangchu_binding.dart';
+import 'package:nms_app/modules/views/trangchu/trangchu_view.dart';
+import 'package:nms_app/modules/controllers/login/login_binding.dart';
+import 'package:nms_app/modules/views/login/login_view.dart';
 import 'package:get/get.dart';
 
 class PageRouters {
@@ -17,56 +15,40 @@ class PageRouters {
   static final routers = [
     GetPage(name: Paths.LOGIN, page: () => Login(), binding: LoginBinding()),
     GetPage(
-        name: Paths.HOME,
+        name: Paths.TRANGCHU,
         page: () => HeaderAppbar(
-            body: HomeView(),
-            title: "Loading...",
+            body: TrangchuView(),
+            title: "Trang chủ",
             isDrawer: true,
-            pathScreen: Paths.HOME),
-        bindings: [HomeBinding()]),
+            pathScreen: Paths.TRANGCHU),
+        bindings: [TrangchuBinding()]),
     GetPage(
-        name: Paths.PHIEUMO,
+        name: Paths.DSCHUONGTRINH,
         page: () => HeaderAppbar(
-            body: PhieumoView(),
-            title: "Danh Sách phiếu mở",
+            body: DanhsachchuongtrinhView(),
+            title: "Danh Sách Chương Trình",
             isDrawer: true,
-            pathScreen: Paths.PHIEUMO),
-        bindings: [PhieumoBinding()]),
+            pathScreen: Paths.DSCHUONGTRINH),
+        bindings: [DanhsachchuongtrinhBinding()]),
   ];
 }
 
 class Routers {
   Routers._();
-  static const HOME = Paths.HOME;
+  static const TRANGCHU = Paths.TRANGCHU;
   static const SPLASH = Paths.SPLASH;
   static const LOGIN = Paths.LOGIN;
-
-  static const PHIEUDONG = Paths.PHIEUDONG;
-  static const PHIEUMO = Paths.PHIEUMO;
-  static const TRACUUONT = Paths.TRACUUONT;
-  static const TRACUUTHUEBAO = Paths.TRACUUTHUEBAO;
-
-  static const DETAILPHIEU = Paths.DETAILPHIEU;
-  static const THUEBAOGIAHAN = Paths.THUEBAOGIAHAN;
-  static const CAPNHATPHIEU = Paths.CAPNHATPHIEU;
-  static const CHUYENTOKYTHUAT = Paths.CHUYENTOKYTHUAT;
-  static const CHUYENXULY = Paths.CHUYENXULY;
+  static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
+  static const DSBANTIN = Paths.DSBANTIN;
 }
 
 class Paths {
   Paths._();
-  static const HOME = '/home';
+  static const TRANGCHU = '/trangchu';
   static const SPLASH = '/splash';
   static const LOGIN = '/login';
+  static const DSCHUONGTRINH = '/dschuongtrinh';
+  static const DSBANTIN = '/dsbantin';
 
   static const PHIEUDONG = '/phieudong';
-  static const PHIEUMO = '/phieumo';
-  static const TRACUUONT = '/tracuuont';
-  static const TRACUUTHUEBAO = '/tracuuthuebao';
-
-  static const DETAILPHIEU = '/detailphieu';
-  static const THUEBAOGIAHAN = '/thuebaogiahgan';
-  static const CAPNHATPHIEU = '/capnhatphieu';
-  static const CHUYENTOKYTHUAT = '/chuyentokythuat';
-  static const CHUYENXULY = '/chuyenxuly';
 }

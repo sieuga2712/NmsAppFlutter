@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class AppThemeValues {
   static const double paddingLeftMedium = 10;
   static const double paddingRightMedium = 10;

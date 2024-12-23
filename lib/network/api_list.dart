@@ -18,4 +18,5 @@ class ListApi {
   static const dsnnbh = "/ds-nguyen-nhan-bao-hong";
   static const dsdtkh = "/ds-doi-tuong-kh";
   static const getver = "/get-version";
+  static const trangchu = "/api/app/chuong-trinh/dashboard-xu-ly-ca-nhan";
 }

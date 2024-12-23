@@ -1,7 +1,6 @@
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/core/values/app_string.dart';
 import 'package:nms_app/global_widget/failure_network.dart';
-import 'package:nms_app/network/network_controller.dart';
 import 'package:nms_app/setup/setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

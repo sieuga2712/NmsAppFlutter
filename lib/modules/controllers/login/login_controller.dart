@@ -30,17 +30,6 @@ class LoginController extends GetxController {
       usernameController.text = prefUserName ?? "";
       passwordController.text = prefPassWord ?? "";
     }
-    /*if (isLoaiDangNhan == 'doikiemnhiem') {
-      autoLogin(storage.read(GetStorageKey.userName),
-          storage.read(GetStorageKey.passWord)!, isLoaiDangNhan);
-    } else {
-      if (domainAPi != null && prefPassWord != null && prefUserName != null) {
-        usernameController.text = prefUserName;
-        passwordController.text = prefPassWord;
-        isRememberLogin.value = true;
-        autoLogin(prefUserName, prefPassWord, isLoaiDangNhan);
-      } else {}
-    }*/
   }
 
   String? validateUserName(String value) {
@@ -83,8 +72,8 @@ class LoginController extends GetxController {
                   storage.write(
                       GetStorageKey.tendonvi, value.arrdv![0].ten_dv ?? ''),
                   storage.write(
-                      GetStorageKey.dskiemnhiem, jsonEncode(value.arrdv) ?? ''),
-                  Get.offNamed(Paths.HOME)
+                      GetStorageKey.dskiemnhiem, jsonEncode(value.arrdv)),
+                  Get.offNamed(Paths.TRANGCHU)
                 }
               else
                 {

@@ -1,6 +1,6 @@
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
-import 'package:nms_app/modules/page/home/home_controller.dart';
+import 'package:nms_app/modules/controllers/trangchu/trangchu_controller.dart';
 import 'package:nms_app/router.dart';
 import 'package:nms_app/setup/setup_controller.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:get_storage/get_storage.dart';
 class NavigationDrawer extends StatelessWidget {
   final getStorage = GetStorage();
   final SetupController setupController = Get.find();
-  final HomeController homeController = Get.find();
+  final TrangchuController homeController = Get.find();
 
   NavigationDrawer({super.key});
   @override
@@ -37,7 +37,7 @@ class NavigationDrawer extends StatelessWidget {
                           if (nhomquyen != 11)
                             buildDrawerItems(
                                 context: context,
-                                text: 'Tra cứu ONT',
+                                text: 'Trang chủ',
                                 icon: Icons.list,
                                 textIconColor: (Get.isDarkMode
                                     ? AppColor.whiteColor
@@ -46,25 +46,11 @@ class NavigationDrawer extends StatelessWidget {
                                     ? AppColor.whiteColor
                                     : AppColor.whiteColor),
                                 onTap: () {
-                                  navigate('tracuuONT');
-                                }),
-                          if (nhomquyen == 11)
-                            buildDrawerItems(
-                                context: context,
-                                text: 'Tra cứu thuê bao',
-                                icon: Icons.list,
-                                textIconColor: (Get.isDarkMode
-                                    ? AppColor.whiteColor
-                                    : AppColor.helpBlue),
-                                titleColor: (Get.isDarkMode
-                                    ? AppColor.whiteColor
-                                    : AppColor.whiteColor),
-                                onTap: () {
-                                  navigate('tracuuthuebao');
+                                  navigate('trangchu');
                                 }),
                           buildDrawerItems(
                               context: context,
-                              text: 'Phiếu mở',
+                              text: 'Danh sách chương trình',
                               icon: Icons.list,
                               textIconColor: (Get.isDarkMode
                                   ? AppColor.whiteColor
@@ -73,11 +59,11 @@ class NavigationDrawer extends StatelessWidget {
                                   ? AppColor.whiteColor
                                   : AppColor.whiteColor),
                               onTap: () {
-                                navigate('phieumo');
+                                navigate('danhsachchuongtrinh');
                               }),
                           buildDrawerItems(
                               context: context,
-                              text: 'Phiếu đóng',
+                              text: 'Danh sách bản tin',
                               icon: Icons.list,
                               textIconColor: (Get.isDarkMode
                                   ? AppColor.whiteColor
@@ -86,7 +72,7 @@ class NavigationDrawer extends StatelessWidget {
                                   ? AppColor.whiteColor
                                   : AppColor.whiteColor),
                               onTap: () {
-                                navigate('phieudong');
+                                navigate('danhsachbantin');
                               }),
                           buildDrawerItems(
                               context: context,
@@ -111,18 +97,6 @@ class NavigationDrawer extends StatelessWidget {
   Widget buidHearderDrawer(BuildContext context,
       {required String accountName, required String accountPosition}) {
     List<DropdownMenuItem<String>> listDropDownDV = [];
-
-    homeController.dsChucVuKiemNhiem.value.forEach((element) {
-      listDropDownDV.add(DropdownMenuItem(
-          child: Text(element.ten_dv!.toString(),
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Get.isDarkMode
-                        ? AppColor.blackColor
-                        : AppColor.whiteColor,
-                    fontWeight: FontWeight.bold,
-                  )),
-          value: element.donvi_id!.toInt().toString()));
-    });
     return Container(
         margin: EdgeInsets.only(bottom: 0.0),
         decoration: BoxDecoration(
@@ -162,28 +136,6 @@ class NavigationDrawer extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                         ),
-                      if (listDropDownDV.length > 1)
-                        DropdownButton(
-                            items: listDropDownDV,
-                            value: homeController.selectDonVi.value,
-                            iconEnabledColor: AppColor.whiteColor,
-                            dropdownColor: AppColor.blueAccentColor,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: Get.isDarkMode
-                                      ? AppColor.blackColor
-                                      : AppColor.whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                            onChanged: ((value) {
-                              if (value.toString() !=
-                                  getStorage
-                                      .read(GetStorageKey.donviId)
-                                      .toString())
-                                homeController.changeDonViKiemNhiem(value!);
-                            }))
                     ]),
               ),
             )
@@ -225,12 +177,14 @@ class NavigationDrawer extends StatelessWidget {
       case 'login':
         Get.offNamed(Routers.LOGIN);
         break;
-      // Cài đặt
-      case 'home':
-        Get.offNamed(Routers.HOME);
+      case 'trangchu':
+        Get.offNamed(Routers.TRANGCHU);
         break;
-      case 'phieumo':
-        Get.offNamed(Routers.PHIEUMO);
+      case 'danhsachchuongtrinh':
+        Get.offNamed(Routers.DSCHUONGTRINH);
+        break;
+      case 'danhsachbantin':
+        Get.offNamed(Routers.DSBANTIN);
         break;
 
       default:
