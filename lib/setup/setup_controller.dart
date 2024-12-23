@@ -1,8 +1,8 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:cskhpto/network/network_controller.dart';
-import 'package:cskhpto/router.dart';
+import 'package:nms_app/network/network_controller.dart';
+import 'package:nms_app/router.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';

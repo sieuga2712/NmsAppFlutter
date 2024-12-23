@@ -1,4 +1,4 @@
-import 'package:cskhpto/core/values/app_color.dart';
+import 'package:nms_app/core/values/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';

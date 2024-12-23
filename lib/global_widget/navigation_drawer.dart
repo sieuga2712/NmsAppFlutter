@@ -1,8 +1,8 @@
-import 'package:cskhpto/core/values/app_color.dart';
-import 'package:cskhpto/core/values/get_storage_key.dart';
-import 'package:cskhpto/modules/page/home/home_controller.dart';
-import 'package:cskhpto/router.dart';
-import 'package:cskhpto/setup/setup_controller.dart';
+import 'package:nms_app/core/values/app_color.dart';
+import 'package:nms_app/core/values/get_storage_key.dart';
+import 'package:nms_app/modules/page/home/home_controller.dart';
+import 'package:nms_app/router.dart';
+import 'package:nms_app/setup/setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

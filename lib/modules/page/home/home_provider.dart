@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:cskhpto/network/api_list.dart';
-import 'package:cskhpto/network/api_provider.dart';
-import 'package:cskhpto/network/dio_exception.dart' as dioError;
+import 'package:nms_app/network/api_list.dart';
+import 'package:nms_app/network/api_provider.dart';
+import 'package:nms_app/network/dio_exception.dart' as dioError;
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 // ignore: implementation_imports, library_prefixes

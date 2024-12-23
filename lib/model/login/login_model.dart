@@ -1,4 +1,4 @@
-import 'package:cskhpto/core/ultis/JsonNull.dart';
+import 'package:nms_app/core/ultis/JsonNull.dart';
 
 class LoginModel {
   bool? loginsuccess;

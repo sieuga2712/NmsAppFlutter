@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:cskhpto/model/login/login_model.dart';
-import 'package:cskhpto/network/api_list.dart';
-import 'package:cskhpto/network/api_provider.dart';
-import 'package:cskhpto/network/dio_exception.dart' as dioError;
+import 'package:nms_app/model/login/login_model.dart';
+import 'package:nms_app/network/api_list.dart';
+import 'package:nms_app/network/api_provider.dart';
+import 'package:nms_app/network/dio_exception.dart' as dioError;
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 // ignore: implementation_imports, library_prefixes

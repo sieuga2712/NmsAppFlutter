@@ -1,5 +1,5 @@
-import 'package:cskhpto/core/values/app_color.dart';
-import 'package:cskhpto/modules/page/login/login_controller.dart';
+import 'package:nms_app/core/values/app_color.dart';
+import 'package:nms_app/modules/page/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
