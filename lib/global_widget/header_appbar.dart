@@ -1,11 +1,11 @@
-import 'package:nms_app/core/values/app_color.dart';
-import 'package:nms_app/core/values/app_string.dart';
-import 'package:nms_app/global_widget/failure_network.dart';
-import 'package:nms_app/network/network_controller.dart';
-import 'package:nms_app/setup/setup_controller.dart';
+import 'package:cskhpto/core/values/app_color.dart';
+import 'package:cskhpto/core/values/app_string.dart';
+import 'package:cskhpto/global_widget/failure_network.dart';
+import 'package:cskhpto/network/network_controller.dart';
+import 'package:cskhpto/setup/setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nms_app/global_widget/navigation_drawer.dart' as navigaDrawer;
+import 'package:cskhpto/global_widget/navigation_drawer.dart' as navigaDrawer;
 
 class HeaderAppbar extends StatelessWidget {
   final SetupController commonController = Get.find();

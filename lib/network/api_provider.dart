@@ -1,6 +1,6 @@
-import 'package:nms_app/core/values/app_config.dart';
-import 'package:nms_app/model/auth/access_token.dart';
-import 'package:nms_app/network/api_list.dart';
+import 'package:cskhpto/core/values/app_config.dart';
+import 'package:cskhpto/model/auth/access_token.dart';
+import 'package:cskhpto/network/api_list.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,5 +1,5 @@
-import 'package:nms_app/core/values/app_color.dart';
-import 'package:nms_app/modules/page/home/home_controller.dart';
+import 'package:cskhpto/core/values/app_color.dart';
+import 'package:cskhpto/modules/page/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';

@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:nms_app/global_widget/header_appbar.dart';
-import 'package:nms_app/modules/page/home/home_binding.dart';
-import 'package:nms_app/modules/page/home/home_view.dart';
-import 'package:nms_app/modules/page/login/login_binding.dart';
-import 'package:nms_app/modules/page/login/login_view.dart';
-import 'package:nms_app/modules/page/phieumo/phieumo_binding.dart';
-import 'package:nms_app/modules/page/phieumo/phieumo_view.dart';
+import 'package:cskhpto/global_widget/header_appbar.dart';
+import 'package:cskhpto/modules/page/home/home_binding.dart';
+import 'package:cskhpto/modules/page/home/home_view.dart';
+import 'package:cskhpto/modules/page/login/login_binding.dart';
+import 'package:cskhpto/modules/page/login/login_view.dart';
+import 'package:cskhpto/modules/page/phieumo/phieumo_binding.dart';
+import 'package:cskhpto/modules/page/phieumo/phieumo_view.dart';
 import 'package:get/get.dart';
 
 class PageRouters {

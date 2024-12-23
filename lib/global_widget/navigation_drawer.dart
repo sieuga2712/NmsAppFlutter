@@ -1,9 +1,8 @@
-import 'package:nms_app/core/values/app_color.dart';
-import 'package:nms_app/core/values/app_theme_values.dart';
-import 'package:nms_app/core/values/get_storage_key.dart';
-import 'package:nms_app/modules/page/home/home_controller.dart';
-import 'package:nms_app/router.dart';
-import 'package:nms_app/setup/setup_controller.dart';
+import 'package:cskhpto/core/values/app_color.dart';
+import 'package:cskhpto/core/values/get_storage_key.dart';
+import 'package:cskhpto/modules/page/home/home_controller.dart';
+import 'package:cskhpto/router.dart';
+import 'package:cskhpto/setup/setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -142,13 +141,12 @@ class NavigationDrawer extends StatelessWidget {
                     children: [
                       Text(
                         accountName,
-                        style: TextStyle(
-                          fontSize: AppSizeValues.FontSizeMedium,
-                          color: Get.isDarkMode
-                              ? AppColor.blackColor
-                              : AppColor.whiteColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Get.isDarkMode
+                                  ? AppColor.blackColor
+                                  : AppColor.whiteColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -156,13 +154,13 @@ class NavigationDrawer extends StatelessWidget {
                       if (listDropDownDV.length == 1)
                         Text(
                           accountPosition,
-                          style: TextStyle(
-                            fontSize: AppSizeValues.FontSizeMedium,
-                            color: Get.isDarkMode
-                                ? AppColor.blackColor
-                                : AppColor.whiteColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Get.isDarkMode
+                                        ? AppColor.blackColor
+                                        : AppColor.whiteColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       if (listDropDownDV.length > 1)
                         DropdownButton(
@@ -170,13 +168,15 @@ class NavigationDrawer extends StatelessWidget {
                             value: homeController.selectDonVi.value,
                             iconEnabledColor: AppColor.whiteColor,
                             dropdownColor: AppColor.blueAccentColor,
-                            style: TextStyle(
-                              fontSize: AppSizeValues.FontSizeMedium,
-                              color: Get.isDarkMode
-                                  ? AppColor.blackColor
-                                  : AppColor.whiteColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Get.isDarkMode
+                                      ? AppColor.blackColor
+                                      : AppColor.whiteColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                             onChanged: ((value) {
                               if (value.toString() !=
                                   getStorage
@@ -201,20 +201,19 @@ class NavigationDrawer extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: AppColor.greyColor, width: 0.5),
+            top: BorderSide(color: AppColor.greyColor, width: 0.5),
           ),
         ),
         child: Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 20),
             child: ListTile(
               visualDensity: VisualDensity(horizontal: 0, vertical: -4),
               leading: Icon(icon, color: textIconColor),
               title: Text(
                 text,
-                style: TextStyle(
-                  fontSize: AppSizeValues.FontSizeMedium,
-                  color: textIconColor,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: textIconColor,
+                    ),
               ),
               tileColor: titleColor,
               onTap: onTap,

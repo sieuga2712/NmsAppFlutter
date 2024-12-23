@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:nms_app/core/ultis/custom_snack_bar.dart';
-import 'package:nms_app/core/ultis/full_screen_dialog_loader.dart';
-import 'package:nms_app/core/values/get_storage_key.dart';
-import 'package:nms_app/model/login/login_model.dart';
-import 'package:nms_app/modules/page/login/login_provider.dart';
-import 'package:nms_app/router.dart';
+import 'package:cskhpto/core/ultis/custom_snack_bar.dart';
+import 'package:cskhpto/core/ultis/full_screen_dialog_loader.dart';
+import 'package:cskhpto/core/values/get_storage_key.dart';
+import 'package:cskhpto/model/login/login_model.dart';
+import 'package:cskhpto/modules/page/login/login_provider.dart';
+import 'package:cskhpto/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
