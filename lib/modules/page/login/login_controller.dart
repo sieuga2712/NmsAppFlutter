@@ -1,18 +1,17 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/core/ultis/full_screen_dialog_loader.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:nms_app/model/login/login_model.dart';
-import 'package:nms_app/modules/page/login/login_provider.dart';
+import 'package:nms_app/provider/quan-ly-can-bo/can_bo.dart';
 import 'package:nms_app/router.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  final loginProvider = LoginProvider();
+  final loginProvider = CanBoProvider();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

@@ -9,7 +9,7 @@ import 'package:dio/io.dart';
 import 'package:dio/src/form_data.dart' as fromData;
 import 'package:get_storage/get_storage.dart';
 
-class LoginProvider {
+class CanBoProvider {
   final dio = ApiRoot().dio;
   final GetStorage _store = GetStorage();
   Future<LoginModel> UserLogin(String username, String password) async {
