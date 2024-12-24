@@ -14,4 +14,7 @@ class GetStorageKey {
   static const donviId = "donviId";
   static const tendonvi = "tendonvi";
   static const dskiemnhiem = "dskiemnhiem";
+  static const refreshToken = "refreshToken";
+  static const maCanBo = "maCanBo";
+  static const maDonVi = "maDonVi";
 }

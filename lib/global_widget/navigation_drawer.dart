@@ -76,6 +76,19 @@ class NavigationDrawer extends StatelessWidget {
                               }),
                           buildDrawerItems(
                               context: context,
+                              text: 'Danh bạ mẫu',
+                              icon: Icons.list,
+                              textIconColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.helpBlue),
+                              titleColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.whiteColor),
+                              onTap: () {
+                                navigate('danhba');
+                              }),
+                          buildDrawerItems(
+                              context: context,
                               text: 'Đăng xuất',
                               icon: Icons.logout,
                               textIconColor: (Get.isDarkMode
@@ -185,6 +198,9 @@ class NavigationDrawer extends StatelessWidget {
         break;
       case 'danhsachbantin':
         Get.offNamed(Routers.DSBANTIN);
+        break;
+      case 'danhba':
+        Get.offNamed(Routers.DANHBA);
         break;
 
       default:

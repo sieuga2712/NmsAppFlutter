@@ -1,11 +1,13 @@
 import 'package:nms_app/global_widget/header_appbar.dart';
 import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsachchuongtrinh_binding.dart';
+import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/chuongtrinh/danhsachchuongtrinh_view.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_binding.dart';
 import 'package:nms_app/modules/views/trangchu/trangchu_view.dart';
 import 'package:nms_app/modules/controllers/login/login_binding.dart';
 import 'package:nms_app/modules/views/login/login_view.dart';
 import 'package:get/get.dart';
+import 'package:nms_app/modules/views/user/danh_ba.dart';
 
 class PageRouters {
   PageRouters._();
@@ -30,6 +32,14 @@ class PageRouters {
             isDrawer: true,
             pathScreen: Paths.DSCHUONGTRINH),
         bindings: [DanhsachchuongtrinhBinding()]),
+    GetPage(
+        name: Paths.DANHBA,
+        page: () => HeaderAppbar(
+            body: DanhBaView(),
+            title: "Danh bạ mẫu",
+            isDrawer: true,
+            pathScreen: Paths.DANHBA),
+        bindings: [DanhBaBinding()]),
   ];
 }
 
@@ -40,6 +50,7 @@ class Routers {
   static const LOGIN = Paths.LOGIN;
   static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
   static const DSBANTIN = Paths.DSBANTIN;
+  static const DANHBA = Paths.DANHBA;
 }
 
 class Paths {
@@ -51,4 +62,5 @@ class Paths {
   static const DSBANTIN = '/dsbantin';
 
   static const PHIEUDONG = '/phieudong';
+  static const DANHBA = '/danhba';
 }
