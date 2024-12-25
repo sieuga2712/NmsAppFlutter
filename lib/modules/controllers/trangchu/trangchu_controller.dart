@@ -8,7 +8,7 @@ import 'package:nms_app/provider/trangchu/trangchu_provider.dart';
 class TrangchuController extends GetxController
     with StateMixin<List<TrangchuModel?>> {
   final trangChuProvider = TrangChuProvider();
-  RxList<arrobjdonvi> dsChucVuKiemNhiem = <arrobjdonvi>[].obs;
+  // RxList<arrobjdonvi> dsChucVuKiemNhiem = <arrobjdonvi>[].obs;
   var storage = GetStorage();
   var selectDonVi = "".obs;
   void saveInfoAccount() async {

@@ -1,96 +1,148 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:nms_app/core/ultis/custom_snack_bar.dart';
-import 'package:nms_app/core/ultis/full_screen_dialog_loader.dart';
-import 'package:nms_app/core/values/get_storage_key.dart';
-import 'package:nms_app/model/login/login_model.dart';
-import 'package:nms_app/provider/quan-ly-can-bo/can_bo.dart';
 import 'package:nms_app/router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:openid_client/openid_client_io.dart';
+import 'package:nms_app/model/login/login_model.dart';
+import 'package:http/http.dart' as http;
 
 class LoginController extends GetxController {
-  final loginProvider = CanBoProvider();
-  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  RxList<arrobjdonvi> dsChucVuKiemNhiem = <arrobjdonvi>[].obs;
-  var storage = GetStorage();
-  var username = '';
-  var password = '';
+  final String _clientId = 'NMS_Mobile';
+  static const String _issuer = 'https://apinpm.egov.phutho.vn';
+  final String _redirectUri = 'com.yourapp://callback';
+  final List<String> _scopes = [
+    'openid',
+    'profile',
+    'email',
+    'offline_access',
+    'NMS'
+  ];
+
+  final loginModel = LoginModel().obs;
+
   @override
   void onInit() async {
     super.onInit();
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    String? prefUserName = pref.getString(GetStorageKey.userName);
-    String? prefPassWord = pref.getString(GetStorageKey.passWord);
-    print(pref.getString(GetStorageKey.userName));
-    if (pref.getString(GetStorageKey.userName) != "iOusername") {
-      usernameController.text = prefUserName ?? "";
-      passwordController.text = prefPassWord ?? "";
+    // Tải dữ liệu đăng nhập đã lưu khi khởi tạo controller
+    loginModel.value = await LoginModel.loadFromStorage();
+
+    if (loginModel.value.isLoggedIn) {
+      print('Đã có token, chuyển hướng đến trang chủ');
+      await Future.delayed(Duration(milliseconds: 30));
+      Get.offAllNamed(Paths.TRANGCHU);
+    } else {
+      print('Chưa đăng nhập: ${loginModel.value.refreshToken}');
+    }
+
+    if (loginModel.value.refreshToken.isNotEmpty) {
+      print('Refresh token: ${loginModel.value.refreshToken}');
+    } else {
+      print('Không có refresh token');
     }
   }
 
-  String? validateUserName(String value) {
-    if (value.isEmpty) {
-      return 'Vui lòng nhập tài khoản';
-    }
-    return null;
-  }
-
-  String? validatePassword(String value) {
-    if (value.isEmpty) {
-      return 'Vui lòng nhập mật khẩu';
-    }
-    return null;
-  }
-
-  void laythongtintaikhoan() async {
-    final SharedPreferences _pref = await SharedPreferences.getInstance();
+  Future<void> _exchangeCodeForToken(String code) async {
     try {
-      FullScreenDialogLoader.showDialog();
+      final response = await http.post(
+        Uri.parse('https://apinpm.egov.phutho.vn/connect/token'),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {
+          'grant_type': 'authorization_code',
+          'code': code,
+          'redirect_uri': _redirectUri,
+          'client_id': _clientId,
+        },
+      );
 
-      if (loginFormKey.currentState!.validate()) {
-        loginFormKey.currentState!.save();
-        await loginProvider.UserLogin(username, password).then((value) => {
-              FullScreenDialogLoader.cancleDialog(),
-              if (value.loginsuccess == true)
-                {
-                  FullScreenDialogLoader.cancleDialog(),
-                  _pref.setString(GetStorageKey.userName, username),
-                  _pref.setString(GetStorageKey.passWord, password),
-                  storage.write(GetStorageKey.hoVaTen, value.tennhanvien ?? ''),
-                  storage.write(GetStorageKey.nhomquyen, value.nhomquyen ?? ''),
-                  storage.write(
-                      GetStorageKey.manhanvien, value.manhanvien ?? ''),
-                  storage.write(GetStorageKey.email, value.email ?? ''),
-                  storage.write(
-                      GetStorageKey.nhanvienid, value.nhanvienid ?? -1),
-                  storage.write(
-                      GetStorageKey.donviId, value.arrdv![0].donvi_id ?? -1),
-                  storage.write(
-                      GetStorageKey.tendonvi, value.arrdv![0].ten_dv ?? ''),
-                  storage.write(
-                      GetStorageKey.dskiemnhiem, jsonEncode(value.arrdv)),
-                  Get.offNamed(Paths.TRANGCHU)
-                }
-              else
-                {
-                  FullScreenDialogLoader.cancleDialog(),
-                  CustomSnackBar.showWarningSnackBar(
-                      context: Get.context,
-                      title: "Thông báo",
-                      message: "Đăng nhập thất bại"),
-                },
-            });
+      if (response.statusCode == 200) {
+        // Xử lý phản hồi và lưu vào model
+        final newLoginModel = LoginModel.tryParseResponse(response.body);
+
+        if (newLoginModel != null) {
+          loginModel.value = newLoginModel;
+          await loginModel.value.saveToStorage();
+          print('Lưu dữ liệu đăng nhập thành công');
+          if (loginModel.value.isLoggedIn) {
+            // Chỉ chuyển tiếp nếu đã đăng nhập thành công
+            Get.offAllNamed(Paths.TRANGCHU);
+          } else {
+            print('Đăng nhập không thành công, vẫn ở màn hình hiện tại');
+          }
+        }
       }
-    } catch (exception) {
-      FullScreenDialogLoader.cancleDialog();
-      CustomSnackBar.showWarningSnackBar(
-          context: Get.context,
-          title: "Thông báo",
-          message: exception.toString());
+    } catch (e) {
+      print('Lỗi khi trao đổi token: $e');
+    }
+  }
+
+  void performAuthentication() async {
+    if (loginModel.value.isLoggedIn) {
+      print('Đã đăng nhập, chuyển hướng đến trang chủ');
+      Get.offAllNamed(Paths.TRANGCHU);
+      return;
+    }
+
+    try {
+      print('Bắt đầu quá trình đăng nhập');
+
+      var issuer = await Issuer.discover(Uri.parse(_issuer));
+      print('Issuer được khám phá: ${issuer.metadata.issuer}');
+
+      var client = Client(issuer, _clientId);
+
+      var authenticator = Authenticator(
+        client,
+        scopes: _scopes,
+        redirectUri: Uri.parse(_redirectUri),
+        urlLancher: (url) async {
+          print('Đang mở URL: $url');
+          try {
+            final result = await FlutterWebAuth2.authenticate(
+              url: url,
+              callbackUrlScheme: 'com.yourapp',
+            );
+            print('Kết quả xác thực: $result');
+
+            final Uri callbackUri = Uri.parse(result);
+            final String? code = callbackUri.queryParameters['code'];
+            final String? state = callbackUri.queryParameters['state'];
+            print('code:' + code.toString());
+            if (code != null) {
+              await _exchangeCodeForToken(code);
+            } else {
+              print('Không tìm thấy mã code trong callback URL');
+            }
+            
+            // return result;
+          } catch (e) {
+            if (e is PlatformException && e.code == 'CANCELED') {
+              print('Người dùng đã hủy đăng nhập');
+            } else {
+              print('Lỗi khác: $e');
+              rethrow;
+            }
+          }
+        },
+      );
+
+      var credential = await authenticator.authorize();
+      var tokenResponse = await credential.getTokenResponse();
+
+      print('Đăng nhập thành công: ${tokenResponse.accessToken}');
+    } catch (e, stackTrace) {
+      print('Lỗi khi xác thực: $e');
+      print('Stack trace: $stackTrace');
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await LoginModel.clearStorage();
+      loginModel.value = LoginModel();
+    } catch (e) {
+      print('Lỗi khi đăng xuất: $e');
     }
   }
 }

@@ -11,9 +11,10 @@ class Api {
     HttpHeaders.authorizationHeader: "Bearer $accessToken",
   };
 
+  //Test
   static Future<Response> getUserDetails() async {
-    final url = '$_baseUrl/identity/my-profile';
-    Uri uri = Uri.parse(url); 
+    final url = '$_baseUrl/Accont/Login';
+    Uri uri = Uri.parse(url);
     final response = await http.get(
       uri,
       headers: {HttpHeaders.authorizationHeader: "Bearer $accessToken"},
@@ -24,9 +25,9 @@ class Api {
 
   // Example API method call
   static Future<Response> getUsers() async {
-      final url = "$_baseUrl/identity/users";
-    Uri uri = Uri.parse(url); 
-    final response =await http.get(uri, headers: headers);
+    final url = "$_baseUrl/identity/users";
+    Uri uri = Uri.parse(url);
+    final response = await http.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
       // Logic here

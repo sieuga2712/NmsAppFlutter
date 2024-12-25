@@ -1,5 +1,5 @@
-import 'package:nms_app/modules/controllers/login/login_controller.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
+import 'login_controller.dart';
 
 class LoginBinding implements Bindings {
   @override
