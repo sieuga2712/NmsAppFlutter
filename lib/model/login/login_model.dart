@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginModel {
   String accessToken;
@@ -34,6 +35,7 @@ class LoginModel {
   }
 
   Future<bool> saveToStorage() async {
+    final SharedPreferences _pref = await SharedPreferences.getInstance();
     try {
       final storage = GetStorage();
       final String data = json.encode(toJson());
@@ -44,8 +46,10 @@ class LoginModel {
       storage.write('refresh_token', refreshToken);
       storage.write('expires_in', expiresIn);
       storage.write('logout_url', logoutUrl);
-
       storage.write(GetStorageKey.isLogin, true);
+
+      _pref.setString("accessToken", accessToken);
+      _pref.setString("refreshToken", refreshToken);
 
       print('Dữ liệu đã lưu: $data');
       return true;

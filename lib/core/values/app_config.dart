@@ -1,6 +1,6 @@
 class AppConfig {
   static const String defaultUsMobilePkiMode = "GRAPHIC";
-  static const domainAPI = "http://123.27.191.27:2021/api";
+  static const domainAPI = "https://apinpm.egov.phutho.vn";
 
   static var arrUsTimeLocalNotify = [
     {"text": "6 giờ", "value": "6"},

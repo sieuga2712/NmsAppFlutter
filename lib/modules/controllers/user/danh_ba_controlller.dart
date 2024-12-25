@@ -13,16 +13,20 @@ class DanhBaControlller extends GetxController with StateMixin<List<LiAttr>> {
   void loadDanhBa() async {
     change(null, status: RxStatus.loading());
     try {
-      // await userProvider.getDanhDaTheoDonVi().then((user) {
-      //   if (user.data != null && user.data!.isNotEmpty) {
-      //     listDanhBa.addAll(user.data!);
-      //     for (var element in listDanhBa) {
-      //       if (element.id!.contains('CB')) {
-      //         listCanBo.add(element.liAttr!);
-      //       }
-      //     }
-      //     change(listCanBo, status: RxStatus.success());
-      //   } else {
+      await userProvider.getDanhDaTheoDonVi().then((user) {
+        if (user.data != null && user.data!.isNotEmpty) {
+          listDanhBa.addAll(user.data!);
+          for (var element in listDanhBa) {
+            if (element.id!.contains('CB')) {
+              listCanBo.add(element.liAttr!);
+            }
+          }
+          change(listCanBo, status: RxStatus.success());
+        } else {
+          change(listCanBo, status: RxStatus.success());
+        }
+      });
+
       listCanBo = [
         LiAttr(
           dataId: "1",
@@ -46,9 +50,6 @@ class DanhBaControlller extends GetxController with StateMixin<List<LiAttr>> {
           dataEmail: "levanc@example.com",
         ),
       ];
-      change(listCanBo, status: RxStatus.success());
-      // }
-      // });
     } catch (exception) {
       // Trường hợp lỗi xảy ra
       change(null, status: RxStatus.error(exception.toString()));
@@ -85,12 +86,12 @@ class DanhBaControlller extends GetxController with StateMixin<List<LiAttr>> {
   @override
   void onInit() {
     super.onInit();
+    loadDanhBa();
   }
 
   @override
   void onReady() {
     super.onReady();
-    loadDanhBa();
   }
 
   @override

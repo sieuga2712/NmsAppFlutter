@@ -2,30 +2,23 @@ import 'package:dio/dio.dart';
 
 class DioException implements Exception {
   late String errorMessage;
-  // ignore: deprecated_member_use
   DioException.fromDioError(DioError dioError) {
     switch (dioError.type) {
-      // ignore: deprecated_member_use
       case DioErrorType.cancel:
         errorMessage = 'Request to the server was Cancled';
         break;
-      // ignore: deprecated_member_use
       case DioErrorType.connectionTimeout:
         errorMessage = 'Connect time out';
         break;
-      // ignore: deprecated_member_use
       case DioErrorType.receiveTimeout:
         errorMessage = 'Receing timeout occured';
         break;
-      // ignore: deprecated_member_use
       case DioErrorType.sendTimeout:
         errorMessage = 'Request send timeout';
         break;
-      // ignore: deprecated_member_use
       case DioErrorType.connectionError:
         errorMessage = 'No Internet';
         break;
-      // ignore: deprecated_member_use
       case DioErrorType.badResponse:
         errorMessage = _handleStatuscode(dioError.response?.statusCode);
         break;
