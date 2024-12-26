@@ -3,7 +3,9 @@ import 'package:nms_app/modules/controllers/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends GetView<LoginController> {
+class LoginView extends GetView<LoginController> {
+  const LoginView({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Bọc GestureDetector để ẩn bàn phím khi chạm vào màn hình
@@ -33,67 +35,64 @@ class Login extends GetView<LoginController> {
                           fit: BoxFit.cover,
                         ),
                         const SizedBox(height: 40),
-                        
+
                         // Nút đăng nhập
                         Obx(() => ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.blueAccentColor.withOpacity(0.6),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  AppColor.blueAccentColor.withOpacity(0.6),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              minimumSize: Size(
+                                  (MediaQuery.of(context).size.width - 25), 50),
+                              side: BorderSide(color: AppColor.blueAccentColor),
                             ),
-                            minimumSize: Size(
-                              (MediaQuery.of(context).size.width - 25), 
-                              50
-                            ),
-                            side: BorderSide(color: AppColor.blueAccentColor),
-                          ),
-                          onPressed: controller.loginModel.value.isLoggedIn 
-                              ? null  // Vô hiệu hóa nút nếu đã đăng nhập
-                              : () => controller.performAuthentication(),
-                          child: Text(
-                            "Đăng nhập",
-                            style: TextStyle(color: AppColor.whiteColor),
-                          )
-                        )),
-                        
+                            onPressed: controller.loginModel.value.isLoggedIn
+                                ? null // Vô hiệu hóa nút nếu đã đăng nhập
+                                : () => controller.performAuthentication(),
+                            child: Text(
+                              "Đăng nhập",
+                              style: TextStyle(color: AppColor.whiteColor),
+                            ))),
+
                         SizedBox(height: 10),
-                        
+
                         // Hiển thị trạng thái đăng nhập
                         Obx(() => Text(
-                          controller.loginModel.value.isLoggedIn
-                              ? "Đã đăng nhập"
-                              : "Chưa đăng nhập",
-                          style: TextStyle(
-                            color: controller.loginModel.value.isLoggedIn
-                                ? Colors.green
-                                : Colors.grey,
-                            fontWeight: FontWeight.bold
-                          ),
-                        )),
-                        
+                              controller.loginModel.value.isLoggedIn
+                                  ? "Đã đăng nhập"
+                                  : "Chưa đăng nhập",
+                              style: TextStyle(
+                                  color: controller.loginModel.value.isLoggedIn
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                            )),
+
                         const SizedBox(height: 20),
-                        
+
                         // Nút đăng xuất
                         Obx(() => ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.blueAccentColor.withOpacity(0.6),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            minimumSize: Size(
-                              (MediaQuery.of(context).size.width - 25), 
-                              50
-                            ),
-                            side: BorderSide(color: AppColor.blueAccentColor),
-                          ),
-                          onPressed: controller.loginModel.value.isLoggedIn
-                              ? () => controller.logout()
-                              : null,  // Vô hiệu hóa nút nếu chưa đăng nhập
-                          child: Text(
-                            "Đăng xuất",
-                            style: TextStyle(color: AppColor.whiteColor),
-                          ),
-                        )),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    AppColor.blueAccentColor.withOpacity(0.6),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                minimumSize: Size(
+                                    (MediaQuery.of(context).size.width - 25),
+                                    50),
+                                side:
+                                    BorderSide(color: AppColor.blueAccentColor),
+                              ),
+                              onPressed: controller.loginModel.value.isLoggedIn
+                                  ? () => controller.logout()
+                                  : null, // Vô hiệu hóa nút nếu chưa đăng nhập
+                              child: Text(
+                                "Đăng xuất",
+                                style: TextStyle(color: AppColor.whiteColor),
+                              ),
+                            )),
                       ],
                     ),
                   ),

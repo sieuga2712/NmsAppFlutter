@@ -15,9 +15,10 @@ class PageRouters {
   static const INITIAL = Routers.LOGIN;
   static const Firstpage = Routers.LOGIN;
   static final routers = [
-    GetPage(name: Paths.LOGIN, page: () => Login(), binding: LoginBinding()),
     GetPage(
-        name: Paths.TRANGCHU,
+        name: Paths.LOGIN, page: () => LoginView(), binding: LoginBinding()),
+    GetPage(
+        name: Paths.TRANGCHU,    
         page: () => HeaderAppbar(
             body: TrangchuView(),
             title: "Trang chủ",

@@ -13,7 +13,7 @@ class TrangchuModel {
     if (json['items'] != null) {
       items = <TrangchuData>[];
       json['items'].forEach((v) {
-        items!.add(new TrangchuData.fromJson(v));
+        items!.add(TrangchuData.fromJson(v));
       });
     }
   }
@@ -37,7 +37,8 @@ class TrangchuData {
   String? iconClass;
   String? url;
 
-  TrangchuData({this.count, this.description, this.bgColor, this.iconClass, this.url});
+  TrangchuData(
+      {this.count, this.description, this.bgColor, this.iconClass, this.url});
 
   TrangchuData.fromJson(Map<String, dynamic> json) {
     count = json['count'];

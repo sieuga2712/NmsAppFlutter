@@ -1,5 +1,6 @@
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
+import 'package:nms_app/modules/controllers/login/login_controller.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_controller.dart';
 import 'package:nms_app/router.dart';
 import 'package:nms_app/setup/setup_controller.dart';
@@ -7,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-// ignore: must_be_immutable
 class NavigationDrawer extends StatelessWidget {
   final getStorage = GetStorage();
   final SetupController setupController = Get.find();
   final TrangchuController homeController = Get.find();
+  final LoginController loginController = Get.put(LoginController());
 
   NavigationDrawer({super.key});
   @override
@@ -98,7 +99,7 @@ class NavigationDrawer extends StatelessWidget {
                                   ? AppColor.whiteColor
                                   : AppColor.whiteColor),
                               onTap: () {
-                                setupController.logOut();
+                                loginController.logout();
                               }),
                         ],
                       ))),

@@ -1,26 +1,27 @@
-import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/model/trangchu/trangchu_model.dart';
 import 'package:nms_app/network/api_provider.dart';
-import 'package:nms_app/network/dio_exception.dart' as dioError;
-import 'package:nms_app/provider/api/trangchu_api.dart';
 
 class TrangChuProvider {
   final dio = ApiRoot().dio;
   final GetStorage _store = GetStorage();
 
-  Future<TrangchuModel> getTrangChu() async {
+  Future<List<TrangchuModel>> getTrangChu() async {
     try {
-      final response = await dio.get(TrangchuApi.TRANG_CHU);
-      return TrangchuModel.fromJson(response.data);
-    } on DioError catch (err) {
-      final errorMessage =
-          dioError.DioException.fromDioError(err).errorMessage.toString();
-      print('errorMessage: $errorMessage');
-      return Future.error(errorMessage);
+      final response =
+          await dio.get('/api/app/chuong-trinh/dashboard-xu-ly-ca-nhan');
+      print('API Response: ${response.data}');
+
+      if (response.data is List) {
+        return (response.data as List)
+            .map((item) => TrangchuModel.fromJson(item))
+            .toList();
+      } else {
+        throw Exception('Data format is not correct');
+      }
     } catch (exception) {
-      print('errorMessage: ${exception.toString()}');
-      return Future.error(exception.toString());
+      print('Provider error: $exception');
+      rethrow;
     }
   }
 }

@@ -27,29 +27,29 @@ class DanhBaControlller extends GetxController with StateMixin<List<LiAttr>> {
         }
       });
 
-      listCanBo = [
-        LiAttr(
-          dataId: "1",
-          dataTenCanBo: "Nguyễn Văn A",
-          dataChucVu: "Trưởng phòng",
-          dataPhone: "0123456789",
-          dataEmail: "nguyenvana@example.com",
-        ),
-        LiAttr(
-          dataId: "2",
-          dataTenCanBo: "Trần Thị B",
-          dataChucVu: "Nhân viên",
-          dataPhone: "0987654321",
-          dataEmail: "tranthib@example.com",
-        ),
-        LiAttr(
-          dataId: "3",
-          dataTenCanBo: "Lê Văn C",
-          dataChucVu: "Phó giám đốc",
-          dataPhone: "0909090909",
-          dataEmail: "levanc@example.com",
-        ),
-      ];
+      // listCanBo = [
+      //   LiAttr(
+      //     dataId: "1",
+      //     dataTenCanBo: "Nguyễn Văn A",
+      //     dataChucVu: "Trưởng phòng",
+      //     dataPhone: "0123456789",
+      //     dataEmail: "nguyenvana@example.com",
+      //   ),
+      //   LiAttr(
+      //     dataId: "2",
+      //     dataTenCanBo: "Trần Thị B",
+      //     dataChucVu: "Nhân viên",
+      //     dataPhone: "0987654321",
+      //     dataEmail: "tranthib@example.com",
+      //   ),
+      //   LiAttr(
+      //     dataId: "3",
+      //     dataTenCanBo: "Lê Văn C",
+      //     dataChucVu: "Phó giám đốc",
+      //     dataPhone: "0909090909",
+      //     dataEmail: "levanc@example.com",
+      //   ),
+      // ];
     } catch (exception) {
       // Trường hợp lỗi xảy ra
       change(null, status: RxStatus.error(exception.toString()));
