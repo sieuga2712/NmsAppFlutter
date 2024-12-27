@@ -19,13 +19,16 @@ analyzer:
     file_names: ignore
     invalid_use_of_protected_member: ignore
     library_prefixes: ignore
+    library_private_types_in_public_api: ignore
     no_leading_underscores_for_local_identifiers: ignore
     non_constant_identifier_names: ignore
     prefer_collection_literals: ignore
     prefer_const_constructors: ignore
     prefer_const_constructors_in_immutables: ignore
     prefer_const_declarations: ignore
+    prefer_final_fields: ignore
     prefer_interpolation_to_compose_strings: ignore
+    sized_box_for_whitespace: ignore
     unnecessary_new: ignore
     unnecessary_overrides: ignore
     unnecessary_this: ignore

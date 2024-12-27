@@ -17,6 +17,7 @@ class ChucnangthuchienProvider {
         "userId": "00000000-0000-0000-0000-000000000000",
         "danhSachChucNang": [],
       };
+      print('dsChucNangThucHien data: $data');
       final response =
           await dio.post(ChucnangthuchienApi.chucNangThucHien, data: data);
 

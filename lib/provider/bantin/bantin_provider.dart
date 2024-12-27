@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/model/bantin/chitiet_bantin_model.dart';
 import 'package:nms_app/model/bantin/danhsach_bantin_model.dart';
@@ -17,7 +18,6 @@ class BantinProvider {
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 
-      print('dsBanTin1234: ${response.data}');
       return DanhsachBantinModel.fromJson(response.data);
     } catch (exception) {
       return Future.error(exception.toString());
@@ -27,11 +27,28 @@ class BantinProvider {
   Future<ChitietBantinModel> getChiTietBanTin(idBanTin) async {
     try {
       final response = await dio.get("${BantinApi.chiTietBanTin}/$idBanTin/v2");
-      print('getChiTietBanTin: $response');
       return ChitietBantinModel.fromJson(response.data);
     } catch (exception) {
       print('response: $exception');
       return Future.error(exception.toString());
     }
   }
+
+  Future<dynamic> downloadVideoBanTin(List<String> fileIds) async {
+  try {
+    final responses = await Future.wait(fileIds.map((fileId) async {
+      final response = await dio.post(
+        "${BantinApi.downloadFile}/$fileId/download",
+        options: Options(responseType: ResponseType.bytes),
+      );
+      return response.data;
+    }));
+
+    return responses;
+  } catch (exception) {
+    print('response: $exception');
+    return Future.error(exception.toString());
+  }
+}
+
 }
