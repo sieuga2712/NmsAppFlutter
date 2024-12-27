@@ -1,13 +1,13 @@
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsachchuongtrinh_controller.dart';
+import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
 
-class DanhsachchuongtrinhView extends GetView<DanhsachchuongtrinhController> {
+class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
   @override
-  final DanhsachchuongtrinhController controller = Get.find();
+  final DanhsachChuongtrinhController controller = Get.find();
 
-  DanhsachchuongtrinhView({super.key});
+  DanhsachChuongtrinhView({super.key});
 
   @override
   Widget build(BuildContext context) {

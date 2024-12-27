@@ -47,22 +47,22 @@ class LoginController extends GetxController {
 
       loginModel.value = await loadFromStorage();
 
-      if (!_isLoggingOut) {
-        if (loginModel.value.isLoggedIn) {
-          if (await _verifyTokenValidity()) {
-            print('Token hợp lệ, chuyển hướng đến trang chủ');
-            if (Get.currentRoute != Paths.TRANGCHU) {
-              await Future.delayed(Duration(milliseconds: 30));
-              Get.offAllNamed(Paths.TRANGCHU);
-            }
-          } else {
-            print('Token không hợp lệ, thử refresh');
-            await refreshToken();
-          }
-        } else {
-          print('Không có thông tin đăng nhập');
-        }
-      }
+      // if (!_isLoggingOut) {
+      //   if (loginModel.value.isLoggedIn) {
+      //     if (await _verifyTokenValidity()) {
+      //       print('Token hợp lệ, chuyển hướng đến trang chủ');
+      //       if (Get.currentRoute != Paths.TRANGCHU) {
+      //         await Future.delayed(Duration(milliseconds: 30));
+      //         Get.offAllNamed(Paths.TRANGCHU);
+      //       }
+      //     } else {
+      //       print('Token không hợp lệ, thử refresh');
+      //       await refreshToken();
+      //     }
+      //   } else {
+      //     print('Không có thông tin đăng nhập');
+      //   }
+      // }
     } catch (e) {
       print('Lỗi khởi tạo: $e');
     }
