@@ -28,14 +28,6 @@ class DanhsachBantinController extends GetxController
 
   Future<void> onSwitchPage(banTinId) async {
     print('banTinId: $banTinId');
-    // try {
-    //   await bantinProvider.getChiTietBanTin(banTinId).then((value) {
-    //     Get.toNamed(Routers.CHITIETBANTIN,
-    //         arguments: {'banTinId': banTinId});
-    //   });
-    // } catch (exception) {
-    //   print('lỗi: $exception');
-    // }
     Get.toNamed(Routers.CHITIETBANTIN, arguments: {
       'banTinId': banTinId,
     });

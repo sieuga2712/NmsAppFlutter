@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/model/chucnangthuchien/chucnangthuchien_model.dart';
 import 'package:nms_app/network/api_provider.dart';
@@ -26,18 +27,30 @@ class ChucnangthuchienProvider {
     }
   }
 
-  Future<ChucnangthuchienModel> xuLyChuongTrinhBanTinByInput(data) async {
+  Future<dynamic> xuLyChuongTrinhBanTinByInput(data) async {
     try {
-      print('data: $data');
-      print(
-          'ChucnangthuchienApi.xuLyChucNang: ${ChucnangthuchienApi.xuLyChucNang}');
       final response =
           await dio.post(ChucnangthuchienApi.xuLyChucNang, data: data);
 
       print('dsChucNangThucHien: ${response.data}');
-      return ChucnangthuchienModel.fromJson(response.data);
-    } catch (exception) {
-      return Future.error(exception.toString());
+      return response.data;
+    } catch (error) {
+      if (error is DioError &&
+          error.response?.data is Map &&
+          error.response!.data.containsKey('error')) {
+        final errorMessage = error.response!.data['error']['details'];
+        print('Lỗi chi tiết: $errorMessage');
+        return {
+          'isSuccess': false,
+          'error': errorMessage,
+        };
+      } else {
+        print('Lỗi không xác định: $error');
+        return {
+          'isSuccess': false,
+          'error': 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+        };
+      }
     }
   }
 }

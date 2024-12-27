@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/model/bantin/chitiet_bantin_model.dart';
 import 'package:nms_app/model/chucnangthuchien/chucnangthuchien_model.dart';
 import 'package:nms_app/provider/bantin/bantin_provider.dart';
@@ -46,30 +47,44 @@ class ChitietBantinController extends GetxController
   }
 
   void xuLyChucNang(chucNang) async {
-  print('chucNang: ${chucNang.tenChucNang}');
-  var data = {
-    "chuongTrinhId": chuongTrinhId,
-    "banTinId": banTinId,
-    "userId": "00000000-0000-0000-0000-000000000000",  // Bạn có thể thay thế bằng giá trị thực tế
-    "chucNang": {  // Thay "danhSachChucNang" thành "chucNang"
-      "tenChucNang": chucNang.tenChucNang,
-      "maTrangThaiTuongUngVoiChucNang": chucNang.maTrangThaiTuongUngVoiChucNang,
-      "ghiChu": chucNang.ghiChu,
-      "mauSac": chucNang.mauSac,
-      "dungOTrangChiTiet": chucNang.dungOTrangChiTiet,
-      "dungOTrangChinhSua": chucNang.dungOTrangChinhSua,
-    },
-  };
+    print('chucNang: ${chucNang.tenChucNang}');
+    var data = {
+      "chuongTrinhId": chuongTrinhId,
+      "banTinId": banTinId,
+      "userId": "00000000-0000-0000-0000-000000000000",
+      "chucNang": {
+        "tenChucNang": chucNang.tenChucNang,
+        "maTrangThaiTuongUngVoiChucNang":
+            chucNang.maTrangThaiTuongUngVoiChucNang,
+        "ghiChu": chucNang.ghiChu,
+        "mauSac": chucNang.mauSac,
+        "dungOTrangChiTiet": chucNang.dungOTrangChiTiet,
+        "dungOTrangChinhSua": chucNang.dungOTrangChinhSua,
+      },
+    };
+    print('data: $data');
+    try {
+      var value =
+          await chucNangThucHienProvider.xuLyChuongTrinhBanTinByInput(data);
 
-  print('data: $data');
-  try {
-    var value = await chucNangThucHienProvider.xuLyChuongTrinhBanTinByInput(data);
-    print('thành công99999999999999999999: $value');
-  } catch (exception) {
-    print('Lỗi: $exception');
+      if (value['isSuccess'] == true) {
+        CustomSnackBar.showSuccessSnackBar(
+            context: Get.context, title: "Thông báo", message: value['message']);
+        this.loadChiTietBanTin();
+      } else {
+        CustomSnackBar.showErrorSnackBar(
+            context: Get.context,
+            title: "Thông báo",
+            message: value['error'] ?? 'Có lỗi xảy ra. Vui lòng thử lại sau.');
+      }
+    } catch (exception) {
+      CustomSnackBar.showErrorSnackBar(
+          context: Get.context,
+          title: "Thông báo",
+          message: 'Có lỗi xảy ra. Vui lòng thử lại sau.');
+      print('Lỗi: $exception');
+    }
   }
-}
-
 
   @override
   void onInit() {

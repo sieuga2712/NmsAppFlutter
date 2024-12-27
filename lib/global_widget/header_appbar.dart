@@ -14,13 +14,17 @@ class HeaderAppbar extends StatelessWidget {
   final bool isDrawer;
   final bool? isConfirm;
   final String pathScreen;
-  HeaderAppbar(
-      {super.key,
-      required this.body,
-      required this.title,
-      required this.isDrawer,
-      required this.pathScreen,
-      this.isConfirm});
+  final Function()? onBackButtonPressed;
+
+  HeaderAppbar({
+    super.key,
+    required this.body,
+    required this.title,
+    required this.isDrawer,
+    required this.pathScreen,
+    this.isConfirm,
+    this.onBackButtonPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,12 @@ class HeaderAppbar extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back),
                   color: Colors.white,
                   onPressed: () {
-                    Get.back();
+                    if (onBackButtonPressed != null) {
+                      onBackButtonPressed!();
+                      Get.back();
+                    } else {
+                      Get.back();
+                    }
                   },
                 ),
         ),

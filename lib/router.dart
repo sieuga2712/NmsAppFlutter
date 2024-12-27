@@ -1,5 +1,6 @@
 import 'package:nms_app/global_widget/header_appbar.dart';
 import 'package:nms_app/modules/controllers/danhsachbantin/bantin_binding.dart';
+import 'package:nms_app/modules/controllers/danhsachbantin/danhsach_bantin_controller.dart';
 import 'package:nms_app/modules/controllers/danhsachchuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/bantin/chitiet_bantin_view.dart';
@@ -21,7 +22,7 @@ class PageRouters {
     GetPage(
         name: Paths.LOGIN, page: () => LoginView(), binding: LoginBinding()),
     GetPage(
-        name: Paths.TRANGCHU,    
+        name: Paths.TRANGCHU,
         page: () => HeaderAppbar(
             body: TrangchuView(),
             title: "Trang chủ",
@@ -53,13 +54,18 @@ class PageRouters {
             pathScreen: Paths.DSBANTIN),
         bindings: [DanhsachbantinBinding()]),
     GetPage(
-        name: Paths.CHITIETBANTIN,
-        page: () => HeaderAppbar(
-            body: ChitietBantinView(),
-            title: "Chi tiết bản tin",
-            isDrawer: false,
-            pathScreen: Paths.CHITIETBANTIN),
-        bindings: [ChitietbantinBinding()]),
+      name: Paths.CHITIETBANTIN,
+      page: () => HeaderAppbar(
+        body: ChitietBantinView(),
+        title: "Chi tiết bản tin",
+        isDrawer: false,
+        pathScreen: Paths.CHITIETBANTIN,
+        onBackButtonPressed: () {
+          Get.find<DanhsachBantinController>().loadDanhSachBanTin();
+        },
+      ),
+      bindings: [ChitietbantinBinding()],
+    ),
     GetPage(
         name: Paths.DANHBA,
         page: () => HeaderAppbar(
