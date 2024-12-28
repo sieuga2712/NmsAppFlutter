@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/model/chucnangthuchien/chucnangthuchien_model.dart';
@@ -11,7 +12,7 @@ import 'package:nms_app/model/bantin/chitiet_bantin_model.dart';
 import 'package:nms_app/provider/bantin/bantin_provider.dart';
 
 class ChitietBantinController extends GetxController
-    with StateMixin<ChitietBantinModel> {
+    with StateMixin<ChitietBantinModel>, WidgetsBindingObserver {
   var storage = GetStorage();
   var bantinProvider = BantinProvider();
   var chucNangThucHienProvider = ChucnangthuchienProvider();
@@ -137,6 +138,7 @@ class ChitietBantinController extends GetxController
 
           VideoPlayerController controller = VideoPlayerController.file(file);
           await controller.initialize();
+          controller.setLooping(true);
           print("Video initialized: ${controller.value.isInitialized}");
 
           if (controller.value.isInitialized) {
@@ -166,16 +168,41 @@ class ChitietBantinController extends GetxController
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      for (var controller in _controllers) {
+        controller.pause();
+        controller.seekTo(Duration.zero);
+      }
+    }
+  }
+
+  @override
   void onInit() {
     super.onInit();
     loadChiTietBanTin();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     super.dispose();
     for (var controller in _controllers) {
+      controller.pause();
       controller.dispose();
     }
+  }
+
+  @override
+  void onClose() {
+    for (var controller in _controllers) {
+      controller.pause();
+      controller.seekTo(Duration.zero);
+      controller.dispose();
+    }
+    WidgetsBinding.instance.removeObserver(this);
+    super.onClose();
   }
 }

@@ -77,6 +77,19 @@ class NavigationDrawer extends StatelessWidget {
                               }),
                           buildDrawerItems(
                               context: context,
+                              text: 'Mẫu',
+                              icon: Icons.list,
+                              textIconColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.helpBlue),
+                              titleColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.whiteColor),
+                              onTap: () {
+                                navigate('danhba');
+                              }),
+                          buildDrawerItems(
+                              context: context,
                               text: 'Đăng xuất',
                               icon: Icons.logout,
                               textIconColor: (Get.isDarkMode

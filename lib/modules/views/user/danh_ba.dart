@@ -1,110 +1,87 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import 'package:nms_app/core/theme/app_theme.dart';
-import 'package:nms_app/core/values/app_color.dart';
-import 'package:nms_app/global_widget/empty_danh_sach.dart';
-import 'package:nms_app/global_widget/tra_cuu_box.dart';
-import 'package:nms_app/modules/controllers/user/danh_ba_controlller.dart';
+import 'dart:async';
 
-class DanhBaView extends GetView<DanhBaControlller> {
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+
+void main() => runApp(const DanhBaView());
+
+class DanhBaView extends StatelessWidget {
   const DanhBaView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          TraCuuBox(onChanged: controller.searchCanBo),
-          Expanded(
-              child: controller.obx(
-            (danhBa) => ListView.builder(
-              itemCount: danhBa!.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    controller.makePhoneCall(
-                        'tel:+84${danhBa[index].dataPhone!.substring(1)}');
-                  },
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          '${danhBa[index].dataTenCanBo} - ${danhBa[index].dataPhone}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  fontSize: FontSizeSmall,
-                                  color: AppColor.blackColor),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (danhBa[index].dataEmail != null)
-                              Row(
-                                children: [
-                                  Text(
-                                    'Email: ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: AppColor.greyColor),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      danhBa[index].dataEmail ?? "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(fontSize: FontSizeSmall),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            if (danhBa[index].dataChucVu != null)
-                              Row(
-                                children: [
-                                  Text(
-                                    'Chức vụ: ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: AppColor.greyColor),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      danhBa[index].dataChucVu ?? "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(fontSize: FontSizeSmall),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                        dense: true,
-                      ),
-                      const Divider(
-                        height: 1,
-                        color: AppColor.greyColor,
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-            onEmpty: EmptyDanhSach(),
-            onLoading: SpinKitCircle(
-              color: AppColor.blueAccentColor,
-            ),
-            onError: (error) {
-              return Center(child: Text(error.toString()));
-            },
-          ))
-        ],
+    return const MaterialApp(
+      title: 'Video Player Demo',
+      home: VideoPlayerScreen(),
+    );
+  }
+}
+
+class VideoPlayerScreen extends StatefulWidget {
+  const VideoPlayerScreen({super.key});
+
+  @override
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+}
+
+class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse(
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      ),
+    );
+
+    _initializeVideoPlayerFuture = _controller.initialize();
+
+    _controller.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Butterfly Video'),
+      ),
+      body: FutureBuilder(
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            } else {
+              _controller.play();
+            }
+          });
+        },
+        child: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
       ),
     );
   }
