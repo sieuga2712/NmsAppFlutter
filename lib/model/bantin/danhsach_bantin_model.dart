@@ -24,7 +24,6 @@ class DanhsachBantinModel {
   }
 }
 
-
 class DanhsachBantinData {
   String? id;
   int? soThuTu;

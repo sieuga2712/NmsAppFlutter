@@ -36,4 +36,12 @@ const Map<String, MausacTrangthai> TrangthaiColos = {
     textColor: AppColor.whiteColor,
     backgroundColor: Color(0xFF1976D2), // Xanh dương
   ),
+  'Đang sản xuất': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 96, 125, 139), // Xanh dương
+  ),
+  'Đang viết tin bài': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 56, 142, 60), // Xanh dương
+  ),
 };

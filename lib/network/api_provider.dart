@@ -1,48 +1,49 @@
 import 'package:nms_app/core/values/app_config.dart';
 import 'package:dio/dio.dart';
 import 'package:nms_app/modules/controllers/login/login_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 class ApiRoot {
   final Dio dio = Dio();
+  final log = Logger();
 
   ApiRoot() {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final _prefs = await SharedPreferences.getInstance();
           var domainApi = AppConfig.domainAPI;
-
-          if (!options.path.contains('https')) {
+          if (!options.path.contains('http')) {
             options.path = domainApi + options.path;
           }
+          final loginController = Get.find<LoginController>();
+          final accessToken = loginController.loginModel.value.accessToken;
 
-          String? accessToken = _prefs.getString("accessToken");
-          String? refreshToken = _prefs.getString("refreshToken");
-
-          if (accessToken == null || refreshToken == null) {
-            return handler.next(options);
+          if (accessToken.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $accessToken';
           }
-
-          options.headers['Authorization'] = "Bearer $accessToken";
 
           return handler.next(options);
         },
         onError: (DioError error, handler) async {
           if (error.response?.statusCode == 401) {
+            final loginController = Get.find<LoginController>();
+            if (loginController.loginModel.value.refreshToken.isEmpty) {
+              log.w('Refresh token is empty, logging out user.');
+              await loginController.logout();
+              return handler.next(error);
+            }
             try {
-              final loginController = Get.find<LoginController>();
+              log.w('Received 401, attempting to refresh token.');
               await loginController.refreshToken();
-
               return handler.resolve(await dio.fetch(error.requestOptions));
-            } catch (e) {
-              final loginController = Get.find<LoginController>();
+            } catch (e, stackTrace) {
+              log.e('Error refreshing token: $e',
+                  error: e, stackTrace: stackTrace);
               await loginController.logout();
               return handler.next(error);
             }
           }
-
           return handler.next(error);
         },
         onResponse: (response, handler) {

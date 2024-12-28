@@ -6,10 +6,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'modules/controllers/login/login_controller.dart';
+
 void main() async {
   NetworkBinding().dependencies();
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(LoginController());
   runApp(GetMaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

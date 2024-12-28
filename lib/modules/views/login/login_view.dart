@@ -8,7 +8,6 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    // Bọc GestureDetector để ẩn bàn phím khi chạm vào màn hình
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -16,48 +15,24 @@ class LoginView extends GetView<LoginController> {
           child: OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               return Container(
-                // Điều chỉnh chiều cao container theo hướng màn hình
                 height: orientation == Orientation.landscape
                     ? MediaQuery.of(context).size.width
                     : MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(),
-                child: Form(
+                 child: Form(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20.0, 20, 20, 0),
-                    child: Column(
+                    padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 0),
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center, // Center content vertically
                       children: [
-                        SizedBox(height: 60),
-                        // Logo ứng dụng
+                        const SizedBox(height: 60),
                         Image.asset(
                           'images/icon.png',
-                          width: 200,
+                           width: 200,
                           height: 200,
                           fit: BoxFit.cover,
                         ),
                         const SizedBox(height: 40),
-
-                        // Nút đăng nhập
-                        Obx(() => ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColor.blueAccentColor.withOpacity(0.6),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              minimumSize: Size(
-                                  (MediaQuery.of(context).size.width - 25), 50),
-                              side: BorderSide(color: AppColor.blueAccentColor),
-                            ),
-                            onPressed: controller.loginModel.value.isLoggedIn
-                                ? null // Vô hiệu hóa nút nếu đã đăng nhập
-                                : () => controller.performAuthentication(),
-                            child: Text(
-                              "Đăng nhập",
-                              style: TextStyle(color: AppColor.whiteColor),
-                            ))),
-
-                        SizedBox(height: 10),
-
-                        // Hiển thị trạng thái đăng nhập
                         Obx(() => Text(
                               controller.loginModel.value.isLoggedIn
                                   ? "Đã đăng nhập"
@@ -68,35 +43,27 @@ class LoginView extends GetView<LoginController> {
                                       : Colors.grey,
                                   fontWeight: FontWeight.bold),
                             )),
-
                         const SizedBox(height: 20),
-
-                        // Nút đăng xuất
-                        Obx(() => ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    AppColor.blueAccentColor.withOpacity(0.6),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                minimumSize: Size(
-                                    (MediaQuery.of(context).size.width - 25),
-                                    50),
-                                side:
-                                    BorderSide(color: AppColor.blueAccentColor),
-                              ),
-                              onPressed: controller.loginModel.value.isLoggedIn
-                                  ? () => controller.logout()
-                                  : null, // Vô hiệu hóa nút nếu chưa đăng nhập
-                              child: Text(
-                                "Đăng xuất",
-                                style: TextStyle(color: AppColor.whiteColor),
-                              ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  AppColor.blueAccentColor.withOpacity(0.6),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              minimumSize: Size(
+                                  (MediaQuery.of(context).size.width - 25), 50),
+                              side: BorderSide(color: AppColor.blueAccentColor),
+                            ),
+                            onPressed: () => controller.performAuthentication(),
+                            child: Text(
+                              "Đăng nhập",
+                              style: TextStyle(color: AppColor.whiteColor),
                             )),
+                        const SizedBox(height: 10),
                       ],
-                    ),
-                  ),
-                ),
+                     ),
+                   ),
+                 ),
               );
             },
           ),

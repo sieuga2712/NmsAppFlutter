@@ -2,9 +2,11 @@ import 'package:nms_app/global_widget/header_appbar.dart';
 import 'package:nms_app/modules/controllers/danhsachbantin/bantin_binding.dart';
 import 'package:nms_app/modules/controllers/danhsachbantin/danhsach_bantin_controller.dart';
 import 'package:nms_app/modules/controllers/danhsachchuongtrinh/chuongtrinh_binding.dart';
+import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/bantin/chitiet_bantin_view.dart';
 import 'package:nms_app/modules/views/bantin/danhsach_bantin_view.dart';
+import 'package:nms_app/modules/views/chuongtrinh/chitiet_chuongtrinh_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/danhsach_chuongtrinh_view.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_binding.dart';
 import 'package:nms_app/modules/views/trangchu/trangchu_view.dart';
@@ -40,10 +42,15 @@ class PageRouters {
     GetPage(
         name: Paths.CHITIETCHUONGTRINH,
         page: () => HeaderAppbar(
-            body: DanhsachChuongtrinhView(),
-            title: "Chi tiết chương trình",
-            isDrawer: true,
-            pathScreen: Paths.CHITIETCHUONGTRINH),
+              body: ChitietChuongtrinhView(),
+              title: "Chi tiết chương trình",
+              isDrawer: true,
+              pathScreen: Paths.CHITIETCHUONGTRINH,
+              onBackButtonPressed: () {
+                Get.find<DanhsachChuongtrinhController>()
+                    .loadDanhSachChuongTrinh();
+              },
+            ),
         bindings: [ChitietchuongtrinhBinding()]),
     GetPage(
         name: Paths.DSBANTIN,
@@ -54,18 +61,17 @@ class PageRouters {
             pathScreen: Paths.DSBANTIN),
         bindings: [DanhsachbantinBinding()]),
     GetPage(
-      name: Paths.CHITIETBANTIN,
-      page: () => HeaderAppbar(
-        body: ChitietBantinView(),
-        title: "Chi tiết bản tin",
-        isDrawer: false,
-        pathScreen: Paths.CHITIETBANTIN,
-        onBackButtonPressed: () {
-          Get.find<DanhsachBantinController>().loadDanhSachBanTin();
-        },
-      ),
-      bindings: [ChitietbantinBinding()],
-    ),
+        name: Paths.CHITIETBANTIN,
+        page: () => HeaderAppbar(
+              body: ChitietBantinView(),
+              title: "Chi tiết bản tin",
+              isDrawer: false,
+              pathScreen: Paths.CHITIETBANTIN,
+              onBackButtonPressed: () {
+                Get.find<DanhsachBantinController>().loadDanhSachBanTin();
+              },
+            ),
+        bindings: [ChitietbantinBinding()]),
     GetPage(
         name: Paths.DANHBA,
         page: () => HeaderAppbar(

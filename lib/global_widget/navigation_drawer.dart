@@ -12,7 +12,7 @@ class NavigationDrawer extends StatelessWidget {
   final getStorage = GetStorage();
   final SetupController setupController = Get.find();
   final TrangchuController homeController = Get.find();
-  final LoginController loginController = Get.put(LoginController());
+  final LoginController loginController = Get.find<LoginController>();
 
   NavigationDrawer({super.key});
   @override

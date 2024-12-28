@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:nms_app/network/api_provider.dart';
+import 'package:logger/logger.dart';
 import 'package:nms_app/router.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:nms_app/network/api_provider.dart';
 import 'package:openid_client/openid_client_io.dart';
 import 'package:nms_app/model/login/login_model.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,13 +16,12 @@ import 'package:nms_app/provider/login/login_provider.dart';
 
 class LoginController extends GetxController {
   final LoginProvider _loginProvider = LoginProvider();
-  String get logoutUrl => loginModel.value.logoutUrl;
   final dio = ApiRoot().dio;
   final String _clientId = 'NMS_Mobile';
   static const String _issuer = 'https://apinpm.egov.phutho.vn';
   final String _redirectUri = 'com.yourapp://callback';
   Timer? _refreshTimer;
-  final int _refreshThreshold = 60;
+  final int _refreshThreshold = 1000;
   final List<String> _scopes = [
     'openid',
     'profile',
@@ -29,42 +29,48 @@ class LoginController extends GetxController {
     'offline_access',
     'NMS'
   ];
-
+  final log = Logger();
   final loginModel = LoginModel().obs;
-  bool _isLoggingOut = false;
+  final isLoggingOutLoading = false.obs;
 
   @override
   void onInit() async {
     super.onInit();
     try {
-      final storage = GetStorage();
-      final bool? isLoggedIn = storage.read(GetStorageKey.isLogin);
-
-      if (isLoggedIn != true) {
-        loginModel.value = LoginModel();
-        return;
+      await _loadLoginData();
+      if (loginModel.value.isLoggedIn) {
+        await _handleLoggedInState();
+      } else {
+        log.i('No login information found.');
       }
+    } catch (e, stackTrace) {
+      log.e('Error during initialization: $e',
+          error: e, stackTrace: stackTrace);
+    }
+  }
 
-      loginModel.value = await loadFromStorage();
+  Future<void> _loadLoginData() async {
+    final storage = GetStorage();
+    final bool? isLoggedIn = storage.read(GetStorageKey.isLogin);
 
-      // if (!_isLoggingOut) {
-      //   if (loginModel.value.isLoggedIn) {
-      //     if (await _verifyTokenValidity()) {
-      //       print('Token hợp lệ, chuyển hướng đến trang chủ');
-      //       if (Get.currentRoute != Paths.TRANGCHU) {
-      //         await Future.delayed(Duration(milliseconds: 30));
-      //         Get.offAllNamed(Paths.TRANGCHU);
-      //       }
-      //     } else {
-      //       print('Token không hợp lệ, thử refresh');
-      //       await refreshToken();
-      //     }
-      //   } else {
-      //     print('Không có thông tin đăng nhập');
-      //   }
-      // }
-    } catch (e) {
-      print('Lỗi khởi tạo: $e');
+    if (isLoggedIn != true) {
+      loginModel.value = LoginModel();
+      return;
+    }
+
+    loginModel.value = await loadFromStorage();
+  }
+
+  Future<void> _handleLoggedInState() async {
+    if (await _verifyTokenValidity()) {
+      log.i('Token is valid, navigating to home.');
+      if (Get.currentRoute != Paths.TRANGCHU) {
+        await Future.delayed(const Duration(milliseconds: 30));
+        Get.offAllNamed(Paths.TRANGCHU);
+      }
+    } else {
+      log.i('Token is invalid, attempting to refresh.');
+      await refreshToken();
     }
   }
 
@@ -72,25 +78,29 @@ class LoginController extends GetxController {
     final SharedPreferences _pref = await SharedPreferences.getInstance();
     try {
       final storage = GetStorage();
-      final String data = json.encode(loginModel.toJson());
+      final String data = json.encode(loginModel.value.toJson());
 
       await storage.write('login_data', data);
 
       storage.write('access_token', loginModel.value.accessToken);
       storage.write('refresh_token', loginModel.value.refreshToken);
       storage.write('expires_in', loginModel.value.expiresIn);
-      storage.write('logout_url', loginModel.value.logoutUrl);
+      storage.write('token_type', loginModel.value.tokenType);
+      storage.write('scope', loginModel.value.scope);
+      storage.write('id_token', loginModel.value.idToken);
       storage.write(GetStorageKey.isLogin, true);
 
       _pref.setString("accessToken", loginModel.value.accessToken);
       _pref.setString("refreshToken", loginModel.value.refreshToken);
-      _pref.setString("logoutUrl", loginModel.value.logoutUrl);
-
-      print('Dữ liệu đã lưu: $data');
-      print('Logout: $logoutUrl');
+      _pref.setString("expires_in", loginModel.value.expiresIn.toString());
+      _pref.setString("token_type", loginModel.value.tokenType);
+      _pref.setString("scope", loginModel.value.scope);
+      _pref.setString("id_token", loginModel.value.idToken);
+      log.i('Login data saved successfully.');
       return true;
-    } catch (e) {
-      print('Lỗi khi lưu dữ liệu đăng nhập: $e');
+    } catch (e, stackTrace) {
+      log.e('Error saving login data to storage: $e',
+          error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -111,25 +121,16 @@ class LoginController extends GetxController {
         }
         return LoginModel.fromJson(jsonData);
       }
-    } catch (e) {
-      print('Lỗi khi đọc dữ liệu đăng nhập: $e');
+    } catch (e, stackTrace) {
+      Logger().e('Error loading login data from storage: $e',
+          error: e, stackTrace: stackTrace);
     }
     return LoginModel();
   }
 
-  static LoginModel? tryParseResponse(String responseBody) {
-    try {
-      final Map<String, dynamic> data = json.decode(responseBody);
-      return LoginModel.fromJson(data);
-    } catch (e) {
-      print('Lỗi khi xử lý dữ liệu đăng nhập: $e');
-      return null;
-    }
-  }
-
   Future<void> performAuthentication() async {
     try {
-      print('Starting authentication process.');
+      log.i('Starting authentication process.');
 
       final issuer = await Issuer.discover(Uri.parse(_issuer));
       final client = Client(issuer, _clientId);
@@ -139,159 +140,180 @@ class LoginController extends GetxController {
         scopes: _scopes,
         redirectUri: Uri.parse(_redirectUri),
         urlLancher: (url) async {
-          print('Opening URL: $url');
+          // Thêm prompt=login vào url
+          final urlWithPrompt = Uri.parse(url).replace(queryParameters: {
+            ...Uri.parse(url).queryParameters,
+            'prompt': 'login'
+          });
+
+          log.i('Opening URL: $urlWithPrompt');
           final result = await FlutterWebAuth2.authenticate(
-            url: url,
+            url: urlWithPrompt.toString(),
             callbackUrlScheme: 'com.yourapp',
           );
-
           final callbackUri = Uri.parse(result);
           final code = callbackUri.queryParameters['code'];
 
           if (code != null) {
-            loginModel.value = await _loginProvider.exchangeCodeForToken(
-                    code, _clientId, _redirectUri) ??
-                LoginModel();
-            saveToStorage();
-            print('$code');
-            Get.offAllNamed(Paths.TRANGCHU);
+            log.i('Code received: $code');
+            final loginData = await _loginProvider.exchangeCodeForToken(
+                code, _clientId, _redirectUri);
+            if (loginData != null) {
+              log.i('Token received: ${loginData.accessToken}');
+              loginModel.value = loginData;
+              await saveToStorage();
+              Get.back();
+              Get.offAllNamed(Paths.TRANGCHU);
+            } else {
+              log.e('Failed to exchange code for token.');
+            }
           } else {
-            print('No code found in callback URL.');
+            log.w('No code found in callback URL.');
           }
         },
       );
 
       await authenticator.authorize();
     } catch (e, stackTrace) {
-      print('Error during authentication: $e');
-      print(stackTrace);
-    }
-  }
-
-  Future<bool> _verifyTokenValidity() async {
-    if (loginModel.value.expiresIn <= 0) return false;
-
-    final currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    final tokenExpiry = currentTime + loginModel.value.expiresIn;
-
-    return tokenExpiry > currentTime + 60;
-  }
-
-  void _setupTokenRefresh() {
-    _refreshTimer?.cancel();
-
-    if (loginModel.value.expiresIn > 0) {
-      final refreshIn = loginModel.value.expiresIn - _refreshThreshold;
-      if (refreshIn > 0) {
-        _refreshTimer = Timer(Duration(seconds: refreshIn), () async {
-          try {
-            await refreshToken();
-          } catch (e) {
-            print('Lỗi refresh token tự động: $e');
-            await logout();
-          }
-        });
-      } else {
-        refreshToken();
-      }
+      log.e('Error during authentication: $e',
+          error: e, stackTrace: stackTrace);
     }
   }
 
   Future<void> refreshToken() async {
-    if (loginModel.value.refreshToken.isEmpty) {
-      await logout();
-      return;
-    }
-
     try {
-      final newLoginModel = await _loginProvider.refreshAccessToken(
+      if (loginModel.value.refreshToken.isEmpty) {
+        log.e('No refresh token available.');
+        return;
+      }
+      final refreshResponse = await _loginProvider.refreshToken(
         loginModel.value.refreshToken,
         _clientId,
       );
-
-      if (newLoginModel != null) {
-        loginModel.value = newLoginModel;
+      if (refreshResponse != null) {
+        loginModel.value = refreshResponse;
         await saveToStorage();
-        _setupTokenRefresh();
+        _startRefreshTimer();
+        log.i('Token refreshed successfully.');
       } else {
-        print('Không thể refresh token, đăng xuất');
-        await logout();
+        log.e('Failed to refresh token, logging out');
+        logout();
       }
-    } catch (e) {
-      print('Lỗi khi refresh token: $e');
-      await logout();
+    } catch (e, stackTrace) {
+      log.e('Error during token refresh: $e', error: e, stackTrace: stackTrace);
+      logout();
     }
   }
 
-  Future<void> _clearAllStorage() async {
-    try {
-      final storage = GetStorage();
-      await storage.erase();
-      await storage.write(GetStorageKey.isLogin, false);
-
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.clear();
-
-      print("All storage cleared");
-    } catch (e) {
-      print("Storage clear error: $e");
-      rethrow;
-    }
+  Future<bool> _verifyTokenValidity() async {
+    if (loginModel.value.expiresIn == 0) return false;
+    final expiryDate =
+        DateTime.now().add(Duration(seconds: loginModel.value.expiresIn));
+    return expiryDate.difference(DateTime.now()).inSeconds > _refreshThreshold;
   }
 
-  Future<void> _clearWebViewData() async {
-    try {
-      final cj = CookieJar();
-      cj.deleteAll();
-      print("Cookies cleared");
-
-      final controller = WebViewController();
-      controller.clearCache();
-      print("WebView cache cleared");
-    } catch (e) {
-      print("Error clearing WebView data: $e");
+  void _startRefreshTimer() {
+    _refreshTimer?.cancel();
+    final expiresIn = loginModel.value.expiresIn;
+    if (expiresIn > _refreshThreshold) {
+      final refreshTime = Duration(seconds: expiresIn - _refreshThreshold);
+      _refreshTimer = Timer(refreshTime, () {
+        log.i('Token refresh timer triggered.');
+        refreshToken();
+      });
+      log.i(
+          'Token refresh timer started, will refresh in ${refreshTime.inSeconds} seconds');
+    } else {
+      log.w('Token expires too soon, attempting refresh now.');
+      refreshToken();
     }
   }
 
   Future<void> logout() async {
-    if (_isLoggingOut) return;
+    if (isLoggingOutLoading.value) {
+      log.w('Logout already in progress.');
+      return;
+    }
 
+    isLoggingOutLoading.value = true;
     try {
-      _isLoggingOut = true;
+      await _revokeToken();
+      await _clearCookies();
+      _clearLoginData();
+      log.i('Logout successful.');
+      Get.offAllNamed(Paths.LOGIN);
+    } catch (e, stackTrace) {
+      log.e('Error during logout: $e', error: e, stackTrace: stackTrace);
+    } finally {
+      isLoggingOutLoading.value = false;
+    }
+  }
 
-      // Cancel refresh timer first
-      _refreshTimer?.cancel();
+  Future<void> _clearCookies() async {
+    try {
+      final cookieJar = CookieJar();
+      await cookieJar.deleteAll();
+      log.i('Cookies cleared successfully.');
+    } catch (e, stackTrace) {
+      log.e('Error during clearing cookies: $e',
+          error: e, stackTrace: stackTrace);
+    }
+  }
 
-      // Clear all tokens
-      loginModel.value = LoginModel();
+  Future<void> _revokeToken() async {
+    try {
+      if (loginModel.value.accessToken.isEmpty) {
+        log.w('No access token available for revocation.');
+        return;
+      }
 
-      // Clear web data
-      await _clearWebViewData();
+      await _loginProvider.revokeToken(
+        loginModel.value.accessToken,
+        _clientId,
+      );
+      log.i('Access token revoked successfully.');
 
-      // Clear storage
-      await _clearAllStorage();
+      await _loginProvider.revokeRefreshToken(
+        loginModel.value.refreshToken,
+        _clientId,
+      );
+      log.i('Refresh token revoked successfully.');
+    } on DioException catch (e) {
+      log.e('DioError during token revocation: ${e.message}',
+          error: e, stackTrace: e.stackTrace);
+      log.e('Error response: ${e.response?.data}');
+    } catch (e, stackTrace) {
+      log.e('Error during token revocation: $e',
+          error: e, stackTrace: stackTrace);
+    }
+  }
 
-      // Add specific token clearing
+  Future<void> _clearLoginData() async {
+    try {
       final storage = GetStorage();
+      final SharedPreferences _pref = await SharedPreferences.getInstance();
+
       await storage.remove('login_data');
       await storage.remove('access_token');
       await storage.remove('refresh_token');
       await storage.remove('expires_in');
-      await storage.remove('logout_url');
+      await storage.remove('token_type');
+      await storage.remove('scope');
+      await storage.remove('id_token');
+      await storage.remove(GetStorageKey.isLogin);
 
-      // Clear SharedPreferences specifically
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove("accessToken");
-      await prefs.remove("refreshToken");
-      await prefs.remove("logoutUrl");
+      _pref.remove("accessToken");
+      _pref.remove("refreshToken");
+      _pref.remove("expires_in");
+      _pref.remove("token_type");
+      _pref.remove("scope");
+      _pref.remove("id_token");
 
-      // Force garbage collection
-      await Future.delayed(Duration(milliseconds: 100));
-      Get.offAllNamed(Paths.LOGIN);
-    } catch (e) {
-      print('Logout error: $e');
-    } finally {
-      _isLoggingOut = false;
+      loginModel.value = LoginModel();
+      log.i('Login data cleared successfully.');
+    } catch (e, stackTrace) {
+      log.e('Error during clearing login data: $e',
+          error: e, stackTrace: stackTrace);
     }
   }
 

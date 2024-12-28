@@ -35,20 +35,19 @@ class BantinProvider {
   }
 
   Future<dynamic> downloadVideoBanTin(List<String> fileIds) async {
-  try {
-    final responses = await Future.wait(fileIds.map((fileId) async {
-      final response = await dio.post(
-        "${BantinApi.downloadFile}/$fileId/download",
-        options: Options(responseType: ResponseType.bytes),
-      );
-      return response.data;
-    }));
+    try {
+      final responses = await Future.wait(fileIds.map((fileId) async {
+        final response = await dio.post(
+          "${BantinApi.downloadFile}/$fileId/download",
+          options: Options(responseType: ResponseType.bytes),
+        );
+        return response.data;
+      }));
 
-    return responses;
-  } catch (exception) {
-    print('response: $exception');
-    return Future.error(exception.toString());
+      return responses;
+    } catch (exception) {
+      print('response: $exception');
+      return Future.error(exception.toString());
+    }
   }
-}
-
 }

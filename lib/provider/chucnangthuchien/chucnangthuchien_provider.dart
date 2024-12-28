@@ -28,6 +28,25 @@ class ChucnangthuchienProvider {
     }
   }
 
+  Future<ChucnangthuchienModel> getChucNangThucHienChuongTrinh(
+      String? chuongTrinhId) async {
+    try {
+      var data = {
+        "chuongTrinhId": chuongTrinhId,
+        "userId": "00000000-0000-0000-0000-000000000000",
+        "danhSachChucNang": [],
+      };
+      print('dsChucNangThucHien data: $data');
+      final response =
+          await dio.post(ChucnangthuchienApi.chucNangThucHien, data: data);
+
+      print('dsChucNangThucHien: ${response.data}');
+      return ChucnangthuchienModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
   Future<dynamic> xuLyChuongTrinhBanTinByInput(data) async {
     try {
       final response =

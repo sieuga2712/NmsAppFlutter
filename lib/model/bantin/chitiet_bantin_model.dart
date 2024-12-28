@@ -320,7 +320,6 @@ class FileDinhKemTin {
   }
 }
 
-
 class FileVideo {
   String? chuongTrinhId;
   String? banTinId;

@@ -21,5 +21,7 @@ class GetStorageKey {
   static const accessToken = "refresh_token";
   static const refreshToken = "access_token";
   static const expiresIn = "expires_in";
-  static const logoutUrl = "logout_url";
+  static const scope = "scope";
+  static const idToken = "id_token";
+  static const tokenType = "token_type";
 }
