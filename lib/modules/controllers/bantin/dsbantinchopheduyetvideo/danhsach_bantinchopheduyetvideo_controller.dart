@@ -4,7 +4,7 @@ import 'package:nms_app/model/bantin/danhsach_bantin_model.dart';
 import 'package:nms_app/provider/bantin/bantin_provider.dart';
 import 'package:nms_app/router.dart';
 
-class DanhsachBantinController extends GetxController
+class DanhsachBantinchopheduyetvideoController extends GetxController
     with StateMixin<List<DanhsachBantinData>> {
   var storage = GetStorage();
   var bantinProvider = BantinProvider();

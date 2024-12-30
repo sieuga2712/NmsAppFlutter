@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
-import 'package:nms_app/modules/controllers/bantin/danhsachbantin/danhsach_bantin_controller.dart';
+import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:intl/intl.dart';
 
-class DanhsachBantinView extends GetView<DanhsachBantinController> {
+class DanhsachBantinView extends GetView<DanhsachBantinchopheduyetvideoController> {
   const DanhsachBantinView({super.key});
 
   @override
