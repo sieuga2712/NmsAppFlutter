@@ -6,7 +6,6 @@ import 'package:nms_app/modules/controllers/bantin/danhsachbantin/bantin_binding
 import 'package:nms_app/modules/controllers/bantin/danhsachbantin/danhsach_bantin_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd/danhsach_chuongtrinhchopd_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/chitiet_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/danhsach_bantinchoduyettinbai_view.dart';
@@ -52,7 +51,7 @@ class PageRouters {
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhView(),
               title: "Chi tiết chương trình",
-              isDrawer: false,
+              isDrawer: true,
               pathScreen: Paths.CHITIETCHUONGTRINH,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhController>()
@@ -73,11 +72,11 @@ class PageRouters {
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhChoPheDuyetKBView(),
               title: "Chi tiết chương trình",
-              isDrawer: false,
+              isDrawer: true,
               pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYET,
               onBackButtonPressed: () {
-                Get.find<DanhsachChuongtrinhChopdController>()
-                    .loadDanhSachChuongTrinhChopd();
+                Get.find<DanhsachChuongtrinhController>()
+                    .loadDanhSachChuongTrinh();
               },
             ),
         bindings: [ChitietchuongtrinhchopheduyetBinding()]),
