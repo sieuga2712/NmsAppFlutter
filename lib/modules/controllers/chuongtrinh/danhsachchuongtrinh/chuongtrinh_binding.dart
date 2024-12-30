@@ -1,6 +1,6 @@
 import 'package:get/instance_manager.dart';
-import 'package:nms_app/modules/controllers/danhsachchuongtrinh/chitiet_chuongtrinh_controller.dart';
-import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chitiet_chuongtrinh_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
 
 class DanhsachchuongtrinhBinding implements Bindings {
   @override

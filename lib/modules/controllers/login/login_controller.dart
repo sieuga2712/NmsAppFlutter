@@ -21,7 +21,7 @@ class LoginController extends GetxController {
   static const String _issuer = 'https://apinpm.egov.phutho.vn';
   final String _redirectUri = 'com.yourapp://callback';
   Timer? _refreshTimer;
-  final int _refreshThreshold = 1000;
+  final int _refreshThreshold = 3000;
   final List<String> _scopes = [
     'openid',
     'profile',
@@ -197,6 +197,8 @@ class LoginController extends GetxController {
         log.i('Token refreshed successfully.');
       } else {
         log.e('Failed to refresh token, logging out');
+// Log phản hồi lỗi từ server nếu có
+// Bạn có thể cần sửa LoginProvider để trả về thông tin lỗi chi tiết hơn
         logout();
       }
     } catch (e, stackTrace) {

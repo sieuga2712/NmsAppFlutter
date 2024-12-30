@@ -1,12 +1,12 @@
+import 'package:get/get.dart';
+import 'package:nms_app/router.dart';
+import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:nms_app/setup/setup_controller.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:nms_app/modules/controllers/login/login_controller.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_controller.dart';
-import 'package:nms_app/router.dart';
-import 'package:nms_app/setup/setup_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class NavigationDrawer extends StatelessWidget {
   final getStorage = GetStorage();
@@ -49,32 +49,120 @@ class NavigationDrawer extends StatelessWidget {
                                 onTap: () {
                                   navigate('trangchu');
                                 }),
-                          buildDrawerItems(
-                              context: context,
-                              text: 'Danh sách chương trình',
-                              icon: Icons.list,
-                              textIconColor: (Get.isDarkMode
-                                  ? AppColor.whiteColor
-                                  : AppColor.helpBlue),
-                              titleColor: (Get.isDarkMode
-                                  ? AppColor.whiteColor
-                                  : AppColor.whiteColor),
-                              onTap: () {
-                                navigate('danhsachchuongtrinh');
-                              }),
-                          buildDrawerItems(
-                              context: context,
-                              text: 'Danh sách bản tin',
-                              icon: Icons.list,
-                              textIconColor: (Get.isDarkMode
-                                  ? AppColor.whiteColor
-                                  : AppColor.helpBlue),
-                              titleColor: (Get.isDarkMode
-                                  ? AppColor.whiteColor
-                                  : AppColor.whiteColor),
-                              onTap: () {
-                                navigate('danhsachbantin');
-                              }),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                    color: AppColor.greyColor, width: 0.5),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: ExpansionTile(
+                                leading: Icon(Icons.list,
+                                    color: Get.isDarkMode
+                                        ? AppColor.whiteColor
+                                        : AppColor.helpBlue),
+                                title: Text(
+                                  'Danh sách chương trình',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue,
+                                      ),
+                                ),
+                                children: [
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Đã phê duyệt kịch bản',
+                                      icon: null,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate('danhsachchuongtrinh');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Chờ phê duyệt kịch bản',
+                                      icon: null,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate(
+                                            'danhsachchuongtrinhchopheduyet');
+                                      }),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                    color: AppColor.greyColor, width: 0.5),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: ExpansionTile(
+                                leading: Icon(Icons.list,
+                                    color: Get.isDarkMode
+                                        ? AppColor.whiteColor
+                                        : AppColor.helpBlue),
+                                title: Text(
+                                  'Danh sách bản tin',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue,
+                                      ),
+                                ),
+                                children: [
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Chờ duyệt video',
+                                      icon: null,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate('danhsachbantin');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Chờ duyệt tin bài',
+                                      icon: null,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate(
+                                            'danhsachbantinchoduyettinbai');
+                                      }),
+                                ],
+                              ),
+                            ),
+                          ),
                           buildDrawerItems(
                               context: context,
                               text: 'Mẫu',
@@ -197,8 +285,14 @@ class NavigationDrawer extends StatelessWidget {
       case 'danhsachchuongtrinh':
         Get.offNamed(Routers.DSCHUONGTRINH);
         break;
+      case 'danhsachchuongtrinhchopheduyet':
+        Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYET);
+        break;
       case 'danhsachbantin':
         Get.offNamed(Routers.DSBANTIN);
+        break;
+      case 'danhsachbantinchoduyettinbai':
+        Get.offNamed(Routers.DSBANTINCHODUYETTIN);
         break;
       case 'danhba':
         Get.offNamed(Routers.DANHBA);

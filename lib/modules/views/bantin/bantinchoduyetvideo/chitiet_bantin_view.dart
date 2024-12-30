@@ -6,7 +6,7 @@ import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
-import 'package:nms_app/modules/controllers/danhsachbantin/chitiet_bantin_controller.dart';
+import 'package:nms_app/modules/controllers/bantin/danhsachbantin/chitiet_bantin_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 

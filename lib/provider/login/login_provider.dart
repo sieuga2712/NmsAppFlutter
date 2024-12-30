@@ -35,9 +35,11 @@ class LoginProvider {
         'client_id': clientId,
       };
 
-      return await _makeTokenRequest(formData);
-    } catch (e) {
-      log.e('Error in refreshToken: $e');
+      final response = await _makeTokenRequest(formData);
+      return response;
+    } on DioException catch (e) {
+      log.e('Error in refreshToken: ${e.message}');
+      log.e('Error response data: ${e.response?.data}');
       return null;
     }
   }

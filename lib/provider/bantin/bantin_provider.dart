@@ -24,6 +24,21 @@ class BantinProvider {
     }
   }
 
+  Future<DanhsachBantinModel> dsBanTinChoDuyetTinBai() async {
+    try {
+      String trangThaiChuongTrinhBanTin = 'ChoPheDuyetTinBai';
+      String sorting = 'ten ASC';
+      int skipCount = 0;
+      int maxResultCount = 10;
+      final response = await dio.get(
+          '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+
+      return DanhsachBantinModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
   Future<ChitietBantinModel> getChiTietBanTin(idBanTin) async {
     try {
       final response = await dio.get("${BantinApi.chiTietBanTin}/$idBanTin/v2");

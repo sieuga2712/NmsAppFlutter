@@ -5,10 +5,11 @@ import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
-import 'package:nms_app/modules/controllers/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd/danhsach_chuongtrinhchopd_controller.dart';
 
-class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
-  const DanhsachChuongtrinhView({super.key});
+class DanhsachChuongtrinhChopheduyetkbView
+    extends GetView<DanhsachChuongtrinhChopdController> {
+  const DanhsachChuongtrinhChopheduyetkbView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,10 @@ class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
         children: [
           Expanded(
             child: controller.obx(
-              (dsChuongTrinh) => ListView.builder(
-                itemCount: dsChuongTrinh!.length,
+              (dsChuongTrinhChopd) => ListView.builder(
+                itemCount: dsChuongTrinhChopd!.length,
                 itemBuilder: (context, index) {
-                  var chuongTrinh = dsChuongTrinh[index];
+                  var chuongTrinh = dsChuongTrinhChopd[index];
 
                   final statusInfo =
                       TrangthaiColos[chuongTrinh.trangThaiChuongTrinhBanTin];

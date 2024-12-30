@@ -33,7 +33,10 @@ class HeaderAppbar extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Center(
-            child: Text(title),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 17),
+            ),
           ),
           backgroundColor: AppColor.blueAccentColor,
           foregroundColor: Colors.white,

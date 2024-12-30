@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
-import 'package:nms_app/modules/controllers/danhsachbantin/danhsach_bantin_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
 
-class DanhsachBantinView extends GetView<DanhsachBantinController> {
-  const DanhsachBantinView({super.key});
+class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
+  const DanhsachChuongtrinhView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +17,22 @@ class DanhsachBantinView extends GetView<DanhsachBantinController> {
         children: [
           Expanded(
             child: controller.obx(
-              (dsBanTin) => ListView.builder(
-                itemCount: dsBanTin!.length,
+              (dsChuongTrinh) => ListView.builder(
+                itemCount: dsChuongTrinh!.length,
                 itemBuilder: (context, index) {
-                  var banTin = dsBanTin[index];
+                  var chuongTrinh = dsChuongTrinh[index];
 
                   final statusInfo =
-                      TrangthaiColos[banTin.trangThaiChuongTrinhBanTin];
+                      TrangthaiColos[chuongTrinh.trangThaiChuongTrinhBanTin];
 
-                  final hanXuLyVietTin =
-                      DateTime.tryParse(banTin.hanXuLyVietTin ?? "");
-                  final formattedDate = hanXuLyVietTin != null
-                      ? DateFormat('dd/MM/yyyy').format(hanXuLyVietTin)
+                  final hanXuLyChuongTrinh =
+                      DateTime.tryParse(chuongTrinh.hanXuLy ?? "");
+                  final formattedDate = hanXuLyChuongTrinh != null
+                      ? DateFormat('dd/MM/yyyy').format(hanXuLyChuongTrinh)
                       : "Chưa có hạn xử lý";
 
                   List<Widget> children = [
-                    Text('Tên bản tin: ${banTin.ten ?? ""}',
+                    Text('Tên chương trình: ${chuongTrinh.ten ?? ""}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -40,7 +40,7 @@ class DanhsachBantinView extends GetView<DanhsachBantinController> {
                             fontWeight: FontWeight.bold)),
                     const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
                     Text(
-                        'Tên chương trình: ${banTin.chuongTrinh?.ten ?? "Không có"}',
+                        'Loại chương trình: ${chuongTrinh.loaiChuongTrinh ?? "Không có"}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -63,7 +63,7 @@ class DanhsachBantinView extends GetView<DanhsachBantinController> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        '${banTin.trangThaiChuongTrinhBanTin}',
+                        '${chuongTrinh.trangThaiChuongTrinhBanTin}',
                         style: TextStyle(
                           color: statusInfo?.textColor ?? AppColor.blackColor,
                         ),
@@ -72,7 +72,7 @@ class DanhsachBantinView extends GetView<DanhsachBantinController> {
                   ];
 
                   return GestureDetector(
-                    onTap: () => controller.onSwitchPage(banTin.id),
+                    onTap: () => controller.onSwitchPage(chuongTrinh.id),
                     child: Container(
                       decoration: const BoxDecoration(
                         color: AppColor.whiteColor,
@@ -115,7 +115,7 @@ class DanhsachBantinView extends GetView<DanhsachBantinController> {
   }
 
   // Hàm xử lý sự kiện khi nhấn vào item
-  void onClickItem(banTin) {
+  void onClickItem(chuongTrinh) {
     // Logic xử lý khi nhấn vào item
   }
 }

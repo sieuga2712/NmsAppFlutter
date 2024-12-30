@@ -23,6 +23,21 @@ class ChuongtrinhProvider {
     }
   }
 
+  Future<DanhsachChuongtrinhModel> dsChuongTrinhChoPheDuyet() async {
+    try {
+      String trangThaiChuongTrinhBanTin = 'ChoPheDuyetKichBan';
+      String sorting = 'ten ASC';
+      int skipCount = 0;
+      int maxResultCount = 10;
+      final response = await dio.get(
+          '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+      print('dsChuongTrinhChoPheDuyet: $response');
+      return DanhsachChuongtrinhModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
   Future<ChitietChuongtrinhModel> getChiTietChuongTrinh(
       String idChuongTrinh) async {
     try {
