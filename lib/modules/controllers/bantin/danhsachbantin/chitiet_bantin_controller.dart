@@ -30,9 +30,9 @@ class ChitietBantinController extends GetxController
       await bantinProvider.getChiTietBanTin(banTinId).then((response) async {
         chiTietBanTin.value = response;
         chuongTrinhId = chiTietBanTin.value?.chuongTrinhId;
-        await loadVideos();
         await loadChucNangThucHien(banTinId, chuongTrinhId);
         change(chiTietBanTin.value, status: RxStatus.success());
+        loadVideos();
       });
     } catch (exception) {
       print('Lỗi: $exception');
@@ -96,13 +96,15 @@ class ChitietBantinController extends GetxController
   }
 
   List<VideoPlayerController> _controllers = [];
-  List<bool> _isPlaying = [];
+  RxList<bool> _isPlaying = <bool>[].obs; // Đổi thành RxList
 
   List<VideoPlayerController> get controllers => _controllers;
   List<bool> get isPlaying => _isPlaying;
+  RxBool isVideoLoading = true.obs; // Trạng thái tải video
 
   // Hàm tải video từ server
   Future<void> loadVideos() async {
+    isVideoLoading.value = true;
     var fileVideos = chiTietBanTin.value?.fileVideo;
     if (fileVideos != null && fileVideos.isNotEmpty) {
       List<String> fileIds = fileVideos.map((e) => e.fileId!).toList();
@@ -156,6 +158,7 @@ class ChitietBantinController extends GetxController
     } else {
       print('Không có video để tải.');
     }
+    isVideoLoading.value = false;
   }
 
   void togglePlayPause(int index) {
@@ -164,7 +167,7 @@ class ChitietBantinController extends GetxController
     } else {
       _controllers[index].play(); // Phát video
     }
-    _isPlaying[index] = !_isPlaying[index];
+    _isPlaying[index] = !_isPlaying[index]; // Cập nhật trạng thái trong RxList
   }
 
   @override
