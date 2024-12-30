@@ -80,3 +80,5 @@ macos/Flutter/GeneratedPluginRegistrant.swift
 pubspec.lock
 *.lock
 /android/app/release
+*.cc
+*.cmake

@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:nms_app/model/bantin/chitiet_bantin_model.dart';
 import 'package:nms_app/provider/bantin/bantin_provider.dart';
 
-class ChitietBantinController extends GetxController
+class ChitietBantinchopheduyetvideoController extends GetxController
     with StateMixin<ChitietBantinModel>, WidgetsBindingObserver {
   var storage = GetStorage();
   var bantinProvider = BantinProvider();

@@ -2,8 +2,8 @@ import 'package:nms_app/global_widget/header_appbar.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/bantinchoduyettinbai_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/danhsach_bantinchoduyettinbai_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd/chuongtrinhchopd_binding.dart';
-import 'package:nms_app/modules/controllers/bantin/danhsachbantin/bantin_binding.dart';
-import 'package:nms_app/modules/controllers/bantin/danhsachbantin/danhsach_bantin_controller.dart';
+import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/bantin_binding.dart';
+import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
@@ -96,7 +96,8 @@ class PageRouters {
               isDrawer: false,
               pathScreen: Paths.CHITIETBANTIN,
               onBackButtonPressed: () {
-                Get.find<DanhsachBantinController>().loadDanhSachBanTin();
+                Get.find<DanhsachBantinchopheduyetvideoController>()
+                    .loadDanhSachBanTin();
               },
             ),
         bindings: [ChitietbantinBinding()]),
