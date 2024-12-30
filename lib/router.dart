@@ -6,6 +6,7 @@ import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/bant
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd/danhsach_chuongtrinhchopd_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/chitiet_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/danhsach_bantinchoduyettinbai_view.dart';
@@ -75,8 +76,8 @@ class PageRouters {
               isDrawer: false,
               pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYET,
               onBackButtonPressed: () {
-                Get.find<DanhsachChuongtrinhController>()
-                    .loadDanhSachChuongTrinh();
+                Get.find<DanhsachChuongtrinhChopdController>()
+                    .loadDanhSachChuongTrinhChopd();
               },
             ),
         bindings: [ChitietchuongtrinhchopheduyetBinding()]),

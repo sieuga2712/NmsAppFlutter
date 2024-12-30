@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:html/parser.dart';
+import 'package:nms_app/core/ultis/read_more_text.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/core/theme/app_theme.dart';
@@ -191,9 +192,8 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                     ),
                                   ),
                                   Expanded(
-                                    child: Text(
-                                      removeHtmlTags(
-                                          chiTietBanTin?.noiDungTin ?? ''),
+                                    child: ReadMoreText(
+                                      text: chiTietBanTin?.noiDungTin ?? '',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -203,6 +203,52 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
+
+                              // Hiển thị danh sách nút
+                              Obx(() {
+                                final chucNang = controller
+                                    .danhSachChucNang.value?.danhSachChucNang;
+                                if (chucNang == null || chucNang.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Wrap(
+                                  spacing: 8,
+                                  runSpacing: 8,
+                                  alignment: WrapAlignment.start,
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  children: chucNang.map((item) {
+                                    if (item.tenChucNang == "Lưu") {
+                                      return const SizedBox.shrink();
+                                    }
+                                    return SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                              3 -
+                                          16,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              _getButtonColor(item.mauSac),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          print(
+                                              'Nhấn nút: ${item.tenChucNang}');
+                                          controller.xuLyChucNang(item);
+                                        },
+                                        child: Text(
+                                          item.tenChucNang ?? 'Nút không tên',
+                                          style: const TextStyle(
+                                              color: AppColor.whiteColor),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              }),
                             ],
                           ),
                         ),
@@ -223,6 +269,19 @@ class _ChitietBantinChoDuyetTinBaiViewState
         ),
       ),
     );
+  }
+}
+
+Color _getButtonColor(String? mauSac) {
+  switch (mauSac) {
+    case "btn-danger":
+      return AppColor.redColor;
+    case "btn-primary":
+      return AppColor.helpBlue;
+    case "btn-warning":
+      return AppColor.yellowColor;
+    default:
+      return AppColor.greyColor;
   }
 }
 

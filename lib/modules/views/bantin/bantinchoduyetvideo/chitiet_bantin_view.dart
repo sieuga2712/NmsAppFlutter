@@ -322,7 +322,7 @@ class _ChitietBantinViewState extends State<ChitietBantinView> {
                                     return SizedBox(
                                       width: MediaQuery.of(context).size.width /
                                               3 -
-                                          16, // Đảm bảo nút co giãn
+                                          16,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor:
