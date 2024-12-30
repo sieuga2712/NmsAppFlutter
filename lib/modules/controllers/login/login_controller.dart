@@ -32,6 +32,7 @@ class LoginController extends GetxController {
   final log = Logger();
   final loginModel = LoginModel().obs;
   final isLoggingOutLoading = false.obs;
+  final isReloginInProgress = false.obs;
 
   @override
   void onInit() async {
@@ -197,8 +198,6 @@ class LoginController extends GetxController {
         log.i('Token refreshed successfully.');
       } else {
         log.e('Failed to refresh token, logging out');
-// Log phản hồi lỗi từ server nếu có
-// Bạn có thể cần sửa LoginProvider để trả về thông tin lỗi chi tiết hơn
         logout();
       }
     } catch (e, stackTrace) {
@@ -317,6 +316,47 @@ class LoginController extends GetxController {
       log.e('Error during clearing login data: $e',
           error: e, stackTrace: stackTrace);
     }
+  }
+
+  Future<void> handleServerError() async {
+    if (isReloginInProgress.value) {
+      return;
+    }
+
+    try {
+      isReloginInProgress.value = true;
+
+      if (loginModel.value.refreshToken.isNotEmpty) {
+        try {
+          await refreshToken();
+          if (loginModel.value.accessToken.isNotEmpty) {
+            return;
+          }
+        } catch (e) {
+          log.w('Failed to refresh token during server error handling');
+        }
+      }
+
+      final oldLoginData = await loadFromStorage();
+      if (oldLoginData.isLoggedIn) {
+        await performAuthentication();
+      } else {
+        Get.offAllNamed(Paths.LOGIN);
+      }
+    } catch (e, stackTrace) {
+      log.e('Error during auto re-login: $e', error: e, stackTrace: stackTrace);
+      Get.offAllNamed(Paths.LOGIN);
+    } finally {
+      isReloginInProgress.value = false;
+    }
+  }
+
+  Future<bool> handleApiResponse(response) async {
+    if (response.statusCode == 500) {
+      await handleServerError();
+      return false;
+    }
+    return true;
   }
 
   @override

@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:dio/dio.dart';
+import 'package:nms_app/modules/controllers/login/login_controller.dart';
 import 'package:nms_app/network/api_provider.dart';
 import 'package:nms_app/model/login/login_model.dart';
 import 'package:logger/logger.dart';
+import 'package:get/get.dart';
 
 class LoginProvider {
   final dio = ApiRoot().dio;
@@ -54,7 +56,8 @@ class LoginProvider {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          validateStatus: (status) => status != null && status < 500,
+          validateStatus: (status) =>
+              status != null && status < 600, 
           sendTimeout: const Duration(seconds: 30),
           receiveTimeout: const Duration(seconds: 30),
         ),
@@ -62,6 +65,10 @@ class LoginProvider {
 
       if (response.statusCode == 200 && response.data != null) {
         return LoginModel.fromJson(response.data);
+      } else if (response.statusCode == 500) {
+        final loginController = Get.find<LoginController>();
+        await loginController.handleServerError();
+        return null;
       } else if (response.statusCode == 401 && retryCount < maxRetries) {
         log.w('Retrying token request after 401 status code.');
         await Future.delayed(Duration(seconds: pow(2, retryCount).toInt()));
@@ -71,6 +78,12 @@ class LoginProvider {
         return null;
       }
     } on DioException catch (e) {
+      if (e.response?.statusCode == 500) {
+        final loginController = Get.find<LoginController>();
+        await loginController.handleServerError();
+        return null;
+      }
+
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {

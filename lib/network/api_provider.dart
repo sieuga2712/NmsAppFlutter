@@ -26,6 +26,19 @@ class ApiRoot {
           return handler.next(options);
         },
         onError: (DioError error, handler) async {
+          if (error.response?.statusCode == 500) {
+            final loginController = Get.find<LoginController>();
+            try {
+              log.w('Received 500, attempting to relogin.');
+              await loginController.handleServerError();
+              return handler.resolve(await dio.fetch(error.requestOptions));
+            } catch (e, stackTrace) {
+              log.e('Error handling 500 error: $e',
+                  error: e, stackTrace: stackTrace);
+              return handler.next(error);
+            }
+          }
+
           if (error.response?.statusCode == 401) {
             final loginController = Get.find<LoginController>();
             if (loginController.loginModel.value.refreshToken.isEmpty) {
@@ -47,6 +60,20 @@ class ApiRoot {
           return handler.next(error);
         },
         onResponse: (response, handler) {
+          if (response.statusCode == 500) {
+            final loginController = Get.find<LoginController>();
+            loginController.handleServerError().then((_) async {
+              try {
+                final retryResponse = await dio.fetch(response.requestOptions);
+                handler.resolve(retryResponse);
+              } catch (e) {
+                handler.next(response);
+              }
+            }).catchError((e) {
+              handler.next(response);
+            });
+            return;
+          }
           return handler.next(response);
         },
       ),
