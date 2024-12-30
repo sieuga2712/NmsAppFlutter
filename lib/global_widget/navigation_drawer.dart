@@ -198,7 +198,6 @@ class NavigationDrawer extends StatelessWidget {
 
   Widget buidHearderDrawer(BuildContext context,
       {required String accountName, required String accountPosition}) {
-    List<DropdownMenuItem<String>> listDropDownDV = [];
     return Container(
         margin: EdgeInsets.only(bottom: 0.0),
         decoration: BoxDecoration(
@@ -208,6 +207,11 @@ class NavigationDrawer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 60, bottom: 20),
           child: Row(children: [
+            const CircleAvatar(
+              radius: 30.0,
+              backgroundImage: AssetImage("images/avatar_default.png"),
+              backgroundColor: AppColor.blackColor,
+            ),
             Expanded(
               flex: 1,
               child: Padding(
@@ -227,17 +231,6 @@ class NavigationDrawer extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      if (listDropDownDV.length == 1)
-                        Text(
-                          accountPosition,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Get.isDarkMode
-                                        ? AppColor.blackColor
-                                        : AppColor.whiteColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
                     ]),
               ),
             )
