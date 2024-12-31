@@ -51,7 +51,7 @@ class PageRouters {
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhView(),
               title: "Chi tiết chương trình",
-              isDrawer: true,
+              isDrawer: false,
               pathScreen: Paths.CHITIETCHUONGTRINH,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhController>()
@@ -72,7 +72,7 @@ class PageRouters {
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhChoPheDuyetKBView(),
               title: "Chi tiết chương trình",
-              isDrawer: true,
+              isDrawer: false,
               pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYET,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhController>()
