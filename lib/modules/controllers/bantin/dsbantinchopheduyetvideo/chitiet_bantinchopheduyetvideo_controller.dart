@@ -96,11 +96,13 @@ class ChitietBantinchopheduyetvideoController extends GetxController
   }
 
   List<VideoPlayerController> _controllers = [];
-  RxList<bool> _isPlaying = <bool>[].obs; // Đổi thành RxList
+  RxList<bool> _isPlaying = <bool>[].obs;
+  RxList<bool> _showControls = <bool>[].obs;
 
   List<VideoPlayerController> get controllers => _controllers;
   List<bool> get isPlaying => _isPlaying;
-  RxBool isVideoLoading = true.obs; // Trạng thái tải video
+  List<bool> get showControls => _showControls;
+  RxBool isVideoLoading = true.obs;
 
   // Hàm tải video từ server
   Future<void> loadVideos() async {
@@ -147,6 +149,7 @@ class ChitietBantinchopheduyetvideoController extends GetxController
             print("Video duration: ${controller.value.duration}");
             _controllers.add(controller);
             _isPlaying.add(false);
+            _showControls.add(true);
             controller.setLooping(true);
           } else {
             print("Failed to initialize video controller");
@@ -162,12 +165,30 @@ class ChitietBantinchopheduyetvideoController extends GetxController
   }
 
   void togglePlayPause(int index) {
-    if (_isPlaying[index]) {
-      _controllers[index].pause(); // Dừng video
-    } else {
-      _controllers[index].play(); // Phát video
+    // Dừng tất cả các video khác
+    for (int i = 0; i < _controllers.length; i++) {
+      if (i != index && _isPlaying[i]) {
+        _controllers[i].pause();
+        _isPlaying[i] = false;
+      }
     }
-    _isPlaying[index] = !_isPlaying[index]; // Cập nhật trạng thái trong RxList
+
+    if (_isPlaying[index]) {
+      _controllers[index].pause();
+      _showControls[index] = true;
+    } else {
+      _controllers[index].play();
+      _showControls[index] = true;
+
+      Future.delayed(const Duration(seconds: 2), () {
+        if (_isPlaying[index]) {
+          _showControls[index] = false;
+        }
+      });
+    }
+
+    _isPlaying[index] = !_isPlaying[index];
+    _isPlaying.refresh();
   }
 
   @override
