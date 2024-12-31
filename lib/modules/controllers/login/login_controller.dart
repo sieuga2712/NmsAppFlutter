@@ -351,14 +351,6 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<bool> handleApiResponse(response) async {
-    if (response.statusCode == 500) {
-      await handleServerError();
-      return false;
-    }
-    return true;
-  }
-
   @override
   void onClose() {
     _refreshTimer?.cancel();
