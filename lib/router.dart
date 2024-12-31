@@ -7,7 +7,6 @@ import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danh
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd/danhsach_chuongtrinhchopd_controller.dart';
-import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/chitiet_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/danhsach_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/chitiet_bantin_view.dart';
@@ -21,7 +20,6 @@ import 'package:nms_app/modules/views/trangchu/trangchu_view.dart';
 import 'package:nms_app/modules/controllers/login/login_binding.dart';
 import 'package:nms_app/modules/views/login/login_view.dart';
 import 'package:get/get.dart';
-import 'package:nms_app/modules/views/user/danh_ba.dart';
 
 class PageRouters {
   PageRouters._();
@@ -123,14 +121,6 @@ class PageRouters {
               },
             ),
         bindings: [ChitietBantinChoduyetTinbaiBinding()]),
-    GetPage(
-        name: Paths.DANHBA,
-        page: () => HeaderAppbar(
-            body: DanhBaView(),
-            title: "Danh bạ mẫu",
-            isDrawer: true,
-            pathScreen: Paths.DANHBA),
-        bindings: [DanhBaBinding()]),
   ];
 }
 
