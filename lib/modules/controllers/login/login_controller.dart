@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:nms_app/router.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:nms_app/network/api_provider.dart';
 import 'package:openid_client/openid_client_io.dart';
 import 'package:nms_app/model/login/login_model.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
@@ -16,7 +15,6 @@ import 'package:nms_app/provider/login/login_provider.dart';
 
 class LoginController extends GetxController {
   final LoginProvider _loginProvider = LoginProvider();
-  final dio = ApiRoot().dio;
   final String _clientId = 'NMS_Mobile';
   static const String _issuer = 'https://apinpm.egov.phutho.vn';
   final String _redirectUri = 'com.yourapp://callback';

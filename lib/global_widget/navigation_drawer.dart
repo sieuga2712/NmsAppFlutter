@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:nms_app/modules/controllers/user/user_controller.dart';
+import 'package:nms_app/provider/user/user_provider.dart';
 import 'package:nms_app/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,17 +15,22 @@ class NavigationDrawer extends StatelessWidget {
   final SetupController setupController = Get.find();
   final TrangchuController homeController = Get.find();
   final LoginController loginController = Get.find<LoginController>();
+  late final UserProfileController userProfileController;
 
-  NavigationDrawer({super.key});
+  NavigationDrawer({super.key}) {
+    if (!Get.isRegistered<UserProfileController>()) {
+      final userProvider = Get.put(UserProvider());
+      Get.put(UserProfileController(userProvider));
+    }
+    userProfileController = Get.find<UserProfileController>();
+  }
   @override
   Widget build(BuildContext context) {
     var nhomquyen = getStorage.read(GetStorageKey.nhomquyen);
     return Drawer(
         backgroundColor: AppColor.whiteColor,
         child: Column(children: [
-          buidHearderDrawer(context,
-              accountName: getStorage.read(GetStorageKey.hoVaTen) ?? '',
-              accountPosition: getStorage.read(GetStorageKey.tendonvi) ?? ''),
+          _buildHeaderDrawer(context),
           Expanded(
             flex: 1,
             child: SingleChildScrollView(
@@ -39,7 +46,7 @@ class NavigationDrawer extends StatelessWidget {
                             buildDrawerItems(
                                 context: context,
                                 text: 'Trang chủ',
-                                icon: Icons.list,
+                                icon: Icons.home,
                                 textIconColor: (Get.isDarkMode
                                     ? AppColor.whiteColor
                                     : AppColor.helpBlue),
@@ -59,7 +66,7 @@ class NavigationDrawer extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: ExpansionTile(
-                                leading: Icon(Icons.list,
+                                leading: Icon(Icons.newspaper,
                                     color: Get.isDarkMode
                                         ? AppColor.whiteColor
                                         : AppColor.helpBlue),
@@ -116,7 +123,7 @@ class NavigationDrawer extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: ExpansionTile(
-                                leading: Icon(Icons.list,
+                                leading: Icon(Icons.cell_tower,
                                     color: Get.isDarkMode
                                         ? AppColor.whiteColor
                                         : AppColor.helpBlue),
@@ -165,6 +172,19 @@ class NavigationDrawer extends StatelessWidget {
                           ),
                           buildDrawerItems(
                               context: context,
+                              text: 'Tài khoản',
+                              icon: Icons.people,
+                              textIconColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.helpBlue),
+                              titleColor: (Get.isDarkMode
+                                  ? AppColor.whiteColor
+                                  : AppColor.whiteColor),
+                              onTap: () {
+                                navigate('user');
+                              }),
+                          buildDrawerItems(
+                              context: context,
                               text: 'Đăng xuất',
                               icon: Icons.logout,
                               textIconColor: (Get.isDarkMode
@@ -183,10 +203,9 @@ class NavigationDrawer extends StatelessWidget {
         ]));
   }
 
-  Widget buidHearderDrawer(BuildContext context,
-      {required String accountName, required String accountPosition}) {
+  Widget _buildHeaderDrawer(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(bottom: 0.0),
+        margin: const EdgeInsets.only(bottom: 0.0),
         decoration: BoxDecoration(
           color:
               Get.isDarkMode ? AppColor.yellowColor : AppColor.blueAccentColor,
@@ -194,20 +213,27 @@ class NavigationDrawer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 60, bottom: 20),
           child: Row(children: [
-            const CircleAvatar(
-              radius: 30.0,
-              backgroundImage: AssetImage("images/avatar_default.png"),
-              backgroundColor: AppColor.blackColor,
+            InkWell(
+              onTap: () {
+                navigate('user');
+              },
+              child: const CircleAvatar(
+                radius: 30.0,
+                backgroundImage: AssetImage("images/avatar_default.png"),
+                backgroundColor: AppColor.blackColor,
+              ),
             ),
             Expanded(
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: Column(
+                child: userProfileController.obx(
+                  (user) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        accountName,
+                        '${user?.name ?? ''} ${user?.surname ?? ''}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Get.isDarkMode
                                   ? AppColor.blackColor
@@ -215,10 +241,35 @@ class NavigationDrawer extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ]),
+                      if (user?.email != null) ...[
+                        const SizedBox(height: 5),
+                        Text(
+                          user!.email!,
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Get.isDarkMode
+                                        ? AppColor.blackColor.withOpacity(0.7)
+                                        : AppColor.whiteColor.withOpacity(0.7),
+                                  ),
+                        ),
+                      ]
+                    ],
+                  ),
+                  onLoading: const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColor.whiteColor,
+                    ),
+                  ),
+                  onError: (error) => Text(
+                    'Error loading profile',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: AppColor.redColor,
+                        ),
+                  ),
+                ),
               ),
             )
           ]),
@@ -273,6 +324,12 @@ class NavigationDrawer extends StatelessWidget {
         break;
       case 'danhsachbantinchoduyettinbai':
         Get.offNamed(Routers.DSBANTINCHODUYETTIN);
+        break;
+      case 'danhba':
+        Get.offNamed(Routers.DANHBA);
+        break;
+      case 'user':
+        Get.offNamed(Routers.USER);
         break;
 
       default:
