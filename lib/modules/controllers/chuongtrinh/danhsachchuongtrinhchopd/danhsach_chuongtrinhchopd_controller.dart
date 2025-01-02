@@ -28,7 +28,7 @@ class DanhsachChuongtrinhChopdController extends GetxController
 
   Future<void> onSwitchPage(chuongTrinhId) async {
     print('chuongtrinhId: $chuongTrinhId');
-    Get.toNamed(Routers.CHITIETCHUONGTRINHCHOPHEDUYET, arguments: {
+    Get.toNamed(Routers.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN, arguments: {
       'chuongTrinhId': chuongTrinhId,
     });
   }

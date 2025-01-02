@@ -7,8 +7,8 @@ import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:intl/intl.dart';
 
-class DanhsachBantinView extends GetView<DanhsachBantinchopheduyetvideoController> {
-  const DanhsachBantinView({super.key});
+class DanhsachBantinchoduyetvideoView extends GetView<DanhsachBantinchopheduyetvideoController> {
+  const DanhsachBantinchoduyetvideoView({super.key});
 
   @override
   Widget build(BuildContext context) {

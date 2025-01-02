@@ -10,14 +10,14 @@ import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/chit
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
-class ChitietBantinView extends StatefulWidget {
-  const ChitietBantinView({super.key});
+class ChitietBantinchoduyetvideoView extends StatefulWidget {
+  const ChitietBantinchoduyetvideoView({super.key});
 
   @override
-  _ChitietBantinViewState createState() => _ChitietBantinViewState();
+  _ChitietBantinchoduyetvideoViewState createState() => _ChitietBantinchoduyetvideoViewState();
 }
 
-class _ChitietBantinViewState extends State<ChitietBantinView> {
+class _ChitietBantinchoduyetvideoViewState extends State<ChitietBantinchoduyetvideoView> {
   final ChitietBantinchopheduyetvideoController controller = Get.find();
 
   @override

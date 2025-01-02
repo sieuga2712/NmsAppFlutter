@@ -1,6 +1,7 @@
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/core/values/app_string.dart';
 import 'package:nms_app/global_widget/failure_network.dart';
+import 'package:nms_app/global_widget/navigation_bottom.dart';
 import 'package:nms_app/setup/setup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,6 +57,7 @@ class HeaderAppbar extends StatelessWidget {
                 ),
         ),
         drawer: navigaDrawer.NavigationDrawer(),
+        bottomNavigationBar: title != "" ? NavigationBottom() : null,
         body: commonController.networkController.connectionStatus.value == 1
             ? body
             : FailureInternetView(description: AppString.noInternet),

@@ -85,7 +85,7 @@ class NavigationDrawer extends StatelessWidget {
                                   buildDrawerItems(
                                       context: context,
                                       text: 'Chờ phê duyệt kịch bản',
-                                      icon: null,
+                                      icon: Icons.watch_later_outlined,
                                       textIconColor: (Get.isDarkMode
                                           ? AppColor.whiteColor
                                           : AppColor.helpBlue),
@@ -99,7 +99,7 @@ class NavigationDrawer extends StatelessWidget {
                                   buildDrawerItems(
                                       context: context,
                                       text: 'Đã phê duyệt kịch bản',
-                                      icon: null,
+                                      icon: Icons.task_alt_outlined,
                                       textIconColor: (Get.isDarkMode
                                           ? AppColor.whiteColor
                                           : AppColor.helpBlue),
@@ -142,7 +142,7 @@ class NavigationDrawer extends StatelessWidget {
                                   buildDrawerItems(
                                       context: context,
                                       text: 'Chờ duyệt tin bài',
-                                      icon: null,
+                                      icon: Icons.watch_later_outlined,
                                       textIconColor: (Get.isDarkMode
                                           ? AppColor.whiteColor
                                           : AppColor.helpBlue),
@@ -156,7 +156,7 @@ class NavigationDrawer extends StatelessWidget {
                                   buildDrawerItems(
                                       context: context,
                                       text: 'Chờ duyệt video',
-                                      icon: null,
+                                      icon: Icons.videocam_outlined,
                                       textIconColor: (Get.isDarkMode
                                           ? AppColor.whiteColor
                                           : AppColor.helpBlue),
@@ -317,13 +317,13 @@ class NavigationDrawer extends StatelessWidget {
         Get.offNamed(Routers.DSCHUONGTRINH);
         break;
       case 'danhsachchuongtrinhchopheduyet':
-        Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYET);
+        Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYETKICHBAN);
         break;
       case 'danhsachbantin':
-        Get.offNamed(Routers.DSBANTIN);
+        Get.offNamed(Routers.DSBANTINCHOPHEDUYETVIDEO);
         break;
       case 'danhsachbantinchoduyettinbai':
-        Get.offNamed(Routers.DSBANTINCHODUYETTIN);
+        Get.offNamed(Routers.DSBANTINCHODUYETTINBAI);
         break;
       case 'danhba':
         Get.offNamed(Routers.DANHBA);

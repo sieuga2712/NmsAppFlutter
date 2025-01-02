@@ -2,7 +2,7 @@ import 'package:nms_app/global_widget/header_appbar.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/bantinchoduyettinbai_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/danhsach_bantinchoduyettinbai_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd/chuongtrinhchopd_binding.dart';
-import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/bantin_binding.dart';
+import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/danhsach_chuongtrinh_controller.dart';
@@ -10,8 +10,8 @@ import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinhchopd
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/chitiet_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/danhsach_bantinchoduyettinbai_view.dart';
-import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/chitiet_bantin_view.dart';
-import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/danhsach_bantin_view.dart';
+import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/chitiet_bantinchoduyetvideo_view.dart';
+import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/danhsach_bantinchoduyetvideo_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhchopheduyetkb/chitiet_chuongtrinhchopheduyetkb_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhchopheduyetkb/danhsach_chuongtrinhchopheduyetkb_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdapheduyetkb/chitiet_chuongtrinh_view.dart';
@@ -61,20 +61,20 @@ class PageRouters {
             ),
         bindings: [ChitietchuongtrinhBinding()]),
     GetPage(
-        name: Paths.DSCHUONGTRINHCHOPHEDUYET,
+        name: Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN,
         page: () => HeaderAppbar(
             body: DanhsachChuongtrinhChopheduyetkbView(),
             title: "Chương Trình Chờ Phê Duyệt KB",
             isDrawer: true,
-            pathScreen: Paths.DSCHUONGTRINHCHOPHEDUYET),
+            pathScreen: Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN),
         bindings: [DanhsachchuongtrinhchopheduyetBinding()]),
     GetPage(
-        name: Paths.CHITIETCHUONGTRINHCHOPHEDUYET,
+        name: Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN,
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhChoPheDuyetKBView(),
               title: "Chi tiết chương trình",
               isDrawer: false,
-              pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYET,
+              pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhChopdController>()
                     .loadDanhSachChuongTrinhChopd();
@@ -82,17 +82,17 @@ class PageRouters {
             ),
         bindings: [ChitietchuongtrinhchopheduyetBinding()]),
     GetPage(
-        name: Paths.DSBANTIN,
+        name: Paths.DSBANTINCHOPHEDUYETVIDEO,
         page: () => HeaderAppbar(
-            body: DanhsachBantinView(),
+            body: DanhsachBantinchoduyetvideoView(),
             title: "Bản tin chờ duyệt Video",
             isDrawer: true,
-            pathScreen: Paths.DSBANTIN),
-        bindings: [DanhsachbantinBinding()]),
+            pathScreen: Paths.DSBANTINCHOPHEDUYETVIDEO),
+        bindings: [DanhsachBantinchopheduyetvideoBinding()]),
     GetPage(
         name: Paths.CHITIETBANTIN,
         page: () => HeaderAppbar(
-              body: ChitietBantinView(),
+              body: ChitietBantinchoduyetvideoView(),
               title: "Chi tiết bản tin",
               isDrawer: false,
               pathScreen: Paths.CHITIETBANTIN,
@@ -101,14 +101,14 @@ class PageRouters {
                     .loadDanhSachBanTin();
               },
             ),
-        bindings: [ChitietbantinBinding()]),
+        bindings: [ChitietBantinchopheduyetvideoBinding()]),
     GetPage(
-        name: Paths.DSBANTINCHODUYETTIN,
+        name: Paths.DSBANTINCHODUYETTINBAI,
         page: () => HeaderAppbar(
             body: DanhsachBantinChoDuyetTinBaiView(),
             title: "Bản tin chờ duyệt tin bài",
             isDrawer: true,
-            pathScreen: Paths.DSBANTIN),
+            pathScreen: Paths.DSBANTINCHODUYETTINBAI),
         bindings: [DanhsachBantinChoduyetTinbaiBinding()]),
     GetPage(
         name: Paths.CHITIETBANTINCHODUYETTIN,
@@ -144,14 +144,14 @@ class Routers {
   static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
   static const CHITIETCHUONGTRINH = Paths.CHITIETCHUONGTRINH;
 
-  static const DSCHUONGTRINHCHOPHEDUYET = Paths.DSCHUONGTRINHCHOPHEDUYET;
-  static const CHITIETCHUONGTRINHCHOPHEDUYET =
-      Paths.CHITIETCHUONGTRINHCHOPHEDUYET;
+  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN = Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN;
+  static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN =
+      Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN;
 
   static const CHITIETBANTIN = Paths.CHITIETBANTIN;
-  static const DSBANTIN = Paths.DSBANTIN;
+  static const DSBANTINCHOPHEDUYETVIDEO = Paths.DSBANTINCHOPHEDUYETVIDEO;
 
-  static const DSBANTINCHODUYETTIN = Paths.DSBANTINCHODUYETTIN;
+  static const DSBANTINCHODUYETTINBAI = Paths.DSBANTINCHODUYETTINBAI;
   static const CHITIETBANTINCHODUYETTIN = Paths.CHITIETBANTINCHODUYETTIN;
 
   static const DANHBA = Paths.DANHBA;
@@ -167,13 +167,13 @@ class Paths {
   static const DSCHUONGTRINH = '/dschuongtrinh';
   static const CHITIETCHUONGTRINH = '/chitietchuongtrinh';
 
-  static const DSCHUONGTRINHCHOPHEDUYET = "/dschuongtrinhchopheduyet";
-  static const CHITIETCHUONGTRINHCHOPHEDUYET = "/chitietchuongtrinhchopheduyet";
+  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN = "/dschuongtrinhchopheduyetkichban";
+  static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN = "/chitietchuongtrinhchopheduyet";
 
-  static const DSBANTIN = '/dsbantin';
+  static const DSBANTINCHOPHEDUYETVIDEO = '/dsbantinchopheduyetvideo';
   static const CHITIETBANTIN = '/chitietbantin';
 
-  static const DSBANTINCHODUYETTIN = '/dsbantinchoduyettin';
+  static const DSBANTINCHODUYETTINBAI = '/dsbantinchoduyettinbai';
   static const CHITIETBANTINCHODUYETTIN = '/chitietbantinchoduyettin';
 
   static const PHIEUDONG = '/phieudong';
