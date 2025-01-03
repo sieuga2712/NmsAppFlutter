@@ -16,6 +16,7 @@ class HeaderAppbar extends StatelessWidget {
   final bool? isConfirm;
   final String pathScreen;
   final Function()? onBackButtonPressed;
+  final String? logoPath;
 
   HeaderAppbar({
     super.key,
@@ -25,10 +26,12 @@ class HeaderAppbar extends StatelessWidget {
     required this.pathScreen,
     this.isConfirm,
     this.onBackButtonPressed,
+    this.logoPath,
   });
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -55,6 +58,16 @@ class HeaderAppbar extends StatelessWidget {
                     }
                   },
                 ),
+          actions: [
+            if (logoPath != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  logoPath!,
+                  height: screenHeight * 0.058,
+                ),
+              )
+          ],
         ),
         drawer: navigaDrawer.NavigationDrawer(),
         bottomNavigationBar: title != "" ? NavigationBottom() : null,

@@ -1,3 +1,4 @@
+import 'package:nms_app/core/values/app_images.dart';
 import 'package:nms_app/global_widget/header_appbar.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/bantinchoduyettinbai_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/danhsach_bantinchoduyettinbai_controller.dart';
@@ -35,9 +36,10 @@ class PageRouters {
         name: Paths.TRANGCHU,
         page: () => HeaderAppbar(
             body: TrangchuView(),
-            title: "Trang chủ",
+            title: "ㅤ",
             isDrawer: true,
-            pathScreen: Paths.TRANGCHU),
+            pathScreen: Paths.TRANGCHU,
+            logoPath: AppImages.PTVlogo),
         bindings: [TrangchuBinding()]),
     GetPage(
         name: Paths.DSCHUONGTRINH,
@@ -144,7 +146,8 @@ class Routers {
   static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
   static const CHITIETCHUONGTRINH = Paths.CHITIETCHUONGTRINH;
 
-  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN = Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN;
+  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN =
+      Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN;
   static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN =
       Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN;
 
@@ -167,8 +170,10 @@ class Paths {
   static const DSCHUONGTRINH = '/dschuongtrinh';
   static const CHITIETCHUONGTRINH = '/chitietchuongtrinh';
 
-  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN = "/dschuongtrinhchopheduyetkichban";
-  static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN = "/chitietchuongtrinhchopheduyet";
+  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN =
+      "/dschuongtrinhchopheduyetkichban";
+  static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN =
+      "/chitietchuongtrinhchopheduyet";
 
   static const DSBANTINCHOPHEDUYETVIDEO = '/dsbantinchopheduyetvideo';
   static const CHITIETBANTIN = '/chitietbantin';

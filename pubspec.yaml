@@ -78,6 +78,7 @@ flutter:
   uses-material-design: true
   assets:
     - lib/core/images/LogoPTV.png
+    - lib/core/images/ptv.png
     - lib/core/images/IconUser.png
     - images/icon.png
     - svg/google-docs.svg
