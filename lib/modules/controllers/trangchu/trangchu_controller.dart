@@ -17,6 +17,7 @@ class TrangchuController extends GetxController
   }
 
   void getTrangChu() async {
+    change(null, status: RxStatus.loading());
     try {
       isLoading(true);
       final response = await trangChuProvider.getTrangChu();
