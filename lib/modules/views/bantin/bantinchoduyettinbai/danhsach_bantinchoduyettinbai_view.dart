@@ -5,6 +5,7 @@ import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
+import 'package:nms_app/global_widget/tra_cuu_box.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/danhsach_bantinchoduyettinbai_controller.dart';
 
 class DanhsachBantinChoDuyetTinBaiView
@@ -16,6 +17,9 @@ class DanhsachBantinChoDuyetTinBaiView
     return SafeArea(
       child: Column(
         children: [
+          // Thanh tìm kiếm
+          TraCuuBox(onChanged: controller.setSearchKey),
+          // Danh sách bản tin
           Expanded(
             child: controller.obx(
               (dsBanTinChoDuyetTinBai) => ListView.builder(
@@ -32,46 +36,6 @@ class DanhsachBantinChoDuyetTinBaiView
                       ? DateFormat('dd/MM/yyyy').format(hanXuLyVietTin)
                       : "Chưa có hạn xử lý";
 
-                  List<Widget> children = [
-                    Text('Tên bản tin: ${banTin.ten ?? ""}',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColor.blackColor,
-                            fontWeight: FontWeight.bold)),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-                    Text(
-                        'Tên chương trình: ${banTin.chuongTrinh?.ten ?? "Không có"}',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: AppColor.blackColor,
-                            )),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-                    Text(
-                      'Hạn hoàn thành: $formattedDate',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColor.blackColor,
-                          ),
-                    ),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 2),
-                      decoration: BoxDecoration(
-                        color:
-                            statusInfo?.backgroundColor ?? AppColor.greyColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        '${banTin.trangThaiChuongTrinhBanTin}',
-                        style: TextStyle(
-                          color: statusInfo?.textColor ?? AppColor.blackColor,
-                        ),
-                      ),
-                    ),
-                  ];
-
                   return GestureDetector(
                     onTap: () => controller.onSwitchPage(banTin.id),
                     child: Container(
@@ -79,29 +43,75 @@ class DanhsachBantinChoDuyetTinBaiView
                         color: AppColor.whiteColor,
                         border: Border(bottom: BorderSide(width: 0.3)),
                       ),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 3,
-                            fit: FlexFit.tight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: children,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Tên bản tin: ${banTin.ten ?? ""}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: AppColor.blackColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Tên chương trình: ${banTin.chuongTrinh?.ten ?? "Không có"}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: AppColor.blackColor,
+                                  ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Hạn hoàn thành: $formattedDate',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: AppColor.blackColor,
+                                  ),
+                            ),
+                            const SizedBox(height: 4),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: statusInfo?.backgroundColor ??
+                                    AppColor.greyColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '${banTin.trangThaiChuongTrinhBanTin}',
+                                style: TextStyle(
+                                  color: statusInfo?.textColor ??
+                                      AppColor.blackColor,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
                 },
               ),
               onEmpty: EmptyDanhSach(),
+
               onLoading: SpinKitCircle(
                 color: AppColor.blueAccentColor,
               ),
+
               onError: (error) => Center(
                 child: Text(
                   error.toString(),
@@ -113,10 +123,5 @@ class DanhsachBantinChoDuyetTinBaiView
         ],
       ),
     );
-  }
-
-  // Hàm xử lý sự kiện khi nhấn vào item
-  void onClickItem(banTin) {
-    // Logic xử lý khi nhấn vào item
   }
 }

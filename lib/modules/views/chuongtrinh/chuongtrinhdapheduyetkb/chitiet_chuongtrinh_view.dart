@@ -177,7 +177,8 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Kịch bản chương trình: ',
@@ -187,11 +188,29 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: AppColor.greyColor,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
                                     child: ReadMoreText(
                                       text:
                                           chiTietChuongTrinh?.noiDungKichBan ??
                                               '',
+                                      maxLength: 50,
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,

@@ -10,7 +10,6 @@ class TrangChuProvider {
     try {
       final response =
           await dio.get('/api/app/chuong-trinh/dashboard-xu-ly-ca-nhan');
-      print('API Response: ${response.data}');
 
       if (response.data is List) {
         return (response.data as List)

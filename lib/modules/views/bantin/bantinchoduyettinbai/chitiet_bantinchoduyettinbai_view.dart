@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:html/parser.dart';
@@ -8,6 +9,7 @@ import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
+import 'package:nms_app/global_widget/tra_cuu_box.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/chitiet_bantinchoduyettinbai_controller.dart';
 
 class ChitietBantinChoDuyetTinBaiView extends StatefulWidget {
@@ -181,7 +183,8 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Nội dung bản tin: ',
@@ -191,9 +194,27 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: AppColor.greyColor,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
                                     child: ReadMoreText(
                                       text: chiTietBanTin?.noiDungTin ?? '',
+                                      maxLength: 50,
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -211,38 +232,47 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                 if (chucNang == null || chucNang.isEmpty) {
                                   return const SizedBox.shrink();
                                 }
-                                return Wrap(
-                                  spacing: 8,
-                                  runSpacing: 8,
-                                  alignment: WrapAlignment.start,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
+
+                                return Column(
                                   children: chucNang.map((item) {
                                     if (item.tenChucNang == "Lưu") {
                                       return const SizedBox.shrink();
                                     }
-                                    return SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                              3 -
-                                          16,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              _getButtonColor(item.mauSac),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                    return Center(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.9,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  _getButtonColor(item.mauSac),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              print(
+                                                  'Nhấn nút: ${item.tenChucNang}');
+                                              controller.xuLyChucNang(item);
+                                            },
+                                            child: Text(
+                                              item.tenChucNang ??
+                                                  'Nút không tên',
+                                              style: const TextStyle(
+                                                  color: AppColor.whiteColor),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          print(
-                                              'Nhấn nút: ${item.tenChucNang}');
-                                          controller.xuLyChucNang(item);
-                                        },
-                                        child: Text(
-                                          item.tenChucNang ?? 'Nút không tên',
-                                          style: const TextStyle(
-                                              color: AppColor.whiteColor),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     );

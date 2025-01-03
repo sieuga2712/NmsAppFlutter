@@ -14,10 +14,12 @@ class ChitietBantinchoduyetvideoView extends StatefulWidget {
   const ChitietBantinchoduyetvideoView({super.key});
 
   @override
-  _ChitietBantinchoduyetvideoViewState createState() => _ChitietBantinchoduyetvideoViewState();
+  _ChitietBantinchoduyetvideoViewState createState() =>
+      _ChitietBantinchoduyetvideoViewState();
 }
 
-class _ChitietBantinchoduyetvideoViewState extends State<ChitietBantinchoduyetvideoView> {
+class _ChitietBantinchoduyetvideoViewState
+    extends State<ChitietBantinchoduyetvideoView> {
   final ChitietBantinchopheduyetvideoController controller = Get.find();
 
   @override
@@ -183,29 +185,6 @@ class _ChitietBantinchoduyetvideoViewState extends State<ChitietBantinchoduyetvi
                               Row(
                                 children: [
                                   Text(
-                                    'Nội dung bản tin: ',
-                                    style: TextStyle(
-                                      fontSize: FontSizeSmall,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColor.blackColor,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      removeHtmlTags(
-                                          chiTietBanTin?.noiDungTin ?? ''),
-                                      style: TextStyle(
-                                        fontSize: FontSizeSmall,
-                                        color: AppColor.blackColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  Text(
                                     'Video bản tin:',
                                     style: TextStyle(
                                       fontSize: FontSizeSmall,
@@ -231,8 +210,8 @@ class _ChitietBantinchoduyetvideoViewState extends State<ChitietBantinchoduyetvi
 
                                 if (controller.controllers.isEmpty) {
                                   return const Center(
-                                    child: Text(
-                                        'Không có video nào để hiển thị.'), // Khi không có video
+                                    child:
+                                        Text('Không có video nào để hiển thị.'),
                                   );
                                 }
 
@@ -366,35 +345,47 @@ class _ChitietBantinchoduyetvideoViewState extends State<ChitietBantinchoduyetvi
                                 if (chucNang == null || chucNang.isEmpty) {
                                   return const SizedBox.shrink();
                                 }
-                                return Wrap(
-                                  spacing: 8,
-                                  runSpacing: 8,
-                                  alignment: WrapAlignment.start,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
+
+                                return Column(
                                   children: chucNang.map((item) {
-                                    return SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                              3 -
-                                          16,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              _getButtonColor(item.mauSac),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                    if (item.tenChucNang == "Lưu") {
+                                      return const SizedBox.shrink();
+                                    }
+                                    return Center(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.9,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  _getButtonColor(item.mauSac),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              print(
+                                                  'Nhấn nút: ${item.tenChucNang}');
+                                              controller.xuLyChucNang(item);
+                                            },
+                                            child: Text(
+                                              item.tenChucNang ??
+                                                  'Nút không tên',
+                                              style: const TextStyle(
+                                                  color: AppColor.whiteColor),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          print(
-                                              'Nhấn nút: ${item.tenChucNang}');
-                                          controller.xuLyChucNang(item);
-                                        },
-                                        child: Text(
-                                          item.tenChucNang ?? 'Nút không tên',
-                                          style: const TextStyle(
-                                              color: AppColor.whiteColor),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     );

@@ -182,7 +182,31 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              // Row(
+                              //   children: [
+                              //     Text(
+                              //       'Kịch bản chương trình: ',
+                              //       style: TextStyle(
+                              //         fontSize: FontSizeSmall,
+                              //         fontWeight: FontWeight.bold,
+                              //         color: AppColor.blackColor,
+                              //       ),
+                              //     ),
+                              //     Expanded(
+                              //       child: ReadMoreText(
+                              //         text: chiTietChuongTrinhChoPheDuyet
+                              //                 ?.noiDungKichBan ??
+                              //             '',
+                              //         style: TextStyle(
+                              //           fontSize: FontSizeSmall,
+                              //           color: AppColor.blackColor,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Kịch bản chương trình: ',
@@ -192,11 +216,29 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: AppColor.greyColor,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
                                     child: ReadMoreText(
                                       text: chiTietChuongTrinhChoPheDuyet
                                               ?.noiDungKichBan ??
                                           '',
+                                      maxLength: 50,
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,

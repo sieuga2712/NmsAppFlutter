@@ -8,8 +8,17 @@ class DanhsachBantinChoduyetTinbaiController extends GetxController
     with StateMixin<List<DanhsachBantinData>> {
   var storage = GetStorage();
   var bantinProvider = BantinProvider();
-  List<DanhsachBantinData> dsBanTinChoDuyetTinBaiData = [];
 
+  // Danh sách dữ liệu gốc
+  var dsBanTinChoDuyetTinBaiData = <DanhsachBantinData>[].obs;
+
+  // Danh sách sau khi tìm kiếm
+  var filteredDsBanTinChoDuyetTinBaiData = <DanhsachBantinData>[].obs;
+
+  // Từ khóa tìm kiếm
+  String? keyWord = "";
+
+  /// Load danh sách bản tin
   void loadDanhSachBantinChoduyetTinbai() async {
     change(null, status: RxStatus.loading());
     try {
@@ -17,8 +26,9 @@ class DanhsachBantinChoduyetTinbaiController extends GetxController
         dsBanTinChoDuyetTinBaiData.clear();
         if (value.items != null) {
           dsBanTinChoDuyetTinBaiData.addAll(value.items!);
+          filteredDsBanTinChoDuyetTinBaiData.assignAll(value.items!);
         }
-        change(dsBanTinChoDuyetTinBaiData, status: RxStatus.success());
+        change(filteredDsBanTinChoDuyetTinBaiData, status: RxStatus.success());
       });
     } catch (error) {
       print('Lỗi khi tải dữ liệu bản tin: $error');
@@ -26,6 +36,29 @@ class DanhsachBantinChoduyetTinbaiController extends GetxController
     }
   }
 
+
+  void setSearchKey(String? text) {
+    keyWord = text?.toLowerCase();
+    print('keyWord : $keyWord');
+
+    if (keyWord == null || keyWord!.isEmpty) {
+      filteredDsBanTinChoDuyetTinBaiData.assignAll(dsBanTinChoDuyetTinBaiData);
+    } else {
+      // Lọc dữ liệu theo trường `ten`
+      filteredDsBanTinChoDuyetTinBaiData.assignAll(
+        dsBanTinChoDuyetTinBaiData.where(
+          (item) => item.ten!.toLowerCase().contains(keyWord!),
+        ),
+      );
+    }
+    if (filteredDsBanTinChoDuyetTinBaiData.isEmpty) {
+      change(null, status: RxStatus.empty());
+    } else {
+      change(filteredDsBanTinChoDuyetTinBaiData, status: RxStatus.success());
+    }
+  }
+
+  /// Chuyển trang đến chi tiết bản tin
   Future<void> onSwitchPage(banTinId) async {
     print('banTinId: $banTinId');
     Get.toNamed(Routers.CHITIETBANTINCHODUYETTIN, arguments: {
