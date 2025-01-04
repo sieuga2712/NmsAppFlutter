@@ -36,7 +36,6 @@ class DanhsachBantinChoduyetTinbaiController extends GetxController
     }
   }
 
-
   void setSearchKey(String? text) {
     keyWord = text?.toLowerCase();
     print('keyWord : $keyWord');

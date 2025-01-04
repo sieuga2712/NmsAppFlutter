@@ -8,19 +8,19 @@ import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
 import 'package:nms_app/core/ultis/read_more_text.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhchoduyet/chitiet_chuongtrinhchopd_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhdaxuatban/chitiet_chuongtrinhdaxuatban_controller.dart';
 
-class ChitietChuongtrinhChoPheDuyetKBView extends StatefulWidget {
-  const ChitietChuongtrinhChoPheDuyetKBView({super.key});
+class ChitietChuongtrinhDaXuatBanView extends StatefulWidget {
+  const ChitietChuongtrinhDaXuatBanView({super.key});
 
   @override
-  _ChitietChuongtrinhChoPheDuyetKBViewState createState() =>
-      _ChitietChuongtrinhChoPheDuyetKBViewState();
+  _ChitietChuongtrinhDaXuatBanViewState createState() =>
+      _ChitietChuongtrinhDaXuatBanViewState();
 }
 
-class _ChitietChuongtrinhChoPheDuyetKBViewState
-    extends State<ChitietChuongtrinhChoPheDuyetKBView> {
-  final ChitietChuongtrinhChopdController controller = Get.find();
+class _ChitietChuongtrinhDaXuatBanViewState
+    extends State<ChitietChuongtrinhDaXuatBanView> {
+  final ChitietChuongtrinhDaXuatBanController controller = Get.find();
 
   @override
   void initState() {
@@ -36,12 +36,11 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
           children: [
             Expanded(
               child: controller.obx(
-                (chiTietChuongTrinhChoPheDuyet) {
+                (ChiTietChuongTrinhDaXuatBan) {
                   final statusInfo = TrangthaiColos[
-                      chiTietChuongTrinhChoPheDuyet
-                          ?.trangThaiChuongTrinhBanTin];
+                      ChiTietChuongTrinhDaXuatBan?.trangThaiChuongTrinhBanTin];
                   final hanXuLySanXuat = DateTime.tryParse(
-                      chiTietChuongTrinhChoPheDuyet?.hanXuLy ?? "");
+                      ChiTietChuongTrinhDaXuatBan?.hanXuLy ?? "");
                   final hanXuLySanXuatDate = hanXuLySanXuat != null
                       ? DateFormat('dd/MM/yyyy').format(hanXuLySanXuat)
                       : "Chưa có hạn xử lý";
@@ -66,7 +65,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.ten ??
+                                      ChiTietChuongTrinhDaXuatBan?.ten ??
                                           'Không có tên chương trình',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -91,7 +90,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.ten ??
+                                      ChiTietChuongTrinhDaXuatBan?.ten ??
                                           'Không có tên',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -118,7 +117,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.moTa ??
+                                      ChiTietChuongTrinhDaXuatBan?.moTa ??
                                           'Không có mô tả',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -171,7 +170,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Text(
-                                        '${chiTietChuongTrinhChoPheDuyet?.trangThaiChuongTrinhBanTin}',
+                                        '${ChiTietChuongTrinhDaXuatBan?.trangThaiChuongTrinhBanTin}',
                                         style: TextStyle(
                                           color: statusInfo?.textColor ??
                                               AppColor.blackColor,
@@ -194,7 +193,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                               //     ),
                               //     Expanded(
                               //       child: ReadMoreText(
-                              //         text: chiTietChuongTrinhChoPheDuyet
+                              //         text: ChiTietChuongTrinhDaXuatBan
                               //                 ?.noiDungKichBan ??
                               //             '',
                               //         style: TextStyle(
@@ -235,7 +234,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                       ],
                                     ),
                                     child: ReadMoreText(
-                                      text: chiTietChuongTrinhChoPheDuyet
+                                      text: ChiTietChuongTrinhDaXuatBan
                                               ?.noiDungKichBan ??
                                           '',
                                       maxLength: 50,

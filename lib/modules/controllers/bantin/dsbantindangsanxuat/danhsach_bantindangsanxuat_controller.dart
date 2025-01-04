@@ -4,30 +4,31 @@ import 'package:nms_app/model/bantin/danhsach_bantin_model.dart';
 import 'package:nms_app/provider/bantin/bantin_provider.dart';
 import 'package:nms_app/router.dart';
 
-class DanhsachBantinchopheduyetvideoController extends GetxController
+class DanhsachBantinDangsanxuatController extends GetxController
     with StateMixin<List<DanhsachBantinData>> {
   var storage = GetStorage();
   var bantinProvider = BantinProvider();
-  // List<DanhsachBantinData> dsBantinData = [];
 
   // Danh sách dữ liệu gốc
-  var dsBantinData = <DanhsachBantinData>[].obs;
+  var dsBanTinDangsanxuatData = <DanhsachBantinData>[].obs;
 
   // Danh sách sau khi tìm kiếm
-  var filteredDsBanTinChoduyetvideoData = <DanhsachBantinData>[].obs;
+  var filteredDsBanTinDangsanxuatData = <DanhsachBantinData>[].obs;
 
   // Từ khóa tìm kiếm
   String? keyWord = "";
 
-  void loadDanhSachBanTin() async {
+  /// Load danh sách bản tin
+  void loadDanhSachBantinDangsanxuat() async {
     change(null, status: RxStatus.loading());
     try {
-      await bantinProvider.dsBanTin().then((value) {
-        dsBantinData.clear();
+      await bantinProvider.dsBanTinDangSanXuat().then((value) {
+        dsBanTinDangsanxuatData.clear();
         if (value.items != null) {
-          dsBantinData.addAll(value.items!);
+          dsBanTinDangsanxuatData.addAll(value.items!);
+          filteredDsBanTinDangsanxuatData.assignAll(value.items!);
         }
-        change(dsBantinData, status: RxStatus.success());
+        change(filteredDsBanTinDangsanxuatData, status: RxStatus.success());
       });
     } catch (error) {
       print('Lỗi khi tải dữ liệu bản tin: $error');
@@ -40,25 +41,26 @@ class DanhsachBantinchopheduyetvideoController extends GetxController
     print('keyWord : $keyWord');
 
     if (keyWord == null || keyWord!.isEmpty) {
-      filteredDsBanTinChoduyetvideoData.assignAll(dsBantinData);
+      filteredDsBanTinDangsanxuatData.assignAll(dsBanTinDangsanxuatData);
     } else {
       // Lọc dữ liệu theo trường `ten`
-      filteredDsBanTinChoduyetvideoData.assignAll(
-        dsBantinData.where(
+      filteredDsBanTinDangsanxuatData.assignAll(
+        dsBanTinDangsanxuatData.where(
           (item) => item.ten!.toLowerCase().contains(keyWord!),
         ),
       );
     }
-    if (filteredDsBanTinChoduyetvideoData.isEmpty) {
+    if (filteredDsBanTinDangsanxuatData.isEmpty) {
       change(null, status: RxStatus.empty());
     } else {
-      change(filteredDsBanTinChoduyetvideoData, status: RxStatus.success());
+      change(filteredDsBanTinDangsanxuatData, status: RxStatus.success());
     }
   }
 
+  /// Chuyển trang đến chi tiết bản tin
   Future<void> onSwitchPage(banTinId) async {
     print('banTinId: $banTinId');
-    Get.toNamed(Routers.CHITIETBANTIN, arguments: {
+    Get.toNamed(Routers.CHITIETBANTINDANGSANXUAT, arguments: {
       'banTinId': banTinId,
     });
   }
@@ -66,7 +68,7 @@ class DanhsachBantinchopheduyetvideoController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    loadDanhSachBanTin();
+    loadDanhSachBantinDangsanxuat();
   }
 
   @override

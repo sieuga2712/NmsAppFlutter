@@ -196,7 +196,7 @@ class LoginController extends GetxController {
         log.i('Token refreshed successfully.');
       } else {
         log.e('Failed to refresh token, logging out');
-        logout();
+        // logout();
       }
     } catch (e, stackTrace) {
       log.e('Error during token refresh: $e', error: e, stackTrace: stackTrace);

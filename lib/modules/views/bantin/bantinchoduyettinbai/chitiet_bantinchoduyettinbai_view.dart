@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:html/parser.dart';
@@ -9,7 +8,6 @@ import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
-import 'package:nms_app/global_widget/tra_cuu_box.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/chitiet_bantinchoduyettinbai_controller.dart';
 
 class ChitietBantinChoDuyetTinBaiView extends StatefulWidget {

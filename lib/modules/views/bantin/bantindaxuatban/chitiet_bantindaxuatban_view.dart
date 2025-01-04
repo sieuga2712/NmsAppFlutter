@@ -7,24 +7,25 @@ import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
-import 'package:nms_app/core/ultis/read_more_text.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhchoduyet/chitiet_chuongtrinhchopd_controller.dart';
+import 'package:nms_app/modules/controllers/bantin/dsbantindaxuatban/chitiet_bantindaxuatban_controller.dart';
+import 'package:video_player/video_player.dart';
 
-class ChitietChuongtrinhChoPheDuyetKBView extends StatefulWidget {
-  const ChitietChuongtrinhChoPheDuyetKBView({super.key});
+class ChitietBantinDaxuatbanView extends StatefulWidget {
+  const ChitietBantinDaxuatbanView({super.key});
 
   @override
-  _ChitietChuongtrinhChoPheDuyetKBViewState createState() =>
-      _ChitietChuongtrinhChoPheDuyetKBViewState();
+  _ChitietBantinDaxuatbanViewState createState() =>
+      _ChitietBantinDaxuatbanViewState();
 }
 
-class _ChitietChuongtrinhChoPheDuyetKBViewState
-    extends State<ChitietChuongtrinhChoPheDuyetKBView> {
-  final ChitietChuongtrinhChopdController controller = Get.find();
+class _ChitietBantinDaxuatbanViewState
+    extends State<ChitietBantinDaxuatbanView> {
+  final ChitietBantinDaXuatBanController controller = Get.find();
 
   @override
   void initState() {
     super.initState();
+    controller.loadVideos();
   }
 
   @override
@@ -36,24 +37,25 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
           children: [
             Expanded(
               child: controller.obx(
-                (chiTietChuongTrinhChoPheDuyet) {
-                  final statusInfo = TrangthaiColos[
-                      chiTietChuongTrinhChoPheDuyet
-                          ?.trangThaiChuongTrinhBanTin];
-                  final hanXuLySanXuat = DateTime.tryParse(
-                      chiTietChuongTrinhChoPheDuyet?.hanXuLy ?? "");
+                (chiTietBanTin) {
+                  final statusInfo =
+                      TrangthaiColos[chiTietBanTin?.trangThaiChuongTrinhBanTin];
+                  final hanXuLySanXuat =
+                      DateTime.tryParse(chiTietBanTin?.hanXuLyVietTin ?? "");
                   final hanXuLySanXuatDate = hanXuLySanXuat != null
                       ? DateFormat('dd/MM/yyyy').format(hanXuLySanXuat)
                       : "Chưa có hạn xử lý";
+
                   return SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4.0), // Padding cho các Row
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Các thông tin chương trình
                               Row(
                                 children: [
                                   Text(
@@ -66,7 +68,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.ten ??
+                                      chiTietBanTin?.chuongTrinh?.ten ??
                                           'Không có tên chương trình',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -91,8 +93,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.ten ??
-                                          'Không có tên',
+                                      chiTietBanTin?.ten ?? 'Không có tên',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -118,8 +119,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.moTa ??
-                                          'Không có mô tả',
+                                      chiTietBanTin?.moTa ?? 'Không có mô tả',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -132,7 +132,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                               Row(
                                 children: [
                                   Text(
-                                    'Hạn Xử Lý: ',
+                                    'Hạn Sản Xuất: ',
                                     style: TextStyle(
                                       fontSize: FontSizeSmall,
                                       fontWeight: FontWeight.bold,
@@ -171,7 +171,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Text(
-                                        '${chiTietChuongTrinhChoPheDuyet?.trangThaiChuongTrinhBanTin}',
+                                        '${chiTietBanTin?.trangThaiChuongTrinhBanTin}',
                                         style: TextStyle(
                                           color: statusInfo?.textColor ??
                                               AppColor.blackColor,
@@ -182,72 +182,162 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              // Row(
-                              //   children: [
-                              //     Text(
-                              //       'Kịch bản chương trình: ',
-                              //       style: TextStyle(
-                              //         fontSize: FontSizeSmall,
-                              //         fontWeight: FontWeight.bold,
-                              //         color: AppColor.blackColor,
-                              //       ),
-                              //     ),
-                              //     Expanded(
-                              //       child: ReadMoreText(
-                              //         text: chiTietChuongTrinhChoPheDuyet
-                              //                 ?.noiDungKichBan ??
-                              //             '',
-                              //         style: TextStyle(
-                              //           fontSize: FontSizeSmall,
-                              //           color: AppColor.blackColor,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
                                   Text(
-                                    'Kịch bản chương trình: ',
+                                    'Video bản tin:',
                                     style: TextStyle(
                                       fontSize: FontSizeSmall,
                                       fontWeight: FontWeight.bold,
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  Container(
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: AppColor.greyColor,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 4,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ReadMoreText(
-                                      text: chiTietChuongTrinhChoPheDuyet
-                                              ?.noiDungKichBan ??
-                                          '',
-                                      maxLength: 50,
-                                      style: TextStyle(
-                                        fontSize: FontSizeSmall,
-                                        color: AppColor.blackColor,
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
+                              // Nội dung video
+                              Obx(() {
+                                if (controller.isVideoLoading.value) {
+                                  return Container(
+                                    height: 200,
+                                    color: AppColor.blackColor,
+                                    child: Center(
+                                      child: SpinKitCircle(
+                                        color: AppColor.blueAccentColor,
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                if (controller.controllers.isEmpty) {
+                                  return const Center(
+                                    child:
+                                        Text('Không có video nào để hiển thị.'),
+                                  );
+                                }
+
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListView.builder(
+                                    itemCount: controller.controllers.length,
+                                    shrinkWrap: true,
+                                    physics: const ClampingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      final videoController =
+                                          controller.controllers[index];
+
+                                      return Obx(() {
+                                        final isPlaying =
+                                            controller.isPlaying[index];
+                                        final showControls =
+                                            controller.showControls[index];
+
+                                        return MouseRegion(
+                                          onEnter: (_) {
+                                            // Hiển thị nút khi hover
+                                            controller.showControls[index] =
+                                                true;
+                                          },
+                                          onExit: (_) {
+                                            // Ẩn nút khi rời chuột
+                                            Future.delayed(
+                                                const Duration(seconds: 2), () {
+                                              if (!isPlaying) {
+                                                controller.showControls[index] =
+                                                    false;
+                                              }
+                                            });
+                                          },
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              // Hiển thị nút và đặt hẹn giờ ẩn nếu video đang phát
+                                              controller.showControls[index] =
+                                                  true;
+
+                                              if (isPlaying) {
+                                                Future.delayed(
+                                                    const Duration(seconds: 2),
+                                                    () {
+                                                  if (controller
+                                                      .isPlaying[index]) {
+                                                    controller.showControls[
+                                                        index] = false;
+                                                  }
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 16),
+                                              height: 200,
+                                              color: AppColor.blackColor,
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  videoController
+                                                          .value.isInitialized
+                                                      ? AspectRatio(
+                                                          aspectRatio:
+                                                              videoController
+                                                                  .value
+                                                                  .aspectRatio,
+                                                          child: VideoPlayer(
+                                                              videoController),
+                                                        )
+                                                      : const Center(
+                                                          child: Text(
+                                                              'Video không thể phát.'),
+                                                        ),
+                                                  // Hiển thị nút Play/Pause khi `hover` hoặc trong trạng thái showControls
+                                                  if (showControls)
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          shape:
+                                                              const CircleBorder(),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(16),
+                                                          backgroundColor:
+                                                              AppColor
+                                                                  .blackColor
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                        ),
+                                                        onPressed: videoController
+                                                                .value
+                                                                .isInitialized
+                                                            ? () {
+                                                                controller
+                                                                    .togglePlayPause(
+                                                                        index);
+                                                              }
+                                                            : null,
+                                                        child: Icon(
+                                                          isPlaying
+                                                              ? Icons.pause
+                                                              : Icons
+                                                                  .play_arrow,
+                                                          size: 32,
+                                                          color: AppColor
+                                                              .whiteColor,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                  ),
+                                );
+                              }),
+
+                              const SizedBox(height: 8),
                               // Hiển thị danh sách nút
                               Obx(() {
                                 final chucNang = controller

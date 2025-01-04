@@ -8,7 +8,7 @@ import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/danhsachchuongtrinh/chitiet_chuongtrinh_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/chitiet_chuongtrinh_controller.dart';
 
 class ChitietChuongtrinhView extends StatefulWidget {
   const ChitietChuongtrinhView({super.key});

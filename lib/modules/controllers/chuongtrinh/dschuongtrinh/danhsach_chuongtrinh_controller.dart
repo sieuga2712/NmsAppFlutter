@@ -8,7 +8,13 @@ class DanhsachChuongtrinhController extends GetxController
     with StateMixin<List<DanhsachChuongtrinhData>> {
   var storage = GetStorage();
   var chuongTrinhProvider = ChuongtrinhProvider();
-  List<DanhsachChuongtrinhData> dsChuongTrinhData = [];
+
+  var dsChuongTrinhData = <DanhsachChuongtrinhData>[].obs;
+
+  var filteredDsChuongTrinhData = <DanhsachChuongtrinhData>[].obs;
+
+  // Từ khóa tìm kiếm
+  String? keyWord = "";
 
   void loadDanhSachChuongTrinh() async {
     change(null, status: RxStatus.loading());
@@ -23,6 +29,27 @@ class DanhsachChuongtrinhController extends GetxController
     } catch (error) {
       print('Lỗi khi tải dữ liệu bản tin: $error');
       change(null, status: RxStatus.error('Đã xảy ra lỗi khi tải dữ liệu.'));
+    }
+  }
+
+  void setSearchKey(String? text) {
+    keyWord = text?.toLowerCase();
+    print('keyWord : $keyWord');
+
+    if (keyWord == null || keyWord!.isEmpty) {
+      filteredDsChuongTrinhData.assignAll(dsChuongTrinhData);
+    } else {
+      // Lọc dữ liệu theo trường `ten`
+      filteredDsChuongTrinhData.assignAll(
+        dsChuongTrinhData.where(
+          (item) => item.ten!.toLowerCase().contains(keyWord!),
+        ),
+      );
+    }
+    if (filteredDsChuongTrinhData.isEmpty) {
+      change(null, status: RxStatus.empty());
+    } else {
+      change(filteredDsChuongTrinhData, status: RxStatus.success());
     }
   }
 

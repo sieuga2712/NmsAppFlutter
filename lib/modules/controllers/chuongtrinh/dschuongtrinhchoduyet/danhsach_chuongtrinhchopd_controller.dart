@@ -8,7 +8,13 @@ class DanhsachChuongtrinhChopdController extends GetxController
     with StateMixin<List<DanhsachChuongtrinhData>> {
   var storage = GetStorage();
   var chuongTrinhProvider = ChuongtrinhProvider();
-  List<DanhsachChuongtrinhData> dsChuongTrinhChoPheDuyetData = [];
+
+  var dsChuongTrinhChoPheDuyetData = <DanhsachChuongtrinhData>[].obs;
+
+  var filteredDsChuongTrinhChoPheDuyetData = <DanhsachChuongtrinhData>[].obs;
+
+  // Từ khóa tìm kiếm
+  String? keyWord = "";
 
   void loadDanhSachChuongTrinhChopd() async {
     change(null, status: RxStatus.loading());
@@ -23,6 +29,28 @@ class DanhsachChuongtrinhChopdController extends GetxController
     } catch (error) {
       print('Lỗi khi tải dữ liệu bản tin: $error');
       change(null, status: RxStatus.error('Đã xảy ra lỗi khi tải dữ liệu.'));
+    }
+  }
+
+  void setSearchKey(String? text) {
+    keyWord = text?.toLowerCase();
+    print('keyWord : $keyWord');
+
+    if (keyWord == null || keyWord!.isEmpty) {
+      filteredDsChuongTrinhChoPheDuyetData
+          .assignAll(dsChuongTrinhChoPheDuyetData);
+    } else {
+      // Lọc dữ liệu theo trường `ten`
+      filteredDsChuongTrinhChoPheDuyetData.assignAll(
+        dsChuongTrinhChoPheDuyetData.where(
+          (item) => item.ten!.toLowerCase().contains(keyWord!),
+        ),
+      );
+    }
+    if (filteredDsChuongTrinhChoPheDuyetData.isEmpty) {
+      change(null, status: RxStatus.empty());
+    } else {
+      change(filteredDsChuongTrinhChoPheDuyetData, status: RxStatus.success());
     }
   }
 

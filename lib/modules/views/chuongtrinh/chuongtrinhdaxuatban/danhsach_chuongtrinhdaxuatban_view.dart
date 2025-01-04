@@ -6,11 +6,11 @@ import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
 import 'package:nms_app/global_widget/tra_cuu_box.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhchoduyet/danhsach_chuongtrinhchopd_controller.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhdaxuatban/danhsach_chuongtrinhdaxuatban_controller.dart';
 
-class DanhsachChuongtrinhChopheduyetkbView
-    extends GetView<DanhsachChuongtrinhChopdController> {
-  const DanhsachChuongtrinhChopheduyetkbView({super.key});
+class DanhsachChuongtrinhDaxuatbanView
+    extends GetView<DanhsachChuongtrinhDaXuatBanController> {
+  const DanhsachChuongtrinhDaxuatbanView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,10 @@ class DanhsachChuongtrinhChopheduyetkbView
           TraCuuBox(onChanged: controller.setSearchKey),
           Expanded(
             child: controller.obx(
-              (dsChuongTrinhChopd) => ListView.builder(
-                itemCount: dsChuongTrinhChopd!.length,
+              (dsChuongTrinhDaxuatban) => ListView.builder(
+                itemCount: dsChuongTrinhDaxuatban!.length,
                 itemBuilder: (context, index) {
-                  var chuongTrinh = dsChuongTrinhChopd[index];
+                  var chuongTrinh = dsChuongTrinhDaxuatban[index];
 
                   final statusInfo =
                       TrangthaiColos[chuongTrinh.trangThaiChuongTrinhBanTin];

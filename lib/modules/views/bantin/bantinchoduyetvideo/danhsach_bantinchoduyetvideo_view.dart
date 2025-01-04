@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
+import 'package:nms_app/global_widget/tra_cuu_box.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:intl/intl.dart';
 
-class DanhsachBantinchoduyetvideoView extends GetView<DanhsachBantinchopheduyetvideoController> {
+class DanhsachBantinchoduyetvideoView
+    extends GetView<DanhsachBantinchopheduyetvideoController> {
   const DanhsachBantinchoduyetvideoView({super.key});
 
   @override
@@ -15,6 +17,7 @@ class DanhsachBantinchoduyetvideoView extends GetView<DanhsachBantinchopheduyetv
     return SafeArea(
       child: Column(
         children: [
+          TraCuuBox(onChanged: controller.setSearchKey),
           Expanded(
             child: controller.obx(
               (dsBanTin) => ListView.builder(

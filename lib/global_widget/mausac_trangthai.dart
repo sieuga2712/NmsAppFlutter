@@ -52,4 +52,12 @@ const Map<String, MausacTrangthai> TrangthaiColos = {
     textColor: AppColor.whiteColor,
     backgroundColor: Color.fromARGB(255, 255, 152, 0), // Cam
   ),
+  'GĐ không duyệt kịch bản': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 211, 47, 47), //Đỏ
+  ),
+  'GĐ không duyệt tin bài': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 211, 47, 47), //Đỏ
+  ),
 };

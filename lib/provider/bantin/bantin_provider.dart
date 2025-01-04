@@ -39,6 +39,66 @@ class BantinProvider {
     }
   }
 
+  Future<DanhsachBantinModel> dsBanTinKhongPheDuyet() async {
+    try {
+      String trangThaiChuongTrinhBanTin = 'KhongPheDuyetTinBai';
+      String sorting = 'ten ASC';
+      int skipCount = 0;
+      int maxResultCount = 10;
+      final response = await dio.get(
+          '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+
+      return DanhsachBantinModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
+  Future<DanhsachBantinModel> dsBanTinDangSanXuat() async {
+    try {
+      String trangThaiChuongTrinhBanTin = 'DangSanXuat';
+      String sorting = 'ten ASC';
+      int skipCount = 0;
+      int maxResultCount = 10;
+      final response = await dio.get(
+          '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+
+      return DanhsachBantinModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
+  Future<DanhsachBantinModel> dsBanTinKhongPheDuyetVideo() async {
+    try {
+      String trangThaiChuongTrinhBanTin = 'KhongPheDuyetVideo';
+      String sorting = 'ten ASC';
+      int skipCount = 0;
+      int maxResultCount = 10;
+      final response = await dio.get(
+          '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+
+      return DanhsachBantinModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
+  Future<DanhsachBantinModel> dsBanTinDaXuatBan() async {
+    try {
+      String trangThaiChuongTrinhBanTin = 'TinDaXuatBan';
+      String sorting = 'ten ASC';
+      int skipCount = 0;
+      int maxResultCount = 10;
+      final response = await dio.get(
+          '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+
+      return DanhsachBantinModel.fromJson(response.data);
+    } catch (exception) {
+      return Future.error(exception.toString());
+    }
+  }
+
   Future<ChitietBantinModel> getChiTietBanTin(idBanTin) async {
     try {
       final response = await dio.get("${BantinApi.chiTietBanTin}/$idBanTin/v2");

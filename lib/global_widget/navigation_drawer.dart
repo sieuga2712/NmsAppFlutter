@@ -109,6 +109,34 @@ class NavigationDrawer extends StatelessWidget {
                                       onTap: () {
                                         navigate('danhsachchuongtrinh');
                                       }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Không phê duyệt kịch bản',
+                                      icon: Icons.block_flipped,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate(
+                                            'danhsachchuongtrinhkhongduyetkb');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Đã xuất bản',
+                                      icon: Icons.play_circle_outline,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate(
+                                            'danhsachchuongtrinhdaxuatban');
+                                      }),
                                 ],
                               ),
                             ),
@@ -165,6 +193,59 @@ class NavigationDrawer extends StatelessWidget {
                                           : AppColor.whiteColor),
                                       onTap: () {
                                         navigate('danhsachbantin');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Không duyệt tin',
+                                      icon: Icons.cancel_outlined,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate('danhsachbantinkhongduyettin');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Đang sản xuất',
+                                      icon: Icons.area_chart_outlined,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate('danhsachbantindangsanxuat');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Không duyệt video',
+                                      icon: Icons.videocam_off_outlined,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate(
+                                            'danhsachbantinkhongduyetvideo');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Đã xuất bản',
+                                      icon: Icons.play_circle_outline,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate('danhsachbantindaxuatban');
                                       }),
                                 ],
                               ),
@@ -319,11 +400,29 @@ class NavigationDrawer extends StatelessWidget {
       case 'danhsachchuongtrinhchopheduyet':
         Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYETKICHBAN);
         break;
+      case 'danhsachchuongtrinhkhongduyetkb':
+        Get.offNamed(Routers.DSCHUONGTRINHKHONGDUYETKICHBAN);
+        break;
+      case 'danhsachchuongtrinhdaxuatban':
+        Get.offNamed(Routers.DSCHUONGTRINHDAXUATBAN);
+        break;
       case 'danhsachbantin':
         Get.offNamed(Routers.DSBANTINCHOPHEDUYETVIDEO);
         break;
       case 'danhsachbantinchoduyettinbai':
         Get.offNamed(Routers.DSBANTINCHODUYETTINBAI);
+        break;
+      case 'danhsachbantinkhongduyettin':
+        Get.offNamed(Routers.DSBANTINKHONGDUYETTIN);
+        break;
+      case 'danhsachbantindangsanxuat':
+        Get.offNamed(Routers.DSBANTINDANGSANXUAT);
+        break;
+      case 'danhsachbantinkhongduyetvideo':
+        Get.offNamed(Routers.DSBANTINKHONGDUYETVIDEO);
+        break;
+      case 'danhsachbantindaxuatban':
+        Get.offNamed(Routers.DSBANTINDAXUATBAN);
         break;
       case 'danhba':
         Get.offNamed(Routers.DANHBA);
