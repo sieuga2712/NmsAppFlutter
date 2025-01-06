@@ -9,13 +9,10 @@ class DanhsachChuongtrinhDaXuatBanController extends GetxController
   var storage = GetStorage();
   var chuongTrinhProvider = ChuongtrinhProvider();
 
-  // Danh sách dữ liệu gốc
   var dsChuongTrinhDaXuatBanData = <DanhsachChuongtrinhData>[].obs;
 
-  // Danh sách sau khi tìm kiếm
   var filteredDsChuongTrinhDaXuatBanData = <DanhsachChuongtrinhData>[].obs;
 
-  // Từ khóa tìm kiếm
   String? keyWord = "";
 
   void loadDanhSachChuongTrinhDaXuatBan() async {
