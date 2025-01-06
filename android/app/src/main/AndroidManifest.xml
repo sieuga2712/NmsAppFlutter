@@ -2,7 +2,7 @@
     <application
         android:label="nms_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
