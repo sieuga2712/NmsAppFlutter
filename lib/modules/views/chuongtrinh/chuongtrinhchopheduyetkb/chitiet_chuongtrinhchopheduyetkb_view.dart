@@ -182,29 +182,6 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              // Row(
-                              //   children: [
-                              //     Text(
-                              //       'Kịch bản chương trình: ',
-                              //       style: TextStyle(
-                              //         fontSize: FontSizeSmall,
-                              //         fontWeight: FontWeight.bold,
-                              //         color: AppColor.blackColor,
-                              //       ),
-                              //     ),
-                              //     Expanded(
-                              //       child: ReadMoreText(
-                              //         text: chiTietChuongTrinhChoPheDuyet
-                              //                 ?.noiDungKichBan ??
-                              //             '',
-                              //         style: TextStyle(
-                              //           fontSize: FontSizeSmall,
-                              //           color: AppColor.blackColor,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

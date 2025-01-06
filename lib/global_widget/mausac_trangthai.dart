@@ -48,6 +48,18 @@ const Map<String, MausacTrangthai> TrangthaiColos = {
     textColor: AppColor.whiteColor,
     backgroundColor: Color.fromARGB(255, 255, 152, 0), // Cam
   ),
+  'Chờ phòng phê duyệt kịch bản': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 255, 152, 0), // Cam
+  ),
+  'Chờ phòng phê duyệt tin bài': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 255, 152, 0), // Cam
+  ),
+  'Chờ phòng phê duyệt video': MausacTrangthai(
+    textColor: AppColor.whiteColor,
+    backgroundColor: Color.fromARGB(255, 255, 152, 0), // Cam
+  ),
   'Chờ PGĐ phê duyệt tin bài': MausacTrangthai(
     textColor: AppColor.whiteColor,
     backgroundColor: Color.fromARGB(255, 255, 152, 0), // Cam

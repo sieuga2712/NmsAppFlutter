@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/core/ultis/custom_snack_bar.dart';
+import 'package:nms_app/global_widget/approval_popup.dart';
 import 'package:nms_app/model/chucnangthuchien/chucnangthuchien_model.dart';
 import 'package:nms_app/model/chuongtrinh/chitiet_chuongtrinh_model.dart';
 import 'package:nms_app/provider/chucnangthuchien/chucnangthuchien_provider.dart';
@@ -53,6 +54,20 @@ class ChitietChuongtrinhKhongduyetKBController extends GetxController
 
   void xuLyChucNang(chucNang) async {
     print('chucNang: ${chucNang.tenChucNang}');
+
+    Get.dialog(
+      ApprovalPopup(
+        title: chucNang.tenChucNang ?? '',
+        onConfirm: (String noiDungXuLy) {
+          chucNang.ghiChu = noiDungXuLy;
+          _processChucNang(chucNang);
+        },
+        onCancel: () {},
+      ),
+    );
+  }
+
+  void _processChucNang(chucNang) async {
     var data = {
       "chuongTrinhId": chuongTrinhId,
       "userId": "00000000-0000-0000-0000-000000000000",
@@ -66,29 +81,34 @@ class ChitietChuongtrinhKhongduyetKBController extends GetxController
         "dungOTrangChinhSua": chucNang.dungOTrangChinhSua,
       },
     };
+
     print('data: $data');
+
     try {
       var value =
           await chucNangThucHienProvider.xuLyChuongTrinhBanTinByInput(data);
 
       if (value['isSuccess'] == true) {
         CustomSnackBar.showSuccessSnackBar(
-            context: Get.context,
-            title: "Thông báo",
-            message: value['message']);
-        this.loadChiTietChuongTrinhKhongDuyetKB();
-      } else {
-        CustomSnackBar.showErrorSnackBar(
-            context: Get.context,
-            title: "Thông báo",
-            message: value['error'] ?? 'Có lỗi xảy ra. Vui lòng thử lại sau.');
-      }
-    } catch (exception) {
-      CustomSnackBar.showErrorSnackBar(
           context: Get.context,
           title: "Thông báo",
-          message: 'Có lỗi xảy ra. Vui lòng thử lại sau.');
+          message: value['message'],
+        );
+        loadChiTietChuongTrinhKhongDuyetKB();
+      } else {
+        CustomSnackBar.showErrorSnackBar(
+          context: Get.context,
+          title: "Thông báo",
+          message: value['error'] ?? 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+        );
+      }
+    } catch (exception) {
       print('Lỗi: $exception');
+      CustomSnackBar.showErrorSnackBar(
+        context: Get.context,
+        title: "Thông báo",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+      );
     }
   }
 
