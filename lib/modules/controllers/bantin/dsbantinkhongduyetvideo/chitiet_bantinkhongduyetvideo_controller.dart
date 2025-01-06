@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -34,6 +33,7 @@ class ChitietBantinKhongDuyetVideoController extends GetxController
         chuongTrinhId = chiTietBanTin.value?.chuongTrinhId;
         await loadChucNangThucHien(banTinId, chuongTrinhId);
         change(chiTietBanTin.value, status: RxStatus.success());
+        loadVideos();
       });
     } catch (exception) {
       print('Lỗi: $exception');

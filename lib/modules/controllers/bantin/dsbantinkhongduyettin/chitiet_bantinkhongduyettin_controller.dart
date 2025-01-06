@@ -34,6 +34,7 @@ class ChitietBantinKhongDuyetTinController extends GetxController
         chuongTrinhId = chiTietBanTin.value?.chuongTrinhId;
         await loadChucNangThucHien(banTinId, chuongTrinhId);
         change(chiTietBanTin.value, status: RxStatus.success());
+        loadVideos();
       });
     } catch (exception) {
       print('Lỗi: $exception');

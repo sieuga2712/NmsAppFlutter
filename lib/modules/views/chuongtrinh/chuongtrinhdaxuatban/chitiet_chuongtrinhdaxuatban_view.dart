@@ -36,11 +36,12 @@ class _ChitietChuongtrinhDaXuatBanViewState
           children: [
             Expanded(
               child: controller.obx(
-                (ChiTietChuongTrinhDaXuatBan) {
+                (chiTietChuongTrinhChoPheDuyet) {
                   final statusInfo = TrangthaiColos[
-                      ChiTietChuongTrinhDaXuatBan?.trangThaiChuongTrinhBanTin];
+                      chiTietChuongTrinhChoPheDuyet
+                          ?.trangThaiChuongTrinhBanTin];
                   final hanXuLySanXuat = DateTime.tryParse(
-                      ChiTietChuongTrinhDaXuatBan?.hanXuLy ?? "");
+                      chiTietChuongTrinhChoPheDuyet?.hanXuLy ?? "");
                   final hanXuLySanXuatDate = hanXuLySanXuat != null
                       ? DateFormat('dd/MM/yyyy').format(hanXuLySanXuat)
                       : "Chưa có hạn xử lý";
@@ -48,8 +49,7 @@ class _ChitietChuongtrinhDaXuatBanViewState
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4.0), // Padding cho các Row
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -65,7 +65,7 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      ChiTietChuongTrinhDaXuatBan?.ten ??
+                                      chiTietChuongTrinhChoPheDuyet?.ten ??
                                           'Không có tên chương trình',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -90,7 +90,7 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                   ),
                                   Expanded(
                                     child: Text(
-                                      ChiTietChuongTrinhDaXuatBan?.ten ??
+                                      chiTietChuongTrinhChoPheDuyet?.ten ??
                                           'Không có tên',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -103,7 +103,9 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              // Modified Mô Tả section
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Mô Tả: ',
@@ -112,17 +114,14 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                       fontWeight: FontWeight.bold,
                                       color: AppColor.blackColor,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      ChiTietChuongTrinhDaXuatBan?.moTa ??
-                                          'Không có mô tả',
-                                      style: TextStyle(
-                                        fontSize: FontSizeSmall,
-                                        color: AppColor.blackColor,
-                                      ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    chiTietChuongTrinhChoPheDuyet?.moTa ??
+                                        'Không có mô tả',
+                                    style: TextStyle(
+                                      fontSize: FontSizeSmall,
+                                      color: AppColor.blackColor,
                                     ),
                                   ),
                                 ],
@@ -160,50 +159,25 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: statusInfo?.backgroundColor ??
-                                            AppColor.greyColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        '${ChiTietChuongTrinhDaXuatBan?.trangThaiChuongTrinhBanTin}',
-                                        style: TextStyle(
-                                          color: statusInfo?.textColor ??
-                                              AppColor.blackColor,
-                                        ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: statusInfo?.backgroundColor ??
+                                          AppColor.greyColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${chiTietChuongTrinhChoPheDuyet?.trangThaiChuongTrinhBanTin}',
+                                      style: TextStyle(
+                                        color: statusInfo?.textColor ??
+                                            AppColor.blackColor,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              // Row(
-                              //   children: [
-                              //     Text(
-                              //       'Kịch bản chương trình: ',
-                              //       style: TextStyle(
-                              //         fontSize: FontSizeSmall,
-                              //         fontWeight: FontWeight.bold,
-                              //         color: AppColor.blackColor,
-                              //       ),
-                              //     ),
-                              //     Expanded(
-                              //       child: ReadMoreText(
-                              //         text: ChiTietChuongTrinhDaXuatBan
-                              //                 ?.noiDungKichBan ??
-                              //             '',
-                              //         style: TextStyle(
-                              //           fontSize: FontSizeSmall,
-                              //           color: AppColor.blackColor,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -220,10 +194,6 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border: Border.all(
-                                        color: AppColor.greyColor,
-                                        width: 1,
-                                      ),
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
@@ -234,7 +204,7 @@ class _ChitietChuongtrinhDaXuatBanViewState
                                       ],
                                     ),
                                     child: ReadMoreText(
-                                      text: ChiTietChuongTrinhDaXuatBan
+                                      text: chiTietChuongTrinhChoPheDuyet
                                               ?.noiDungKichBan ??
                                           '',
                                       maxLength: 50,

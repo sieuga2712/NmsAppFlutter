@@ -183,20 +183,7 @@ class NavigationDrawer extends StatelessWidget {
                                       }),
                                   buildDrawerItems(
                                       context: context,
-                                      text: 'Chờ duyệt video',
-                                      icon: Icons.videocam_outlined,
-                                      textIconColor: (Get.isDarkMode
-                                          ? AppColor.whiteColor
-                                          : AppColor.helpBlue),
-                                      titleColor: (Get.isDarkMode
-                                          ? AppColor.whiteColor
-                                          : AppColor.whiteColor),
-                                      onTap: () {
-                                        navigate('danhsachbantin');
-                                      }),
-                                  buildDrawerItems(
-                                      context: context,
-                                      text: 'Không duyệt tin',
+                                      text: 'Tin không được duyệt',
                                       icon: Icons.cancel_outlined,
                                       textIconColor: (Get.isDarkMode
                                           ? AppColor.whiteColor
@@ -219,6 +206,19 @@ class NavigationDrawer extends StatelessWidget {
                                           : AppColor.whiteColor),
                                       onTap: () {
                                         navigate('danhsachbantindangsanxuat');
+                                      }),
+                                  buildDrawerItems(
+                                      context: context,
+                                      text: 'Chờ duyệt video',
+                                      icon: Icons.videocam_outlined,
+                                      textIconColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.helpBlue),
+                                      titleColor: (Get.isDarkMode
+                                          ? AppColor.whiteColor
+                                          : AppColor.whiteColor),
+                                      onTap: () {
+                                        navigate('danhsachbantin');
                                       }),
                                   buildDrawerItems(
                                       context: context,

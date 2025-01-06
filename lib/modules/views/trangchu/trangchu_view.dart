@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/trangchu/oval_clipper.dart';
 import 'package:nms_app/global_widget/trangchu/stat_card.dart';
-import 'package:nms_app/global_widget/trangchu/wide_stat_card.dart';
 import 'package:nms_app/model/trangchu/trangchu_model.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_controller.dart';
 import 'package:nms_app/router.dart';
@@ -39,10 +38,6 @@ class TrangchuView extends GetView<TrangchuController> {
                       padding: EdgeInsets.all(constraints.maxWidth * 0.04),
                       child: Column(
                         children: [
-                          SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.008),
-                          _buildHomeTitle(constraints.maxWidth),
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.015),
@@ -101,26 +96,6 @@ class TrangchuView extends GetView<TrangchuController> {
     );
   }
 
-  Widget _buildHomeTitle(double screenWidth) {
-    return Padding(
-      padding: EdgeInsets.only(left: screenWidth * 0.02),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(Icons.home, color: Colors.white, size: screenWidth * 0.042),
-          SizedBox(width: screenWidth * 0.02),
-          Text(
-            'Trang chủ',
-            style: TextStyle(
-              fontSize: screenWidth * 0.039,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildContent(List<TrangchuModel?>? data, BuildContext context) {
     if (data == null || data.isEmpty) {
       return const Center(child: Text('Không có dữ liệu'));
@@ -129,83 +104,90 @@ class TrangchuView extends GetView<TrangchuController> {
     var items = data.first?.items ?? [];
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double cardWidth =
-            (constraints.maxWidth - MediaQuery.of(context).size.width * 0.03) /
-                2;
+        final cardSpacing = 12.0;
 
-        return Wrap(
-          spacing: MediaQuery.of(context).size.width * 0.03,
-          runSpacing: MediaQuery.of(context).size.height * 0.015,
+        return Column(
           children: [
-            // ignore: prefer_is_empty
-            if (items.length > 0)
-              SizedBox(
-                width: cardWidth,
-                child: StatCard(
-                    title: items[0].description ?? 'N/A',
-                    value: items[0].count?.toString() ?? '0',
-                    colors: const [
-                      Color(0xFF4328EA),
-                      Color.fromARGB(255, 182, 168, 254)
-                    ],
-                    progress: items[0].count != null ? items[0].count! / 56 : 0,
-                    onTap: () {
-                      navigator('chuongtrinhdangsx');
-                    }),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (items.isNotEmpty)
+                    Expanded(
+                      child: StatCard(
+                        title: items[0].description ?? 'N/A',
+                        value: items[0].count?.toString() ?? '0',
+                        colors: const [
+                          Color(0xFF4328EA),
+                          Color.fromARGB(255, 182, 168, 254)
+                        ],
+                        progress:
+                            items[0].count != null ? items[0].count! / 56 : 0,
+                        onTap: () => navigator('chuongtrinhdangsx'),
+                      ),
+                    ),
+                  SizedBox(width: cardSpacing),
+                  if (items.length > 1)
+                    Expanded(
+                      child: StatCard(
+                        title: items[1].description ?? 'N/A',
+                        value: items[1].count?.toString() ?? '0',
+                        colors: const [
+                          Color(0xFFEA3F28),
+                          Color.fromARGB(255, 249, 166, 155)
+                        ],
+                        progress:
+                            items[1].count != null ? items[1].count! / 56 : 0,
+                        onTap: () => navigator('chuongtrinhchopheduyet'),
+                      ),
+                    ),
+                ],
               ),
-            if (items.length > 1)
-              SizedBox(
-                width: cardWidth,
-                child: StatCard(
-                    title: items[1].description ?? 'N/A',
-                    value: items[1].count?.toString() ?? '0',
-                    colors: const [
-                      Color(0xFFEA3F28),
-                      Color.fromARGB(255, 249, 166, 155)
-                    ],
-                    progress: items[1].count != null ? items[1].count! / 56 : 0,
-                    onTap: () {
-                      navigator('chuongtrinhchopheduyet');
-                    }),
+            ),
+            const SizedBox(height: 12),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (items.length > 2)
+                    Expanded(
+                      child: StatCard(
+                        title: items[2].description ?? 'N/A',
+                        value: items[2].count?.toString() ?? '0',
+                        colors: const [
+                          Color(0xFF0084FF),
+                          Color.fromARGB(255, 165, 210, 252)
+                        ],
+                        progress:
+                            items[2].count != null ? items[2].count! / 56 : 0,
+                        onTap: () => navigator('bantinchopheduyettinbai'),
+                      ),
+                    ),
+                  SizedBox(width: cardSpacing),
+                  if (items.length > 3)
+                    Expanded(
+                      child: StatCard(
+                        title: items[3].description ?? 'N/A',
+                        value: items[3].count?.toString() ?? '0',
+                        colors: const [
+                          Color(0xFFEA2891),
+                          Color.fromARGB(255, 249, 161, 209)
+                        ],
+                        progress:
+                            items[3].count != null ? items[3].count! / 56 : 0,
+                        onTap: () => navigator('bantinchopheduyetvideo'),
+                      ),
+                    ),
+                ],
               ),
-            if (items.length > 2)
-              SizedBox(
-                width: constraints.maxWidth,
-                child: WideStatCard(
-                    title: items[2].description ?? 'N/A',
-                    value: items[2].count?.toString() ?? '0',
-                    colors: const [
-                      Color(0xFF0084FF),
-                      Color.fromARGB(255, 165, 210, 252)
-                    ],
-                    progress: items[2].count != null ? items[2].count! / 56 : 0,
-                    subtitle: 'Mục tiêu\n87% vào cuối tuần',
-                    onTap: () {
-                      navigator('bantinchopheduyettinbai');
-                    }),
-              ),
-            if (items.length > 3)
-              SizedBox(
-                width: cardWidth,
-                child: StatCard(
-                    title: items[3].description ?? 'N/A',
-                    value: items[3].count?.toString() ?? '0',
-                    colors: const [
-                      Color(0xFFEA2891),
-                      Color.fromARGB(255, 249, 161, 209)
-                    ],
-                    progress: items[3].count != null ? items[3].count! / 56 : 0,
-                    onTap: () {
-                      navigator('bantinchopheduyetvideo');
-                    }),
-              ),
+            ),
           ],
         );
       },
     );
   }
 
-  navigator(String maScreen) {
+  void navigator(String maScreen) {
     switch (maScreen) {
       case 'chuongtrinhdangsx':
         Get.offNamed(Routers.DSCHUONGTRINH);
@@ -219,7 +201,6 @@ class TrangchuView extends GetView<TrangchuController> {
       case 'bantinchopheduyetvideo':
         Get.offNamed(Routers.DSBANTINCHOPHEDUYETVIDEO);
         break;
-
       default:
         break;
     }

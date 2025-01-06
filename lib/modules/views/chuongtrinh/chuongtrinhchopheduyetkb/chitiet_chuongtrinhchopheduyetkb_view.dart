@@ -49,8 +49,7 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4.0), // Padding cho các Row
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -104,7 +103,9 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              // Modified Mô Tả section
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Mô Tả: ',
@@ -113,17 +114,14 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                       fontWeight: FontWeight.bold,
                                       color: AppColor.blackColor,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      chiTietChuongTrinhChoPheDuyet?.moTa ??
-                                          'Không có mô tả',
-                                      style: TextStyle(
-                                        fontSize: FontSizeSmall,
-                                        color: AppColor.blackColor,
-                                      ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    chiTietChuongTrinhChoPheDuyet?.moTa ??
+                                        'Không có mô tả',
+                                    style: TextStyle(
+                                      fontSize: FontSizeSmall,
+                                      color: AppColor.blackColor,
                                     ),
                                   ),
                                 ],
@@ -161,21 +159,19 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: statusInfo?.backgroundColor ??
-                                            AppColor.greyColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        '${chiTietChuongTrinhChoPheDuyet?.trangThaiChuongTrinhBanTin}',
-                                        style: TextStyle(
-                                          color: statusInfo?.textColor ??
-                                              AppColor.blackColor,
-                                        ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: statusInfo?.backgroundColor ??
+                                          AppColor.greyColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${chiTietChuongTrinhChoPheDuyet?.trangThaiChuongTrinhBanTin}',
+                                      style: TextStyle(
+                                        color: statusInfo?.textColor ??
+                                            AppColor.blackColor,
                                       ),
                                     ),
                                   ),
@@ -198,10 +194,6 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border: Border.all(
-                                        color: AppColor.greyColor,
-                                        width: 1,
-                                      ),
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(

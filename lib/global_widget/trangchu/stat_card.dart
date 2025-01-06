@@ -18,13 +18,13 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.all(screenWidth * 0.03),
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: colors,
@@ -50,64 +50,31 @@ class StatCard extends StatelessWidget {
   }
 
   Widget _buildCardContent() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        String displayTitle = title;
-        if (!title.contains('\n')) {
-          displayTitle = '$title\n';
-        }
-
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              displayTitle,
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            _buildProgressBar(constraints),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildProgressBar(BoxConstraints constraints) {
-    return Stack(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Container cho title để đảm bảo chiều cao tối thiểu
         Container(
-          height: 10,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(7),
+          constraints: const BoxConstraints(minHeight: 40),
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              height: 1.2,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-        Container(
-          height: 10,
-          width: constraints.maxWidth * progress,
-          decoration: BoxDecoration(
+        const SizedBox(height: 12),
+        Text(
+          value,
+          style: const TextStyle(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(7),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.5),
-                blurRadius: 4,
-                offset: const Offset(0, 0),
-              ),
-            ],
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],

@@ -34,11 +34,11 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
           children: [
             Expanded(
               child: controller.obx(
-                (chiTietChuongTrinh) {
+                (chiTietChuongTrinhDaPheDuyet) {
                   final statusInfo = TrangthaiColos[
-                      chiTietChuongTrinh?.trangThaiChuongTrinhBanTin];
-                  final hanXuLySanXuat =
-                      DateTime.tryParse(chiTietChuongTrinh?.hanXuLy ?? "");
+                      chiTietChuongTrinhDaPheDuyet?.trangThaiChuongTrinhBanTin];
+                  final hanXuLySanXuat = DateTime.tryParse(
+                      chiTietChuongTrinhDaPheDuyet?.hanXuLy ?? "");
                   final hanXuLySanXuatDate = hanXuLySanXuat != null
                       ? DateFormat('dd/MM/yyyy').format(hanXuLySanXuat)
                       : "Chưa có hạn xử lý";
@@ -62,7 +62,7 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinh?.ten ??
+                                      chiTietChuongTrinhDaPheDuyet?.ten ??
                                           'Không có tên chương trình',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -87,7 +87,8 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      chiTietChuongTrinh?.ten ?? 'Không có tên',
+                                      chiTietChuongTrinhDaPheDuyet?.ten ??
+                                          'Không có tên',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -99,7 +100,9 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              // Modified Mô Tả section
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Mô Tả: ',
@@ -108,17 +111,14 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                       fontWeight: FontWeight.bold,
                                       color: AppColor.blackColor,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      chiTietChuongTrinh?.moTa ??
-                                          'Không có mô tả',
-                                      style: TextStyle(
-                                        fontSize: FontSizeSmall,
-                                        color: AppColor.blackColor,
-                                      ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    chiTietChuongTrinhDaPheDuyet?.moTa ??
+                                        'Không có mô tả',
+                                    style: TextStyle(
+                                      fontSize: FontSizeSmall,
+                                      color: AppColor.blackColor,
                                     ),
                                   ),
                                 ],
@@ -156,21 +156,19 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: statusInfo?.backgroundColor ??
-                                            AppColor.greyColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        '${chiTietChuongTrinh?.trangThaiChuongTrinhBanTin}',
-                                        style: TextStyle(
-                                          color: statusInfo?.textColor ??
-                                              AppColor.blackColor,
-                                        ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: statusInfo?.backgroundColor ??
+                                          AppColor.greyColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${chiTietChuongTrinhDaPheDuyet?.trangThaiChuongTrinhBanTin}',
+                                      style: TextStyle(
+                                        color: statusInfo?.textColor ??
+                                            AppColor.blackColor,
                                       ),
                                     ),
                                   ),
@@ -193,10 +191,6 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      border: Border.all(
-                                        color: AppColor.greyColor,
-                                        width: 1,
-                                      ),
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
@@ -207,9 +201,9 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                       ],
                                     ),
                                     child: ReadMoreText(
-                                      text:
-                                          chiTietChuongTrinh?.noiDungKichBan ??
-                                              '',
+                                      text: chiTietChuongTrinhDaPheDuyet
+                                              ?.noiDungKichBan ??
+                                          '',
                                       maxLength: 50,
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
@@ -219,7 +213,6 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 4),
                             ],
                           ),
                         ),

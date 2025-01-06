@@ -104,7 +104,8 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Mô Tả: ',
@@ -113,16 +114,13 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                       fontWeight: FontWeight.bold,
                                       color: AppColor.blackColor,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      chiTietBanTin?.moTa ?? 'Không có mô tả',
-                                      style: TextStyle(
-                                        fontSize: FontSizeSmall,
-                                        color: AppColor.blackColor,
-                                      ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    chiTietBanTin?.moTa ?? 'Không có mô tả',
+                                    style: TextStyle(
+                                      fontSize: FontSizeSmall,
+                                      color: AppColor.blackColor,
                                     ),
                                   ),
                                 ],
@@ -160,21 +158,19 @@ class _ChitietBantinChoDuyetTinBaiViewState
                                       color: AppColor.blackColor,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: statusInfo?.backgroundColor ??
-                                            AppColor.greyColor,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        '${chiTietBanTin?.trangThaiChuongTrinhBanTin}',
-                                        style: TextStyle(
-                                          color: statusInfo?.textColor ??
-                                              AppColor.blackColor,
-                                        ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: statusInfo?.backgroundColor ??
+                                          AppColor.greyColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${chiTietBanTin?.trangThaiChuongTrinhBanTin}',
+                                      style: TextStyle(
+                                        color: statusInfo?.textColor ??
+                                            AppColor.blackColor,
                                       ),
                                     ),
                                   ),
