@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:nms_app/model/auth/granted_policies.dart';
 import 'package:nms_app/router.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,12 +32,14 @@ class LoginController extends GetxController {
   final loginModel = LoginModel().obs;
   final isLoggingOutLoading = false.obs;
   final isReloginInProgress = false.obs;
+  final menuPermissions = Rxn<ChinhSachDuocCapModel>();
 
   @override
   void onInit() async {
     super.onInit();
     try {
       await _loadLoginData();
+      await _loadPermissionsFromStorage();
       if (loginModel.value.isLoggedIn) {
         await _handleLoggedInState();
       } else {
@@ -161,6 +164,7 @@ class LoginController extends GetxController {
               log.i('Token received: ${loginData.accessToken}');
               loginModel.value = loginData;
               await saveToStorage();
+              await fetchAndSetPermissions();
               Get.back();
               Get.offAllNamed(Paths.TRANGCHU);
             } else {
@@ -300,6 +304,8 @@ class LoginController extends GetxController {
       await storage.remove('scope');
       await storage.remove('id_token');
       await storage.remove(GetStorageKey.isLogin);
+      await storage.remove('menu_permissions');
+      menuPermissions.value = null;
 
       _pref.remove("accessToken");
       _pref.remove("refreshToken");
@@ -346,6 +352,48 @@ class LoginController extends GetxController {
       Get.offAllNamed(Paths.LOGIN);
     } finally {
       isReloginInProgress.value = false;
+    }
+  }
+
+  Future<void> fetchAndSetPermissions() async {
+    try {
+      final permissions = await _loginProvider.getApplicationConfiguration();
+      if (permissions != null) {
+        menuPermissions.value = permissions;
+        await _savePermissionsToStorage(permissions);
+        log.i('Menu permissions fetched and saved successfully');
+      } else {
+        log.w('Failed to fetch menu permissions');
+      }
+    } catch (e, stackTrace) {
+      log.e('Error fetching permissions: $e', error: e, stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _savePermissionsToStorage(
+      ChinhSachDuocCapModel permissions) async {
+    try {
+      final storage = GetStorage();
+      final permissionsJson = permissions.toJson();
+      await storage.write('menu_permissions', permissionsJson);
+      log.i('Menu permissions saved to storage');
+    } catch (e, stackTrace) {
+      log.e('Error saving permissions to storage: $e',
+          error: e, stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _loadPermissionsFromStorage() async {
+    try {
+      final storage = GetStorage();
+      final permissionsJson = storage.read('menu_permissions');
+      if (permissionsJson != null) {
+        menuPermissions.value = ChinhSachDuocCapModel.fromJson(permissionsJson);
+        log.i('Menu permissions loaded from storage');
+      }
+    } catch (e, stackTrace) {
+      log.e('Error loading permissions from storage: $e',
+          error: e, stackTrace: stackTrace);
     }
   }
 

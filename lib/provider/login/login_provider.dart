@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:dio/dio.dart';
+import 'package:nms_app/model/auth/granted_policies.dart';
 import 'package:nms_app/modules/controllers/login/login_controller.dart';
 import 'package:nms_app/network/api_provider.dart';
 import 'package:nms_app/model/login/login_model.dart';
@@ -56,8 +57,7 @@ class LoginProvider {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          validateStatus: (status) =>
-              status != null && status < 600, 
+          validateStatus: (status) => status != null && status < 600,
           sendTimeout: const Duration(seconds: 30),
           receiveTimeout: const Duration(seconds: 30),
         ),
@@ -159,6 +159,36 @@ class LoginProvider {
     } catch (e, stackTrace) {
       log.e('Error during _makeRevokeTokenRequest: $e',
           error: e, stackTrace: stackTrace);
+    }
+  }
+
+  Future<ChinhSachDuocCapModel?> getApplicationConfiguration() async {
+    try {
+      final response = await dio.get(
+        '/api/abp/application-configuration',
+        queryParameters: {'includeLocalizationResources': false},
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'accept-language': 'vi',
+            'authorization':
+                'Bearer ${Get.find<LoginController>().loginModel.value.accessToken}'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final permissions = response.data['auth']?['grantedPolicies'] ?? {};
+        return ChinhSachDuocCapModel.fromJson(permissions);
+      }
+      return null;
+    } on DioException catch (e) {
+      log.e('Error fetching application configuration: ${e.message}');
+      if (e.response?.statusCode == 401) {
+        final loginController = Get.find<LoginController>();
+        await loginController.handleServerError();
+      }
+      return null;
     }
   }
 }
