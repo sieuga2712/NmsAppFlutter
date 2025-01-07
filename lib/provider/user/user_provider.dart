@@ -11,9 +11,6 @@ class UserProvider {
     try {
       final response = await dio.get(
         '/api/account/my-profile',
-        options: Options(
-          headers: {'Authorization': 'Bearer $accessToken'},
-        ),
       );
 
       if (response.statusCode != 200) {
@@ -31,9 +28,6 @@ class UserProvider {
     try {
       final response = await dio.put(
         '/api/account/my-profile',
-        options: Options(
-          headers: {'Authorization': 'Bearer $accessToken'},
-        ),
         data: userData,
       );
 
@@ -57,9 +51,6 @@ class UserProvider {
     try {
       final response = await dio.post(
         '/api/account/my-profile/change-password',
-        options: Options(
-          headers: {'Authorization': 'Bearer $accessToken'},
-        ),
         data: payload,
       );
 

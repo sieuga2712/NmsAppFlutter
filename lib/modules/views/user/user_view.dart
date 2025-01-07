@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/model/user/thong_tin_user_model.dart';
 import 'package:nms_app/modules/controllers/user/user_controller.dart';
 import 'package:nms_app/modules/views/user/change_password_view.dart';
@@ -107,6 +109,14 @@ class UserProfileView extends GetView<UserProfileController> {
     final phoneController = TextEditingController(text: user.phoneNumber ?? '');
     final concurrencyStamp = user.concurrencyStamp ?? '';
 
+    // Store original values
+    final originalValues = {
+      'name': user.name ?? '',
+      'surname': user.surname ?? '',
+      'email': user.email ?? '',
+      'phoneNumber': user.phoneNumber ?? '',
+    };
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -115,6 +125,7 @@ class UserProfileView extends GetView<UserProfileController> {
           const SizedBox(height: 16),
           TextFormField(
             controller: usernameController,
+            enabled: false,
             decoration: const InputDecoration(labelText: 'Tên đăng nhập'),
           ),
           Row(
@@ -122,6 +133,7 @@ class UserProfileView extends GetView<UserProfileController> {
               Expanded(
                 child: TextFormField(
                   controller: nameController,
+                  enabled: false,
                   decoration: const InputDecoration(labelText: 'Tên'),
                 ),
               ),
@@ -129,6 +141,7 @@ class UserProfileView extends GetView<UserProfileController> {
               Expanded(
                 child: TextFormField(
                   controller: surnameController,
+                  enabled: false,
                   decoration: const InputDecoration(labelText: 'Họ'),
                 ),
               ),
@@ -136,10 +149,12 @@ class UserProfileView extends GetView<UserProfileController> {
           ),
           TextFormField(
             controller: emailController,
+            enabled: false,
             decoration: const InputDecoration(labelText: 'Email'),
           ),
           TextFormField(
             controller: phoneController,
+            enabled: false,
             decoration: const InputDecoration(labelText: 'Số điện thoại'),
           ),
           Padding(
@@ -149,13 +164,30 @@ class UserProfileView extends GetView<UserProfileController> {
                 icon: const Icon(
                   Icons.edit,
                   size: 15,
-                  color: Colors.blue,
+                  color: Color(0xFF0277BD),
                 ),
                 label: const Text(
                   'Cập nhật',
-                  style: TextStyle(fontSize: 17, color: Colors.blue),
+                  style: TextStyle(fontSize: 17, color: Color(0xFF0277BD)),
                 ),
                 onPressed: () {
+                  // Check if any values have changed
+                  final currentValues = {
+                    'name': nameController.text,
+                    'surname': surnameController.text,
+                    'email': emailController.text,
+                    'phoneNumber': phoneController.text,
+                  };
+
+                  if (mapEquals(originalValues, currentValues)) {
+                    CustomSnackBar.showWarningSnackBar(
+                      context: Get.context,
+                      title: 'Thông báo',
+                      message: 'Bạn chưa thay đổi thông tin nào!',
+                    );
+                    return;
+                  }
+
                   controller.updateProfile(
                     userName: user.userName ?? '',
                     name: nameController.text,

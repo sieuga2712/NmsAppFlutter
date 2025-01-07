@@ -20,6 +20,7 @@ class ApprovalPopup extends StatefulWidget {
 
 class _ApprovalPopupState extends State<ApprovalPopup> {
   final TextEditingController _contentController = TextEditingController();
+  double _confirmButtonHeight = 0;
 
   @override
   void dispose() {
@@ -37,10 +38,10 @@ class _ApprovalPopupState extends State<ApprovalPopup> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Container(
-        padding: EdgeInsets.all(screenWidth * 0.04), // 4% of screen width
-        width: screenWidth * 0.8, // 80% of screen width
+        padding: EdgeInsets.all(screenWidth * 0.04),
+        width: screenWidth * 0.8,
         constraints: BoxConstraints(
-          maxHeight: screenHeight * 0.6, // Max height 60% of screen height
+          maxHeight: screenHeight * 0.6,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -53,27 +54,27 @@ class _ApprovalPopupState extends State<ApprovalPopup> {
                   Text(
                     widget.title,
                     style: TextStyle(
-                      fontSize: screenWidth * 0.045, // 4.5% of screen width
+                      fontSize: screenWidth * 0.045,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () {
-                      Get.back(); // Đóng popup khi nhấn close
-                      widget.onCancel(); // Gọi callback onCancel
+                      Get.back();
+                      widget.onCancel();
                     },
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight * 0.02), // 2% of screen height
+              SizedBox(height: screenHeight * 0.02),
               const Text(
                 'Nội Dung xử lý:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: screenHeight * 0.01), // 1% of screen height
+              SizedBox(height: screenHeight * 0.01),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
@@ -90,27 +91,35 @@ class _ApprovalPopupState extends State<ApprovalPopup> {
                   ),
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02), // 2% of screen height
+              SizedBox(height: screenHeight * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       Get.back();
                       widget.onCancel();
                     },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.04, // 4% of screen width
-                        vertical: screenHeight * 0.01, // 1% of screen height
+                        horizontal: screenWidth * 0.04,
+                        vertical: screenHeight * 0.01,
                       ),
                       child: Text(
                         'Hủy',
-                        style: TextStyle(color: AppColor.greyColor),
+                        style: TextStyle(color: AppColor.whiteColor),
                       ),
                     ),
                   ),
-                  SizedBox(width: screenWidth * 0.02), // 2% of screen width
+                  SizedBox(width: screenWidth * 0.02),
                   ElevatedButton(
                     onPressed: () {
                       if (_contentController.text.trim().isEmpty) {

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/model/user/thong_tin_user_model.dart';
 import 'package:nms_app/modules/controllers/login/login_controller.dart';
 import 'package:nms_app/provider/user/user_provider.dart';
@@ -70,8 +71,11 @@ class UserProfileController extends GetxController with StateMixin<UserModel> {
       await _userProvider.updateUserProfile(accessToken, userData);
       await fetchUserProfile();
 
-      Get.snackbar('Thành công', 'Cập nhật thông tin thành công',
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showSuccessSnackBar(
+        context: Get.context,
+        title: 'Thông báo',
+        message: 'Cập nhật thông tin người dùng thành công!',
+      );
     } catch (e) {
       log.e('Error updating user profile', error: e);
       change(value, status: RxStatus.error(e.toString()));

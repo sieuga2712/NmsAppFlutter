@@ -51,6 +51,7 @@ class LoginController extends GetxController {
     }
   }
 
+  // Tải thông tin đăng nhập từ bộ nhớ local
   Future<void> _loadLoginData() async {
     final storage = GetStorage();
     final bool? isLoggedIn = storage.read(GetStorageKey.isLogin);
@@ -63,6 +64,10 @@ class LoginController extends GetxController {
     loginModel.value = await loadFromStorage();
   }
 
+  // Xử lý trạng thái khi người dùng đã đăng nhập:
+  // - Kiểm tra token còn hạn không
+  // - Chuyển đến trang chủ nếu hợp lệ
+  // - Refresh token nếu cần
   Future<void> _handleLoggedInState() async {
     if (await _verifyTokenValidity()) {
       log.i('Token is valid, navigating to home.');
@@ -76,6 +81,9 @@ class LoginController extends GetxController {
     }
   }
 
+  // Lưu thông tin đăng nhập vào bộ nhớ local:
+  // - Lưu token, refresh token và các thông tin khác
+  // - Sử dụng cả GetStorage và SharedPreferences
   Future<bool> saveToStorage() async {
     final SharedPreferences _pref = await SharedPreferences.getInstance();
     try {
@@ -107,6 +115,8 @@ class LoginController extends GetxController {
     }
   }
 
+  // Tải thông tin đăng nhập từ bộ nhớ local
+  // Trả về model chứa thông tin đăng nhập
   static Future<LoginModel> loadFromStorage() async {
     try {
       final storage = GetStorage();
@@ -130,6 +140,11 @@ class LoginController extends GetxController {
     return LoginModel();
   }
 
+  // Thực hiện quy trình xác thực OAuth2:
+  // - Khởi tạo client OpenID
+  // - Mở trình duyệt để đăng nhập
+  // - Xử lý callback và lấy token
+  // - Lưu thông tin đăng nhập
   Future<void> performAuthentication() async {
     try {
       log.i('Starting authentication process.');
@@ -183,6 +198,10 @@ class LoginController extends GetxController {
     }
   }
 
+  // Làm mới token khi gần hết hạn:
+  // - Gọi API refresh token
+  // - Cập nhật thông tin đăng nhập mới
+  // - Khởi động lại bộ đếm refresh
   Future<void> refreshToken() async {
     try {
       if (loginModel.value.refreshToken.isEmpty) {
@@ -208,6 +227,8 @@ class LoginController extends GetxController {
     }
   }
 
+  // Kiểm tra token còn hiệu lực không
+  // So sánh thời gian hết hạn với ngưỡng refresh
   Future<bool> _verifyTokenValidity() async {
     if (loginModel.value.expiresIn == 0) return false;
     final expiryDate =
@@ -215,6 +236,8 @@ class LoginController extends GetxController {
     return expiryDate.difference(DateTime.now()).inSeconds > _refreshThreshold;
   }
 
+  // Khởi động bộ đếm để tự động refresh token
+  // trước khi hết hạn
   void _startRefreshTimer() {
     _refreshTimer?.cancel();
     final expiresIn = loginModel.value.expiresIn;
@@ -232,6 +255,10 @@ class LoginController extends GetxController {
     }
   }
 
+  // Đăng xuất khỏi hệ thống:
+  // - Thu hồi token
+  // - Xóa cookie
+  // - Xóa dữ liệu đăng nhập local
   Future<void> logout() async {
     if (isLoggingOutLoading.value) {
       log.w('Logout already in progress.');
@@ -252,6 +279,7 @@ class LoginController extends GetxController {
     }
   }
 
+  // Xóa cookie đăng nhập
   Future<void> _clearCookies() async {
     try {
       final cookieJar = CookieJar();
@@ -263,6 +291,8 @@ class LoginController extends GetxController {
     }
   }
 
+  // Thu hồi access token và refresh token
+  // từ máy chủ xác thực
   Future<void> _revokeToken() async {
     try {
       if (loginModel.value.accessToken.isEmpty) {
@@ -291,6 +321,7 @@ class LoginController extends GetxController {
     }
   }
 
+  // Xóa toàn bộ dữ liệu đăng nhập khỏi bộ nhớ local
   Future<void> _clearLoginData() async {
     try {
       final storage = GetStorage();
@@ -322,6 +353,10 @@ class LoginController extends GetxController {
     }
   }
 
+  // Xử lý lỗi server:
+  // - Thử refresh token
+  // - Đăng nhập lại nếu cần
+  // - Chuyển về trang login nếu thất bại
   Future<void> handleServerError() async {
     if (isReloginInProgress.value) {
       return;
@@ -355,6 +390,9 @@ class LoginController extends GetxController {
     }
   }
 
+  // Lấy và cập nhật quyền người dùng:
+  // - Gọi API lấy cấu hình quyền
+  // - Lưu vào bộ nhớ local
   Future<void> fetchAndSetPermissions() async {
     try {
       final permissions = await _loginProvider.getApplicationConfiguration();
@@ -370,6 +408,7 @@ class LoginController extends GetxController {
     }
   }
 
+  // Lưu thông tin quyền người dùng vào bộ nhớ local
   Future<void> _savePermissionsToStorage(
       ChinhSachDuocCapModel permissions) async {
     try {
@@ -383,6 +422,7 @@ class LoginController extends GetxController {
     }
   }
 
+  // Tải thông tin quyền người dùng từ bộ nhớ local
   Future<void> _loadPermissionsFromStorage() async {
     try {
       final storage = GetStorage();
@@ -397,6 +437,8 @@ class LoginController extends GetxController {
     }
   }
 
+  // Dọn dẹp khi controller bị hủy:
+  // - Hủy bộ đếm refresh token
   @override
   void onClose() {
     _refreshTimer?.cancel();

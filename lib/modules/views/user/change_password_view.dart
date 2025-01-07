@@ -79,7 +79,7 @@ class ChangePasswordTab extends GetView<ChangePasswordController> {
                     ? const CircularProgressIndicator()
                     : const Text(
                         'Đổi mật khẩu',
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: Color(0xFF0277BD)),
                       ),
               ),
             ],

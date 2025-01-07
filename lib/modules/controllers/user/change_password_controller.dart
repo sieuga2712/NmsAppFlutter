@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/provider/user/user_provider.dart';
 
 class ChangePasswordController extends GetxController {
@@ -43,8 +44,11 @@ class ChangePasswordController extends GetxController {
 
       try {
         await _userProvider.changePassword(accessToken, payload);
-        Get.snackbar('Thành công', 'Đổi mật khẩu thành công!',
-            snackPosition: SnackPosition.BOTTOM);
+        CustomSnackBar.showSuccessSnackBar(
+          context: Get.context,
+          title: 'Thông báo',
+          message: 'Đổi mật khẩu thành công!',
+        );
         currentPasswordController.clear();
         newPasswordController.clear();
         confirmPasswordController.clear();

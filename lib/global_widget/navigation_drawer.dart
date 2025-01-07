@@ -370,7 +370,7 @@ class NavigationDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${user?.name ?? ''} ${user?.surname ?? ''}',
+                        '${user?.surname ?? ''} ${user?.name ?? ''}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Get.isDarkMode
                                   ? AppColor.blackColor

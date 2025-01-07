@@ -14,6 +14,9 @@ class LoginProvider {
   static const int maxRetries = 3;
   final log = Logger();
 
+  // Đổi mã xác thực (code) lấy về token:
+  // - Gửi yêu cầu lên server với grant_type là authorization_code
+  // - Trả về model chứa thông tin đăng nhập
   Future<LoginModel?> exchangeCodeForToken(
       String code, String clientId, String redirectUri) async {
     try {
@@ -30,6 +33,9 @@ class LoginProvider {
     }
   }
 
+  // Làm mới token bằng refresh token:
+  // - Gửi yêu cầu với grant_type là refresh_token
+  // - Trả về model chứa thông tin đăng nhập mới
   Future<LoginModel?> refreshToken(String refreshToken, String clientId) async {
     try {
       final formData = {
@@ -47,6 +53,11 @@ class LoginProvider {
     }
   }
 
+  // Hàm chung để gửi yêu cầu lấy token:
+  // - Xử lý các mã lỗi khác nhau (200, 401, 500)
+  // - Tự động thử lại khi gặp lỗi timeout hoặc 401
+  // - Có cơ chế delay tăng dần giữa các lần thử lại
+  // - Xử lý lỗi server bằng handleServerError
   Future<LoginModel?> _makeTokenRequest(Map<String, dynamic> formData,
       {int retryCount = 0}) async {
     try {
@@ -99,6 +110,9 @@ class LoginProvider {
     }
   }
 
+  // Thu hồi access token:
+  // - Gửi yêu cầu thu hồi token lên server
+  // - Xử lý và log các lỗi nếu có
   Future<void> revokeToken(String accessToken, String clientId) async {
     try {
       final formData = {
@@ -117,6 +131,9 @@ class LoginProvider {
     }
   }
 
+  // Thu hồi refresh token:
+  // - Gửi yêu cầu thu hồi refresh token lên server
+  // - Xử lý và log các lỗi nếu có
   Future<void> revokeRefreshToken(String refreshToken, String clientId) async {
     try {
       final formData = {
@@ -136,6 +153,10 @@ class LoginProvider {
     }
   }
 
+  // Hàm chung để gửi yêu cầu thu hồi token:
+  // - Gửi POST request đến endpoint thu hồi
+  // - Kiểm tra status code
+  // - Xử lý và log các lỗi
   Future<void> _makeRevokeTokenRequest(Map<String, dynamic> formData) async {
     try {
       final response = await dio.post(
@@ -162,6 +183,11 @@ class LoginProvider {
     }
   }
 
+  // Lấy cấu hình quyền của ứng dụng:
+  // - Gọi API lấy cấu hình
+  // - Trích xuất thông tin quyền từ response
+  // - Xử lý lỗi 401 bằng handleServerError
+  // - Trả về model chứa thông tin quyền
   Future<ChinhSachDuocCapModel?> getApplicationConfiguration() async {
     try {
       final response = await dio.get(
@@ -171,8 +197,6 @@ class LoginProvider {
           headers: {
             'accept': 'application/json',
             'accept-language': 'vi',
-            'authorization':
-                'Bearer ${Get.find<LoginController>().loginModel.value.accessToken}'
           },
         ),
       );
