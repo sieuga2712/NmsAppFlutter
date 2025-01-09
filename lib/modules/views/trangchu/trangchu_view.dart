@@ -71,13 +71,13 @@ class TrangchuView extends GetView<TrangchuController> {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      top: -screenHeight * 0.3,
+      top: -screenHeight * 0.355,
       left: 0,
       right: 0,
       child: Transform.scale(
         scale: _scale,
         child: ClipPath(
-          clipper: OvalClipper(borderRadius: 17),
+          clipper: OvalClipper(borderRadiusPercentage: 0.99),
           child: Container(
             height: screenHeight * 0.34,
             decoration: const BoxDecoration(

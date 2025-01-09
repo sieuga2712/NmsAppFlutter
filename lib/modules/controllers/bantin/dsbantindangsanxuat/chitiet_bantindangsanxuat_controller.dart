@@ -119,15 +119,24 @@ class ChitietBantinDangSanXuatController extends GetxController
   List<VideoPlayerController> _controllers = [];
   RxList<bool> _isPlaying = <bool>[].obs;
   RxList<bool> _showControls = <bool>[].obs;
+  RxList<String> _videoTitles = <String>[].obs;
 
   List<VideoPlayerController> get controllers => _controllers;
   List<bool> get isPlaying => _isPlaying;
   List<bool> get showControls => _showControls;
+  List<String> get videoTitles => _videoTitles;
   RxBool isVideoLoading = true.obs;
 
   // Hàm tải video từ server
   Future<void> loadVideos() async {
     isVideoLoading.value = true;
+    for (var controller in _controllers) {
+      controller.pause();
+      controller.dispose();
+    }
+    _controllers.clear();
+    _isPlaying.clear();
+    _showControls.clear();
     var fileVideos = chiTietBanTin.value?.fileVideo;
     if (fileVideos != null && fileVideos.isNotEmpty) {
       List<String> fileIds = fileVideos.map((e) => e.fileId!).toList();
@@ -171,6 +180,7 @@ class ChitietBantinDangSanXuatController extends GetxController
             _controllers.add(controller);
             _isPlaying.add(false);
             _showControls.add(true);
+            _videoTitles.add('Video ${i + 1}');
             controller.setLooping(true);
           } else {
             print("Failed to initialize video controller");

@@ -302,7 +302,7 @@ Color _getButtonColor(String? mauSac) {
     case "btn-primary":
       return AppColor.helpBlue;
     case "btn-warning":
-      return AppColor.yellowColor;
+      return AppColor.orangecolor;
     default:
       return AppColor.greyColor;
   }

@@ -24,6 +24,7 @@ class AppColor {
   static const redColor = Colors.red;
   static const greenColor = Colors.green;
   static const transparentColor = Colors.transparent;
+  static var orangecolor = Color.fromARGB(255, 254, 217, 6);
   // snackbar color
   static const Color helpBlue = Color(0xFF0277BD);
   static const Color failureRed = Color(0xffc72c41);

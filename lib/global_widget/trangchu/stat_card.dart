@@ -18,13 +18,16 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardPadding = screenWidth * 0.04; // 4% chiều rộng màn hình
+
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(cardPadding), // Sử dụng padding động
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: colors,
@@ -50,35 +53,39 @@ class StatCard extends StatelessWidget {
   }
 
   Widget _buildCardContent() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Container cho title để đảm bảo chiều cao tối thiểu
-        Container(
-          constraints: const BoxConstraints(minHeight: 40),
-          child: Text(
-            title,
+    return Builder(builder: (context) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      final spacingHeight = screenWidth * 0.07;
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Container cho title để đảm bảo chiều cao tối thiểu
+          Container(
+            constraints: const BoxConstraints(minHeight: 40),
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                height: 1.2,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          SizedBox(height: spacingHeight), // Sử dụng spacing động
+          Text(
+            value,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
-              height: 1.2,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget _buildTapEffect() {

@@ -128,6 +128,13 @@ class ChitietBantinDaXuatBanController extends GetxController
   // Hàm tải video từ server
   Future<void> loadVideos() async {
     isVideoLoading.value = true;
+    for (var controller in _controllers) {
+      controller.pause();
+      controller.dispose();
+    }
+    _controllers.clear();
+    _isPlaying.clear();
+    _showControls.clear();
     var fileVideos = chiTietBanTin.value?.fileVideo;
     if (fileVideos != null && fileVideos.isNotEmpty) {
       List<String> fileIds = fileVideos.map((e) => e.fileId!).toList();
