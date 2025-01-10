@@ -107,11 +107,9 @@ class DanhsachBantinChoDuyetTinBaiView
                 },
               ),
               onEmpty: EmptyDanhSach(),
-
               onLoading: SpinKitCircle(
                 color: AppColor.blueAccentColor,
               ),
-
               onError: (error) => Center(
                 child: Text(
                   error.toString(),

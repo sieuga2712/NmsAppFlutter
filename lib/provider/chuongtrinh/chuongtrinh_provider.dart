@@ -8,60 +8,60 @@ class ChuongtrinhProvider {
   final dio = ApiRoot().dio;
   final GetStorage _store = GetStorage();
 
-  Future<DanhsachChuongtrinhModel> dsChuongTrinh() async {
+  Future<DanhsachChuongtrinhModel> dsChuongTrinh({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'DaPheDuyetKichBan';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
-      print('dsChuongTrinh: $response');
       return DanhsachChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
       return Future.error(exception.toString());
     }
   }
 
-  Future<DanhsachChuongtrinhModel> dsChuongTrinhChoPheDuyet() async {
+  Future<DanhsachChuongtrinhModel> dsChuongTrinhChoPheDuyet({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'ChoPheDuyetKichBan';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
-      print('dsChuongTrinhChoPheDuyet: $response');
       return DanhsachChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
       return Future.error(exception.toString());
     }
   }
 
-  Future<DanhsachChuongtrinhModel> dsChuongTrinhKhongDuyetKB() async {
+  Future<DanhsachChuongtrinhModel> dsChuongTrinhKhongDuyetKB({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'KhongPheDuyetKichBan';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
-      print('dsChuongTrinhKhongDuyetKB: $response');
       return DanhsachChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
       return Future.error(exception.toString());
     }
   }
 
-  Future<DanhsachChuongtrinhModel> dsChuongTrinhDaXuatBan() async {
+  Future<DanhsachChuongtrinhModel> dsChuongTrinhDaXuatBan({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'DaXuatBan';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
-      print('dsChuongTrinhDaXuatBan: $response');
       return DanhsachChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
       return Future.error(exception.toString());
@@ -73,7 +73,6 @@ class ChuongtrinhProvider {
     try {
       final response = await dio
           .get("${ChuongtrinhApi.chiTietChuongTrinh}?input=$idChuongTrinh");
-      print("id chuong trinh: $idChuongTrinh");
       return ChitietChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
       print('response: $exception');

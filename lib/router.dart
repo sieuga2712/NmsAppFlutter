@@ -81,8 +81,7 @@ class PageRouters {
               isDrawer: false,
               pathScreen: Paths.CHITIETCHUONGTRINH,
               onBackButtonPressed: () {
-                Get.find<DanhsachChuongtrinhController>()
-                    .loadDanhSachChuongTrinh();
+                Get.find<DanhsachChuongtrinhController>().refreshFromDetail();
               },
             ),
         bindings: [ChitietchuongtrinhBinding()]),
@@ -103,7 +102,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhChopdController>()
-                    .loadDanhSachChuongTrinhChopd();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietchuongtrinhchopheduyetBinding()]),
@@ -124,7 +123,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETCHUONGTRINHKHONGDUYETKICHBAN,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhKhongduyetKBController>()
-                    .loadDanhSachChuongTrinhKhongDuyetKB();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietchuongtrinhKhongduyetKBBinding()]),
@@ -145,7 +144,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETCHUONGTRINHDAXUATBAN,
               onBackButtonPressed: () {
                 Get.find<DanhsachChuongtrinhDaXuatBanController>()
-                    .loadDanhSachChuongTrinhDaXuatBan();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietchuongtrinhDaXuatBanBinding()]),

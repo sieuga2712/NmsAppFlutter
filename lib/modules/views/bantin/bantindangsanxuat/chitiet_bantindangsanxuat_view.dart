@@ -212,150 +212,159 @@ class _ChitietBantinDangsanxuatViewState
                                 }
 
                                 return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListView.builder(
-                                      itemCount: controller.controllers.length,
-                                      shrinkWrap: true,
-                                      physics: const ClampingScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        final videoController =
-                                            controller.controllers[index];
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListView.builder(
+                                    itemCount: controller.controllers.length,
+                                    shrinkWrap: true,
+                                    physics: const ClampingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      final videoController =
+                                          controller.controllers[index];
 
-                                        return Obx(() {
-                                          final isPlaying =
-                                              controller.isPlaying[index];
-                                          final showControls =
-                                              controller.showControls[index];
-
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              // Video title
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 8.0),
-                                                child: Text(
-                                                  'Video ${index + 1}',
-                                                  style: TextStyle(
-                                                    fontSize: FontSizeSmall,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: AppColor.blackColor,
-                                                  ),
-                                                ),
-                                              ),
-                                              MouseRegion(
-                                                onEnter: (_) {
-                                                  controller
-                                                          .showControls[index] =
-                                                      true;
-                                                },
-                                                onExit: (_) {
-                                                  Future.delayed(
-                                                      const Duration(
-                                                          seconds: 2), () {
-                                                    if (!isPlaying) {
-                                                      controller.showControls[
-                                                          index] = false;
-                                                    }
-                                                  });
-                                                },
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    controller.showControls[
-                                                        index] = true;
-                                                    if (isPlaying) {
-                                                      Future.delayed(
-                                                          const Duration(
-                                                              seconds: 2), () {
-                                                        if (controller
-                                                            .isPlaying[index]) {
-                                                          controller
-                                                                  .showControls[
-                                                              index] = false;
-                                                        }
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 16),
-                                                    height: 200,
-                                                    color: AppColor.blackColor,
-                                                    child: Stack(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      children: [
-                                                        videoController.value
-                                                                .isInitialized
-                                                            ? AspectRatio(
-                                                                aspectRatio:
-                                                                    videoController
-                                                                        .value
-                                                                        .aspectRatio,
-                                                                child: VideoPlayer(
-                                                                    videoController),
-                                                              )
-                                                            : const Center(
-                                                                child: Text(
-                                                                    'Video không thể phát.'),
-                                                              ),
-                                                        if (showControls)
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child:
-                                                                ElevatedButton(
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                shape:
-                                                                    const CircleBorder(),
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        16),
-                                                                backgroundColor:
-                                                                    AppColor
-                                                                        .blackColor
-                                                                        .withOpacity(
-                                                                            0.5),
-                                                              ),
-                                                              onPressed:
-                                                                  videoController
-                                                                          .value
-                                                                          .isInitialized
-                                                                      ? () {
-                                                                          controller
-                                                                              .togglePlayPause(index);
-                                                                        }
-                                                                      : null,
-                                                              child: Icon(
-                                                                isPlaying
-                                                                    ? Icons
-                                                                        .pause
-                                                                    : Icons
-                                                                        .play_arrow,
-                                                                size: 32,
-                                                                color: AppColor
-                                                                    .whiteColor,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                      ],
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Obx(() {
+                                            final isPlaying =
+                                                controller.isPlaying[index];
+                                            final showControls =
+                                                controller.showControls[index];
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: Text(
+                                                    'Video ${index + 1}',
+                                                    style: TextStyle(
+                                                      fontSize: FontSizeSmall,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color:
+                                                          AppColor.blackColor,
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          );
-                                        });
-                                      },
-                                    ));
+                                                MouseRegion(
+                                                  onEnter: (_) {
+                                                    controller.showControls[
+                                                        index] = true;
+                                                  },
+                                                  onExit: (_) {
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            seconds: 2), () {
+                                                      if (!isPlaying) {
+                                                        controller.showControls[
+                                                            index] = false;
+                                                      }
+                                                    });
+                                                  },
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      controller.showControls[
+                                                          index] = true;
+                                                      if (isPlaying) {
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          if (controller
+                                                                  .isPlaying[
+                                                              index]) {
+                                                            controller
+                                                                    .showControls[
+                                                                index] = false;
+                                                          }
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              bottom: 16),
+                                                      height: 200,
+                                                      color:
+                                                          AppColor.blackColor,
+                                                      child: Stack(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        children: [
+                                                          videoController.value
+                                                                  .isInitialized
+                                                              ? AspectRatio(
+                                                                  aspectRatio:
+                                                                      videoController
+                                                                          .value
+                                                                          .aspectRatio,
+                                                                  child: VideoPlayer(
+                                                                      videoController),
+                                                                )
+                                                              : const Center(
+                                                                  child: Text(
+                                                                      'Video không thể phát.'),
+                                                                ),
+                                                          if (showControls)
+                                                            Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  shape:
+                                                                      const CircleBorder(),
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          16),
+                                                                  backgroundColor: AppColor
+                                                                      .blackColor
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                ),
+                                                                onPressed:
+                                                                    videoController
+                                                                            .value
+                                                                            .isInitialized
+                                                                        ? () {
+                                                                            controller.togglePlayPause(index);
+                                                                          }
+                                                                        : null,
+                                                                child: Icon(
+                                                                  isPlaying
+                                                                      ? Icons
+                                                                          .pause
+                                                                      : Icons
+                                                                          .play_arrow,
+                                                                  size: 32,
+                                                                  color: AppColor
+                                                                      .whiteColor,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                          const SizedBox(
+                                              height:
+                                                  10), // Khoảng cách lớn hơn giữa các video
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                );
                               }),
-
                               const SizedBox(height: 8),
                               // Hiển thị danh sách nút
                               Obx(() {
