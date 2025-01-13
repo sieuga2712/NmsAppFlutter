@@ -165,7 +165,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETBANTIN,
               onBackButtonPressed: () {
                 Get.find<DanhsachBantinchopheduyetvideoController>()
-                    .loadDanhSachBanTin();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietBantinchopheduyetvideoBinding()]),
@@ -186,7 +186,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETBANTINCHODUYETTIN,
               onBackButtonPressed: () {
                 Get.find<DanhsachBantinChoduyetTinbaiController>()
-                    .loadDanhSachBantinChoduyetTinbai();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietBantinChoduyetTinbaiBinding()]),
@@ -207,7 +207,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETBANTINKHONGDUYETTIN,
               onBackButtonPressed: () {
                 Get.find<DanhsachBantinKhongduyettinController>()
-                    .loadDanhSachBantinKhongduyettin();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietBantinKhongduyettinBinding()]),
@@ -228,7 +228,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETBANTINDANGSANXUAT,
               onBackButtonPressed: () {
                 Get.find<DanhsachBantinDangsanxuatController>()
-                    .loadDanhSachBantinDangsanxuat();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietBantinDangsanxuatBinding()]),
@@ -249,7 +249,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETBANTINKHONGDUYETVIDEO,
               onBackButtonPressed: () {
                 Get.find<DanhsachBantinKhongduyetvideoController>()
-                    .loadDanhSachBantinKhongduyetvideo();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietBantinKhongduyetvideoBinding()]),
@@ -270,7 +270,7 @@ class PageRouters {
               pathScreen: Paths.CHITIETBANTINDAXUATBAN,
               onBackButtonPressed: () {
                 Get.find<DanhsachBantinDaxuatbanController>()
-                    .loadDanhSachBantinDaxxuatban();
+                    .refreshFromDetail();
               },
             ),
         bindings: [ChitietBantinDaxuatbanBinding()]),

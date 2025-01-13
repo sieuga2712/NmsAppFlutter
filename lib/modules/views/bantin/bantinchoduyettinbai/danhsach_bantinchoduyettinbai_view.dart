@@ -12,99 +12,73 @@ class DanhsachBantinChoDuyetTinBaiView
     extends GetView<DanhsachBantinChoduyetTinbaiController> {
   const DanhsachBantinChoDuyetTinBaiView({super.key});
 
+  Future<void> _onRefresh() async {
+    controller.clearSearch();
+    controller.loadDanhSachBantinChoduyetTinbai();
+    await Future.delayed(const Duration(milliseconds: 1000));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
         children: [
-          // Thanh tìm kiếm
-          TraCuuBox(onChanged: controller.setSearchKey),
-          // Danh sách bản tin
+          TraCuuBox(
+            onChanged: controller.setSearchKey,
+            controller: controller.searchController,
+            focusNode: controller.searchFocusNode,
+          ),
           Expanded(
             child: controller.obx(
-              (dsBanTinChoDuyetTinBai) => ListView.builder(
-                itemCount: dsBanTinChoDuyetTinBai!.length,
-                itemBuilder: (context, index) {
-                  var banTin = dsBanTinChoDuyetTinBai[index];
-
-                  final statusInfo =
-                      TrangthaiColos[banTin.trangThaiChuongTrinhBanTin];
-
-                  final hanXuLyVietTin =
-                      DateTime.tryParse(banTin.hanXuLyVietTin ?? "");
-                  final formattedDate = hanXuLyVietTin != null
-                      ? DateFormat('dd/MM/yyyy').format(hanXuLyVietTin)
-                      : "Chưa có hạn xử lý";
-
-                  return GestureDetector(
-                    onTap: () => controller.onSwitchPage(banTin.id),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: AppColor.whiteColor,
-                        border: Border(bottom: BorderSide(width: 0.3)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Tên bản tin: ${banTin.ten ?? ""}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    color: AppColor.blackColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Tên chương trình: ${banTin.chuongTrinh?.ten ?? "Không có"}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    color: AppColor.blackColor,
-                                  ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Hạn hoàn thành: $formattedDate',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    color: AppColor.blackColor,
-                                  ),
-                            ),
-                            const SizedBox(height: 4),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 4, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: statusInfo?.backgroundColor ??
-                                    AppColor.greyColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                '${banTin.trangThaiChuongTrinhBanTin}',
-                                style: TextStyle(
-                                  color: statusInfo?.textColor ??
-                                      AppColor.blackColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+              (filteredDsBanTinChoDuyetTin) =>
+                  NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) {
+                  if (!controller.isLoadingMore.value &&
+                      scrollInfo.metrics.pixels >=
+                          scrollInfo.metrics.maxScrollExtent * 0.8) {
+                    controller.loadMore();
+                  }
+                  return true;
                 },
+                child: RefreshIndicator(
+                  onRefresh: _onRefresh,
+                  displacement: 20.0,
+                  strokeWidth: 3,
+                  color: AppColor.blueAccentColor,
+                  backgroundColor: AppColor.whiteColor,
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics(),
+                    ),
+                    itemCount: filteredDsBanTinChoDuyetTin!.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == filteredDsBanTinChoDuyetTin.length) {
+                        return Obx(() => controller.isLoadingMore.value
+                            ? const Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: SpinKitThreeBounce(
+                                  color: AppColor.helpBlue,
+                                  size: 24.0,
+                                ),
+                              )
+                            : const SizedBox());
+                      }
+
+                      var banTin = filteredDsBanTinChoDuyetTin[index];
+                      final statusInfo =
+                          TrangthaiColos[banTin.trangThaiChuongTrinhBanTin];
+
+                      final hanXuLyVietTin =
+                          DateTime.tryParse(banTin.hanXuLyVietTin ?? "");
+                      final formattedDate = hanXuLyVietTin != null
+                          ? DateFormat('dd/MM/yyyy').format(hanXuLyVietTin)
+                          : "Chưa có hạn xử lý";
+
+                      return _buildListItem(
+                          context, banTin, statusInfo, formattedDate);
+                    },
+                  ),
+                ),
               ),
               onEmpty: EmptyDanhSach(),
               onLoading: SpinKitCircle(
@@ -119,6 +93,83 @@ class DanhsachBantinChoDuyetTinBaiView
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, dynamic banTin,
+      dynamic statusInfo, String formattedDate) {
+    return GestureDetector(
+      onTap: () => controller.onSwitchPage(banTin.id),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColor.whiteColor,
+          border: const Border(bottom: BorderSide(width: 0.3)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 1,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Flexible(
+              flex: 3,
+              fit: FlexFit.tight,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tên bản tin: ${banTin.ten ?? ""}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: AppColor.blackColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Tên chương trình: ${banTin.chuongTrinh?.ten ?? "Không có"}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColor.blackColor,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Hạn hoàn thành: $formattedDate',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColor.blackColor,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color:
+                            statusInfo?.backgroundColor ?? AppColor.greyColor,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '${banTin.trangThaiChuongTrinhBanTin}',
+                        style: TextStyle(
+                          color: statusInfo?.textColor ?? AppColor.blackColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

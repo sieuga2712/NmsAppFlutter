@@ -5,7 +5,7 @@ import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/empty_danh_sach.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
-import 'package:nms_app/global_widget/tra_cuu_box_test.dart';
+import 'package:nms_app/global_widget/tra_cuu_box.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/danhsach_chuongtrinh_controller.dart';
 
 class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
@@ -22,7 +22,7 @@ class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
     return SafeArea(
       child: Column(
         children: [
-          TraCuuBoxTest(
+          TraCuuBox(
             onChanged: controller.setSearchKey,
             controller: controller.searchController,
             focusNode: controller.searchFocusNode,

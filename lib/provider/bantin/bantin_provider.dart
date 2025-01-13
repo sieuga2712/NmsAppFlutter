@@ -9,12 +9,13 @@ class BantinProvider {
   final dio = ApiRoot().dio;
   final GetStorage _store = GetStorage();
 
-  Future<DanhsachBantinModel> dsBanTin() async {
+  Future<DanhsachBantinModel> dsBanTin({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'ChoPheDuyetvideo';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 
@@ -24,12 +25,13 @@ class BantinProvider {
     }
   }
 
-  Future<DanhsachBantinModel> dsBanTinChoDuyetTinBai() async {
+  Future<DanhsachBantinModel> dsBanTinChoDuyetTinBai({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'ChoPheDuyetTinBai';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 
@@ -39,12 +41,13 @@ class BantinProvider {
     }
   }
 
-  Future<DanhsachBantinModel> dsBanTinKhongPheDuyet() async {
+  Future<DanhsachBantinModel> dsBanTinKhongPheDuyet({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'KhongPheDuyetTinBai';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 
@@ -54,12 +57,13 @@ class BantinProvider {
     }
   }
 
-  Future<DanhsachBantinModel> dsBanTinDangSanXuat() async {
+  Future<DanhsachBantinModel> dsBanTinDangSanXuat({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'DangSanXuat';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 
@@ -69,12 +73,13 @@ class BantinProvider {
     }
   }
 
-  Future<DanhsachBantinModel> dsBanTinKhongPheDuyetVideo() async {
+  Future<DanhsachBantinModel> dsBanTinKhongPheDuyetVideo({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'KhongPheDuyetVideo';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 
@@ -84,12 +89,13 @@ class BantinProvider {
     }
   }
 
-  Future<DanhsachBantinModel> dsBanTinDaXuatBan() async {
+  Future<DanhsachBantinModel> dsBanTinDaXuatBan({
+    int skipCount = 0,
+    int maxResultCount = 10,
+  }) async {
     try {
       String trangThaiChuongTrinhBanTin = 'TinDaXuatBan';
       String sorting = 'ten ASC';
-      int skipCount = 0;
-      int maxResultCount = 10;
       final response = await dio.get(
           '${BantinApi.danhSachBanTin}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
 

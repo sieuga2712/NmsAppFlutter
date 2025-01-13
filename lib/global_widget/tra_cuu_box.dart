@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:nms_app/core/values/app_color.dart';
 
 class TraCuuBox extends StatelessWidget {
-  final Function(String?) onChanged; // Thay đổi kiểu dữ liệu của onChanged
+  final Function(String?) onChanged;
+  final TextEditingController controller; // Add controller
+  final FocusNode focusNode; // Add focus node
 
-  TraCuuBox({super.key, required this.onChanged});
+  TraCuuBox({
+    super.key,
+    required this.onChanged,
+    required this.controller,
+    required this.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +20,13 @@ class TraCuuBox extends StatelessWidget {
       child: SizedBox(
         height: 45,
         child: TextFormField(
+          controller: controller, // Use the controller
+          focusNode: focusNode, // Use the focus node
           cursorColor: AppColor.helpBlue,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: AppColor.helpBlue,
               ),
-          onChanged: (value) {
-            // Sử dụng onChanged thay vì onFieldSubmitted
-            this.onChanged(value);
-          },
+          onChanged: onChanged,
           decoration: InputDecoration(
             errorStyle: Theme.of(context)
                 .textTheme
