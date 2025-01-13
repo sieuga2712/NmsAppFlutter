@@ -3,13 +3,18 @@ import 'package:get/get.dart';
 import 'package:nms_app/modules/controllers/user/change_password_controller.dart';
 
 class ChangePasswordTab extends GetView<ChangePasswordController> {
+  final double buttonTopPadding;
   // ignore: use_super_parameters
-  const ChangePasswordTab({Key? key}) : super(key: key);
+  const ChangePasswordTab({Key? key, required this.buttonTopPadding})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final formPadding = screenWidth * 0.04; // 4% padding for the form
+
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(formPadding),
       child: Form(
         key: controller.formKey,
         child: Obx(
@@ -20,6 +25,7 @@ class ChangePasswordTab extends GetView<ChangePasswordController> {
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Mật khẩu hiện tại',
+                  prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -29,12 +35,13 @@ class ChangePasswordTab extends GetView<ChangePasswordController> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.03),
               TextFormField(
                 controller: controller.newPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Mật khẩu mới',
+                  prefixIcon: Icon(Icons.lock_reset_outlined),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -47,12 +54,13 @@ class ChangePasswordTab extends GetView<ChangePasswordController> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: screenWidth * 0.03),
               TextFormField(
                 controller: controller.confirmPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Xác nhận mật khẩu mới',
+                  prefixIcon: Icon(Icons.lock_reset_outlined),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -65,22 +73,39 @@ class ChangePasswordTab extends GetView<ChangePasswordController> {
                   return null;
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: screenWidth * 0.06),
               if (controller.errorMessage.value != null)
                 Text(
                   controller.errorMessage.value!,
                   style: const TextStyle(color: Colors.red),
                 ),
-              ElevatedButton(
-                onPressed: controller.isLoading.value
-                    ? null
-                    : controller.changePassword,
-                child: controller.isLoading.value
-                    ? const CircularProgressIndicator()
-                    : const Text(
-                        'Đổi mật khẩu',
-                        style: TextStyle(color: Color(0xFF0277BD)),
+              Padding(
+                padding: EdgeInsets.only(top: buttonTopPadding),
+                child: Center(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.edit,
+                      size: 15,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Cập nhật',
+                      style: TextStyle(fontSize: 17, color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.06,
+                          vertical: screenWidth * 0.03),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
+                      backgroundColor: Colors.blue,
+                    ),
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : controller.changePassword,
+                  ),
+                ),
               ),
             ],
           ),

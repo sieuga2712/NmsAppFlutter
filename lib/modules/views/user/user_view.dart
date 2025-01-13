@@ -15,14 +15,11 @@ class UserProfileView extends GetView<UserProfileController> {
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: controller.obx(
-            (user) => _buildUserProfile(user),
-            onLoading: const Center(child: CircularProgressIndicator()),
-            onError: (error) => Center(child: Text('Đã xảy ra lỗi: $error')),
-            onEmpty: const Center(child: Text('Không có thông tin người dùng')),
-          ),
+        child: controller.obx(
+          (user) => _buildUserProfile(user),
+          onLoading: const Center(child: CircularProgressIndicator()),
+          onError: (error) => Center(child: Text('Đã xảy ra lỗi: $error')),
+          onEmpty: const Center(child: Text('Không có thông tin người dùng')),
         ),
       ),
     );
@@ -34,7 +31,9 @@ class UserProfileView extends GetView<UserProfileController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(user),
+        Expanded(
+          child: _buildHeader(user),
+        ),
       ],
     );
   }
@@ -45,63 +44,90 @@ class UserProfileView extends GetView<UserProfileController> {
 
     return DefaultTabController(
       length: 2,
-      child: Column(
-        children: [
-          Material(
-            elevation: 4,
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.white,
-            child: TabBar(
-              isScrollable: false,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: primaryColor,
-              ),
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey[700],
-              labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-              indicatorSize: TabBarIndicatorSize.tab,
-              tabs: const [
-                Tab(
-                  child: Text(
-                    'Thông tin người dùng',
-                    style: TextStyle(fontSize: 12.7),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final screenWidth = MediaQuery.of(context).size.width;
+          final tabBarTopPadding =
+              screenWidth * 0.03; // 3% top padding for tab bar
+          final tabBarHorizontalPadding =
+              screenWidth * 0.05; // 5% padding cho các tab ngang
+          final tabBarVerticalPadding =
+              screenWidth * 0.02; // 2% padding cho các tab dọc
+          final buttonTopPadding =
+              screenWidth * 0.08; // 8% top padding for the update button
+          final formPadding = screenWidth * 0.04; // 4% padding for the form
+
+          return Padding(
+            padding: EdgeInsets.only(top: tabBarTopPadding),
+            child: Column(
+              children: [
+                Material(
+                  elevation: 4,
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  child: TabBar(
+                    isScrollable: false,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: primaryColor,
+                    ),
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.grey[700],
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: [
+                      Tab(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: tabBarHorizontalPadding,
+                              vertical: tabBarVerticalPadding),
+                          child: const Text(
+                            'Thông tin người dùng',
+                            style: TextStyle(fontSize: 12.7),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: tabBarHorizontalPadding,
+                              vertical: tabBarVerticalPadding),
+                          child: const Text(
+                            'Đổi mật khẩu',
+                            style: TextStyle(fontSize: 12.7),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Tab(
-                  child: Text(
-                    'Đổi mật khẩu',
-                    style: TextStyle(fontSize: 12.7),
+                SizedBox(height: screenWidth * 0.05),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: secondaryColor.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(formPadding),
+                      child: TabBarView(
+                        children: [
+                          _buildThongTinNguoiDungTab(user, buttonTopPadding),
+                          ChangePasswordTab(buttonTopPadding: buttonTopPadding),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: secondaryColor.withOpacity(0.2),
-            ),
-            child: SizedBox(
-              height: 400,
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: TabBarView(
-                  children: [
-                    _buildThongTinNguoiDungTab(user),
-                    ChangePasswordTab(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildThongTinNguoiDungTab(UserModel user) {
+  Widget _buildThongTinNguoiDungTab(UserModel user, double buttonTopPadding) {
+    final screenWidth = MediaQuery.of(Get.context!).size.width;
     final usernameController = TextEditingController(text: user.userName);
     final nameController = TextEditingController(text: user.name ?? '');
     final surnameController = TextEditingController(text: user.surname ?? '');
@@ -109,7 +135,6 @@ class UserProfileView extends GetView<UserProfileController> {
     final phoneController = TextEditingController(text: user.phoneNumber ?? '');
     final concurrencyStamp = user.concurrencyStamp ?? '';
 
-    // Store original values
     final originalValues = {
       'name': user.name ?? '',
       'surname': user.surname ?? '',
@@ -118,60 +143,91 @@ class UserProfileView extends GetView<UserProfileController> {
     };
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(12.0),
+      padding: EdgeInsets.all(screenWidth * 0.03),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          SizedBox(height: screenWidth * 0.03),
           TextFormField(
             controller: usernameController,
             enabled: false,
-            decoration: const InputDecoration(labelText: 'Tên đăng nhập'),
+            decoration: const InputDecoration(
+              labelText: 'Tên đăng nhập',
+              prefixIcon: Icon(Icons.person),
+              border: OutlineInputBorder(),
+            ),
           ),
+          SizedBox(height: screenWidth * 0.03),
           Row(
             children: [
               Expanded(
                 child: TextFormField(
                   controller: nameController,
                   enabled: false,
-                  decoration: const InputDecoration(labelText: 'Tên'),
+                  decoration: const InputDecoration(
+                    labelText: 'Tên',
+                    prefixIcon: Icon(Icons.text_fields),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: screenWidth * 0.04),
               Expanded(
                 child: TextFormField(
                   controller: surnameController,
                   enabled: false,
-                  decoration: const InputDecoration(labelText: 'Họ'),
+                  decoration: const InputDecoration(
+                    labelText: 'Họ',
+                    prefixIcon: Icon(Icons.text_fields),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: screenWidth * 0.03),
           TextFormField(
             controller: emailController,
             enabled: false,
-            decoration: const InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(
+              labelText: 'Email',
+              prefixIcon: Icon(Icons.email),
+              border: OutlineInputBorder(),
+            ),
           ),
+          SizedBox(height: screenWidth * 0.03),
           TextFormField(
             controller: phoneController,
             enabled: false,
-            decoration: const InputDecoration(labelText: 'Số điện thoại'),
+            decoration: const InputDecoration(
+              labelText: 'Số điện thoại',
+              prefixIcon: Icon(Icons.phone),
+              border: OutlineInputBorder(),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 25.0),
+            padding: EdgeInsets.only(top: buttonTopPadding),
             child: Center(
               child: ElevatedButton.icon(
                 icon: const Icon(
                   Icons.edit,
                   size: 15,
-                  color: Color(0xFF0277BD),
+                  color: Colors.white,
                 ),
                 label: const Text(
                   'Cập nhật',
-                  style: TextStyle(fontSize: 17, color: Color(0xFF0277BD)),
+                  style: TextStyle(fontSize: 17, color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.06,
+                      vertical: screenWidth * 0.03),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  backgroundColor: Colors.blue,
                 ),
                 onPressed: () {
-                  // Check if any values have changed
                   final currentValues = {
                     'name': nameController.text,
                     'surname': surnameController.text,
