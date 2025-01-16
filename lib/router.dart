@@ -21,6 +21,7 @@ import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhdaxuatban/d
 import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhkhongduyetkb/chuongtrinhkhongduyetkb_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhkhongduyetkb/danhsach_chuongtrinhkhongduyetkb_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
+import 'package:nms_app/modules/controllers/welcomescreen/welcome_screen_binding.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/chitiet_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/danhsach_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/chitiet_bantinchoduyetvideo_view.dart';
@@ -47,15 +48,20 @@ import 'package:nms_app/modules/controllers/login/login_binding.dart';
 import 'package:nms_app/modules/views/login/login_view.dart';
 import 'package:get/get.dart';
 import 'package:nms_app/modules/views/user/user_view.dart';
+import 'package:nms_app/modules/views/welcomescreen/welcome_screen_view.dart';
 
 class PageRouters {
   PageRouters._();
 
-  static const INITIAL = Routers.LOGIN;
+  static const INITIAL = Routers.WELCOMESCREEN;
   static const Firstpage = Routers.LOGIN;
   static final routers = [
     GetPage(
         name: Paths.LOGIN, page: () => LoginView(), binding: LoginBinding()),
+    GetPage(
+        name: Paths.WELCOMESCREEN,
+        page: () => WelcomeScreenView(),
+        bindings: [WelcomeScreenBinding()]),
     GetPage(
         name: Paths.TRANGCHU,
         page: () => HeaderAppbar(
@@ -291,6 +297,7 @@ class Routers {
   static const TRANGCHU = Paths.TRANGCHU;
   static const SPLASH = Paths.SPLASH;
   static const LOGIN = Paths.LOGIN;
+  static const WELCOMESCREEN = Paths.WELCOMESCREEN;
 
   static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
   static const CHITIETCHUONGTRINH = Paths.CHITIETCHUONGTRINH;
@@ -336,6 +343,7 @@ class Paths {
   static const TRANGCHU = '/trangchu';
   static const SPLASH = '/splash';
   static const LOGIN = '/login';
+  static const WELCOMESCREEN = '/welcomescreen';
 
   static const DSCHUONGTRINH = '/dschuongtrinh';
   static const CHITIETCHUONGTRINH = '/chitietchuongtrinh';

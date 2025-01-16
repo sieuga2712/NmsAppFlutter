@@ -94,6 +94,11 @@ flutter:
     - lottie/404_not_found.json
     - lottie/emptyBox.json
     - images/avatar_default.png
+    - images/user.png
+    - images/1.png
+    - images/2.png
+    - images/3.png
+    - images/4.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
