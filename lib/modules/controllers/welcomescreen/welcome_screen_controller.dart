@@ -3,7 +3,7 @@ import 'package:nms_app/router.dart';
 
 class WelcomeScreenController extends GetxController {
   void navigateToLogin() {
-    Get.offAllNamed(Paths.LOGIN);
+    Get.toNamed(Paths.LOGIN);
   }
 
   @override
