@@ -271,7 +271,7 @@ class LoginController extends GetxController {
       await _clearCookies();
       _clearLoginData();
       log.i('Logout successful.');
-      Get.offAllNamed(Paths.LOGIN);
+      Get.offAllNamed(Paths.WELCOMESCREEN);
     } catch (e, stackTrace) {
       log.e('Error during logout: $e', error: e, stackTrace: stackTrace);
     } finally {

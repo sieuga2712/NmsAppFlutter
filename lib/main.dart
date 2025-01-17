@@ -23,7 +23,7 @@ void main() async {
         // Add more locales if needed
       ],
       debugShowCheckedModeBanner: false,
-      initialRoute: PageRouters.Firstpage,
+      initialRoute: PageRouters.INITIAL,
       getPages: PageRouters.routers,
       initialBinding: SetupBinding(),
       themeMode: ThemeMode.light,
