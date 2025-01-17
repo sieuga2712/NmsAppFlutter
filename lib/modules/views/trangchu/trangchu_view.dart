@@ -24,7 +24,7 @@ class TrangchuView extends GetView<TrangchuController> {
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         color: AppColor.blueAccentColor,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         strokeWidth: 3,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),

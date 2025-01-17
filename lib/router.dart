@@ -48,6 +48,9 @@ import 'package:nms_app/modules/controllers/login/login_binding.dart';
 import 'package:nms_app/modules/views/login/login_view.dart';
 import 'package:get/get.dart';
 import 'package:nms_app/modules/views/user/user_view.dart';
+import 'package:nms_app/modules/views/welcomescreen/gioithieu_view.dart';
+import 'package:nms_app/modules/views/welcomescreen/huongdan_view.dart';
+import 'package:nms_app/modules/views/welcomescreen/lienhe_view.dart';
 import 'package:nms_app/modules/views/welcomescreen/welcome_screen_view.dart';
 
 class PageRouters {
@@ -60,8 +63,11 @@ class PageRouters {
         name: Paths.LOGIN, page: () => LoginView(), binding: LoginBinding()),
     GetPage(
         name: Paths.WELCOMESCREEN,
-        page: () => WelcomeScreenView(),
+        page: () => HomeView(),
         bindings: [WelcomeScreenBinding()]),
+    GetPage(name: Paths.GIOITHIEU, page: () => GioiThieuView()),
+    GetPage(name: Paths.LIENHE, page: () => LienHeView()),
+    GetPage(name: Paths.HUONGDAN, page: () => HuongDanView()),
     GetPage(
         name: Paths.TRANGCHU,
         page: () => HeaderAppbar(
@@ -297,7 +303,11 @@ class Routers {
   static const TRANGCHU = Paths.TRANGCHU;
   static const SPLASH = Paths.SPLASH;
   static const LOGIN = Paths.LOGIN;
+
   static const WELCOMESCREEN = Paths.WELCOMESCREEN;
+  static const GIOITHIEU = Paths.GIOITHIEU;
+  static const LIENHE = Paths.LIENHE;
+  static const HUONGDAN = Paths.HUONGDAN;
 
   static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
   static const CHITIETCHUONGTRINH = Paths.CHITIETCHUONGTRINH;
@@ -343,7 +353,11 @@ class Paths {
   static const TRANGCHU = '/trangchu';
   static const SPLASH = '/splash';
   static const LOGIN = '/login';
+
   static const WELCOMESCREEN = '/welcomescreen';
+  static const GIOITHIEU = '/gioithieu';
+  static const LIENHE = '/lienhe';
+  static const HUONGDAN = '/huongdan';
 
   static const DSCHUONGTRINH = '/dschuongtrinh';
   static const CHITIETCHUONGTRINH = '/chitietchuongtrinh';

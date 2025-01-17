@@ -1,36 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nms_app/modules/controllers/welcomescreen/welcome_screen_controller.dart';
-import 'package:nms_app/router.dart';
+import 'package:nms_app/global_widget/welcomescreen/custom_bottom_navigation_bar.dart';
+import 'package:nms_app/global_widget/welcomescreen/custom_header.dart';
+import 'package:nms_app/router.dart'; // Đảm bảo import router của bạn
 
-class WelcomeScreenView extends GetView<WelcomeScreenController> {
+class HomeView extends GetView<WelcomeScreenController> {
   final valueItemBL = <ItemNhacViec>[].obs;
 
   // ignore: use_super_parameters
-  WelcomeScreenView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   String getDeviceType() {
     final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     return data.size.shortestSide < 600 ? 'phone' : 'tablet';
-  }
-
-  void onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        break;
-      case 1:
-        _showHelpDialog(Get.context!);
-        break;
-      case 2:
-        Get.toNamed(Paths.LOGIN);
-        break;
-      case 3:
-        _showContactInfoDialog(Get.context!);
-        break;
-      case 4:
-        _showCompanyInfoDialog(Get.context!);
-        break;
-    }
   }
 
   @override
@@ -72,22 +55,7 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
     ]);
 
     return Scaffold(
-      appBar: AppBar(
-        title: null,
-        backgroundColor: const Color(0xFF0277BD),
-        flexibleSpace: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: screenHeight * 0.04),
-            child: Text(
-              'NMS App',
-              style: TextStyle(
-                fontSize: screenWidth * 0.06,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
+      appBar: const CustomHeader(title: 'NMSApp'),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -118,7 +86,7 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                 child: OrientationBuilder(builder: (context, orientation) {
                   return SizedBox(
-                    height: screenHeight * 0.5,
+                    height: screenHeight * 0.6, // Điều chỉnh chiều cao phù hợp
                     child: Obx(() {
                       return GridView.count(
                         shrinkWrap: true,
@@ -144,171 +112,27 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: 'Help',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Account',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.phone_enabled),
-            label: 'Contact',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline),
-            label: 'Info',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF0277BD),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-      ),
-    );
-  }
-
-  void _showHelpDialog(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Hướng dẫn sử dụng',
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('1. Nhấn vào biểu tượng tài khoản ở trên để đăng nhập.',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('2. Sử dụng các mục bên dưới để quản lý công việc.',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('3. Chọn "Liên hệ" để được hỗ trợ',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('4. Chọn "Thông tin" để xem thông tin ứng dụng',
-                  style: TextStyle(fontSize: screenWidth * 0.035))
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Đóng',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0277BD),
-                    fontSize: screenWidth * 0.035)),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showContactInfoDialog(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Thông tin liên hệ',
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text(
-                'Điện thoại: (0210) 3.900.900',
-                style: TextStyle(fontSize: screenWidth * 0.035),
-              ),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Fax: (0210) 3847678',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Email: vinaphone.pto@vnpt.vn ; phutho@vnpt.vn',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Zalo page (OA): http://zalo.me/1413532271000575027',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Đóng',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF0277BD),
-                    fontSize: screenWidth * 0.035)),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showCompanyInfoDialog(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    Get.dialog(
-      AlertDialog(
-        title: const Text(
-          'Thông tin ứng dụng',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('Tên đầy đủ: NMS App',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Tên công ty: VNPT Phú Thọ',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Tên giao dịch Quốc tế: VNPT PhuTho',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Giám đốc: Th.s Đặng Việt Hải',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text(
-                  'Trụ sở chính: 1468 Đường Hùng Vương - Phường Tiên Cát - TP Việt Trì - Tỉnh Phú Thọ',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Website: http://phutho.vnpt.vn/',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-              SizedBox(height: screenWidth * 0.02),
-              Text('Fanpage Facebook: www.facebook.com/phutho.vnpt.vn',
-                  style: TextStyle(fontSize: screenWidth * 0.035)),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text(
-              'Đóng',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF0277BD),
-                  fontSize: screenWidth * 0.035),
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ],
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0, // Đánh dấu view hiện tại
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              // Đã ở HomeView
+              break;
+            case 1:
+              Get.offAllNamed(Paths.HUONGDAN);
+              break;
+            case 2:
+              Get.toNamed(Paths.LOGIN);
+              break;
+            case 3:
+              Get.offAllNamed(Paths.LIENHE);
+              break;
+            case 4:
+              Get.offAllNamed(Paths.GIOITHIEU);
+              break;
+          }
+        },
       ),
     );
   }
@@ -365,6 +189,7 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
   }
 }
 
+// Giữ lại các widget ItemMenu và ItemNhacViec
 class ItemMenu extends StatelessWidget {
   final String title;
   final String imagePath;
