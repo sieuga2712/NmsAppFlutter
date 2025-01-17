@@ -1,4 +1,4 @@
-package com.example.nms_app
+package com.vnpt.nms_app
 
 import io.flutter.embedding.android.FlutterActivity
 
