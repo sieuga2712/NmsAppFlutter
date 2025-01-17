@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:nms_app/model/auth/granted_policies.dart';
@@ -157,36 +158,50 @@ class LoginController extends GetxController {
         scopes: _scopes,
         redirectUri: Uri.parse(_redirectUri),
         urlLancher: (url) async {
-          // Thêm prompt=login vào url
-          final urlWithPrompt = Uri.parse(url).replace(queryParameters: {
-            ...Uri.parse(url).queryParameters,
-            'prompt': 'login'
-          });
+          try {
+            final urlWithPrompt = Uri.parse(url).replace(queryParameters: {
+              ...Uri.parse(url).queryParameters,
+              'prompt': 'login'
+            });
 
-          log.i('Opening URL: $urlWithPrompt');
-          final result = await FlutterWebAuth2.authenticate(
-            url: urlWithPrompt.toString(),
-            callbackUrlScheme: 'com.yourapp',
-          );
-          final callbackUri = Uri.parse(result);
-          final code = callbackUri.queryParameters['code'];
+            log.i('Opening URL: $urlWithPrompt');
+            final result = await FlutterWebAuth2.authenticate(
+              url: urlWithPrompt.toString(),
+              callbackUrlScheme: 'com.yourapp',
+            );
 
-          if (code != null) {
-            log.i('Code received: $code');
-            final loginData = await _loginProvider.exchangeCodeForToken(
-                code, _clientId, _redirectUri);
-            if (loginData != null) {
-              log.i('Token received: ${loginData.accessToken}');
-              loginModel.value = loginData;
-              await saveToStorage();
-              await fetchAndSetPermissions();
-              Get.back();
-              Get.offAllNamed(Paths.TRANGCHU);
-            } else {
-              log.e('Failed to exchange code for token.');
+            // Kiểm tra nếu result rỗng (người dùng đã hủy)
+            if (result.isEmpty) {
+              log.i('User cancelled authentication.');
+              return;
             }
-          } else {
-            log.w('No code found in callback URL.');
+
+            final callbackUri = Uri.parse(result);
+            final code = callbackUri.queryParameters['code'];
+
+            if (code != null) {
+              log.i('Code received: $code');
+              final loginData = await _loginProvider.exchangeCodeForToken(
+                  code, _clientId, _redirectUri);
+              if (loginData != null) {
+                log.i('Token received: ${loginData.accessToken}');
+                loginModel.value = loginData;
+                await saveToStorage();
+                await fetchAndSetPermissions();
+                Get.back();
+                Get.offAllNamed(Paths.TRANGCHU);
+              } else {
+                log.e('Failed to exchange code for token.');
+              }
+            } else {
+              log.w('No code found in callback URL.');
+            }
+          } on PlatformException catch (e) {
+            if (e.code == 'CANCELED') {
+              log.i('User cancelled authentication.');
+            } else {
+              log.e('Platform Exception during authentication: ${e.message}');
+            }
           }
         },
       );
