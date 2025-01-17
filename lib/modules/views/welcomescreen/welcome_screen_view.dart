@@ -36,9 +36,11 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
   @override
   Widget build(BuildContext context) {
     double tile = 1.0;
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    final data = MediaQuery.of(context);
+    final screenWidth = data.size.width;
+    final screenHeight = data.size.height;
 
-    if (getDeviceType() == 'tablet' && data.size.width > data.size.height) {
+    if (getDeviceType() == 'tablet' && screenWidth > screenHeight) {
       tile = 3.0;
     }
 
@@ -72,75 +74,74 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
     return Scaffold(
       appBar: AppBar(
         title: null,
-        backgroundColor: Color(0xFF0277BD),
+        backgroundColor: const Color(0xFF0277BD),
         flexibleSpace: Center(
           child: Padding(
-            padding: EdgeInsets.only(top: 30.0),
+            padding: EdgeInsets.only(top: screenHeight * 0.04),
             child: Text(
               'NMS App',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: screenWidth * 0.06,
                 color: Colors.white,
               ),
             ),
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () => controller.navigateToLogin(),
-              child: CircleAvatar(
-                radius: 60,
-                backgroundColor: Colors.lightBlueAccent,
-                child: const Icon(
-                  Icons.account_circle_outlined,
-                  size: 100,
-                  color: Color.fromARGB(255, 105, 105, 105),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: screenHeight * 0.04),
+              InkWell(
+                onTap: () => controller.navigateToLogin(),
+                child: CircleAvatar(
+                  radius: screenWidth * 0.15,
+                  backgroundColor: Colors.lightBlueAccent,
+                  child: Icon(
+                    Icons.account_circle_outlined,
+                    size: screenWidth * 0.25,
+                    color: const Color.fromARGB(255, 105, 105, 105),
+                  ),
                 ),
               ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Login Text
-            const Text(
-              'Đăng nhập',
-              style: TextStyle(fontSize: 22, color: Color(0xFF0277BD)),
-            ),
-
-            const SizedBox(height: 24),
-
-            // Grid Menu
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: OrientationBuilder(builder: (context, orientation) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: Obx(() {
-                    return GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount:
-                          orientation == Orientation.portrait ? 2 : 4,
-                      childAspectRatio: tile,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: valueItemBL
-                          .map((element) => ItemMenu(
-                                title: element.tenNhacViec,
-                                imagePath: element.imagePath,
-                                clickOn: () => _showLoginDialog(context),
-                              ))
-                          .toList(),
-                    );
-                  }),
-                );
-              }),
-            ),
-          ],
+              SizedBox(height: screenHeight * 0.02),
+              Text(
+                'Đăng nhập',
+                style: TextStyle(
+                    fontSize: screenWidth * 0.055,
+                    color: const Color(0xFF0277BD)),
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                child: OrientationBuilder(builder: (context, orientation) {
+                  return SizedBox(
+                    height: screenHeight * 0.5,
+                    child: Obx(() {
+                      return GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount:
+                            orientation == Orientation.portrait ? 2 : 4,
+                        childAspectRatio: tile,
+                        crossAxisSpacing: screenWidth * 0.02,
+                        mainAxisSpacing: screenWidth * 0.02,
+                        physics: const ClampingScrollPhysics(),
+                        children: valueItemBL
+                            .map((element) => ItemMenu(
+                                  title: element.tenNhacViec,
+                                  imagePath: element.imagePath,
+                                  clickOn: () => _showLoginDialog(context),
+                                ))
+                            .toList(),
+                      );
+                    }),
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -170,7 +171,7 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           ),
         ],
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xFF0277BD),
+        backgroundColor: const Color(0xFF0277BD),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
       ),
@@ -178,28 +179,35 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
   }
 
   void _showHelpDialog(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     Get.dialog(
       AlertDialog(
         title: const Text('Hướng dẫn sử dụng',
             style: TextStyle(fontWeight: FontWeight.bold)),
         content: SingleChildScrollView(
           child: ListBody(
-            children: const <Widget>[
-              Text('1. Nhấn vào biểu tượng tài khoản ở trên để đăng nhập.'),
-              SizedBox(height: 8),
-              Text('2. Sử dụng các mục bên dưới để quản lý công việc.'),
-              SizedBox(height: 8),
-              Text('3. Chọn "Liên hệ" để được hỗ trợ'),
-              SizedBox(height: 8),
-              Text('4. Chọn "Thông tin" để xem thông tin ứng dụng')
+            children: <Widget>[
+              Text('1. Nhấn vào biểu tượng tài khoản ở trên để đăng nhập.',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('2. Sử dụng các mục bên dưới để quản lý công việc.',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('3. Chọn "Liên hệ" để được hỗ trợ',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('4. Chọn "Thông tin" để xem thông tin ứng dụng',
+                  style: TextStyle(fontSize: screenWidth * 0.035))
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Đóng',
+            child: Text('Đóng',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Color(0xFF0277BD))),
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF0277BD),
+                    fontSize: screenWidth * 0.035)),
             onPressed: () {
               Get.back();
             },
@@ -210,30 +218,37 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
   }
 
   void _showContactInfoDialog(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     Get.dialog(
       AlertDialog(
         title: const Text('Thông tin liên hệ',
             style: TextStyle(fontWeight: FontWeight.bold)),
         content: SingleChildScrollView(
           child: ListBody(
-            children: const <Widget>[
+            children: <Widget>[
               Text(
                 'Điện thoại: (0210) 3.900.900',
+                style: TextStyle(fontSize: screenWidth * 0.035),
               ),
-              SizedBox(height: 8),
-              Text('Fax: (0210) 3847678'),
-              SizedBox(height: 8),
-              Text('Email: vinaphone.pto@vnpt.vn ; phutho@vnpt.vn'),
-              SizedBox(height: 8),
-              Text('Zalo page (OA): http://zalo.me/1413532271000575027'),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Fax: (0210) 3847678',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Email: vinaphone.pto@vnpt.vn ; phutho@vnpt.vn',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Zalo page (OA): http://zalo.me/1413532271000575027',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Đóng',
+            child: Text('Đóng',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: Color(0xFF0277BD))),
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF0277BD),
+                    fontSize: screenWidth * 0.035)),
             onPressed: () {
               Get.back();
             },
@@ -244,6 +259,7 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
   }
 
   void _showCompanyInfoDialog(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     Get.dialog(
       AlertDialog(
         title: const Text(
@@ -252,31 +268,41 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
         ),
         content: SingleChildScrollView(
           child: ListBody(
-            children: const <Widget>[
+            children: <Widget>[
               Text('Tên đầy đủ: NMS App',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8),
-              Text('Tên công ty: VNPT Phú Thọ'),
-              SizedBox(height: 8),
-              Text('Tên giao dịch Quốc tế: VNPT PhuTho'),
-              SizedBox(height: 8),
-              Text('Giám đốc: Th.s Đặng Việt Hải'),
-              SizedBox(height: 8),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Tên công ty: VNPT Phú Thọ',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Tên giao dịch Quốc tế: VNPT PhuTho',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Giám đốc: Th.s Đặng Việt Hải',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
               Text(
-                  'Trụ sở chính: 1468 Đường Hùng Vương - Phường Tiên Cát - TP Việt Trì - Tỉnh Phú Thọ'),
-              SizedBox(height: 8),
-              Text('Website: http://phutho.vnpt.vn/'),
-              SizedBox(height: 8),
-              Text('Fanpage Facebook: www.facebook.com/phutho.vnpt.vn'),
+                  'Trụ sở chính: 1468 Đường Hùng Vương - Phường Tiên Cát - TP Việt Trì - Tỉnh Phú Thọ',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Website: http://phutho.vnpt.vn/',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
+              SizedBox(height: screenWidth * 0.02),
+              Text('Fanpage Facebook: www.facebook.com/phutho.vnpt.vn',
+                  style: TextStyle(fontSize: screenWidth * 0.035)),
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text(
+            child: Text(
               'Đóng',
               style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Color(0xFF0277BD)),
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF0277BD),
+                  fontSize: screenWidth * 0.035),
             ),
             onPressed: () {
               Get.back();
@@ -288,9 +314,11 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
   }
 
   void _showLoginDialog(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     Get.defaultDialog(
       title: "Thông báo",
-      titleStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      titleStyle:
+          TextStyle(fontSize: screenWidth * 0.045, fontWeight: FontWeight.bold),
       middleText: "Bạn cần đăng nhập để sử dụng chức năng này",
       radius: 10,
       content: Column(
@@ -299,8 +327,9 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
           Text(
             "Bạn cần đăng nhập để sử dụng chức năng này",
             textAlign: TextAlign.center,
+            style: TextStyle(fontSize: screenWidth * 0.035),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: screenWidth * 0.05),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -309,9 +338,10 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF0277BD)),
                 ),
-                child: const Text(
+                child: Text(
                   "Để sau",
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(
+                      color: Colors.blue, fontSize: screenWidth * 0.035),
                 ),
               ),
               ElevatedButton(
@@ -320,10 +350,11 @@ class WelcomeScreenView extends GetView<WelcomeScreenController> {
                   controller.navigateToLogin();
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0277BD)),
-                child: const Text(
+                    backgroundColor: const Color(0xFF0277BD)),
+                child: Text(
                   "Đăng nhập",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: Colors.white, fontSize: screenWidth * 0.035),
                 ),
               ),
             ],
@@ -348,12 +379,13 @@ class ItemMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: clickOn,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(screenWidth * 0.02),
           border: Border.all(color: Colors.blueAccent, width: 1.0),
         ),
         child: Column(
@@ -361,21 +393,21 @@ class ItemMenu extends StatelessWidget {
           children: [
             ClipOval(
               child: SizedBox(
-                width: 70,
-                height: 70,
+                width: screenWidth * 0.18,
+                height: screenWidth * 0.18,
                 child: Image.asset(
                   imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: screenWidth * 0.02),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.black,
-                fontSize: 14,
+                fontSize: screenWidth * 0.035,
               ),
             )
           ],
