@@ -57,7 +57,7 @@ class GioiThieuView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Thông tin phiên bản: 1.0.21',
+                      'Thông tin phiên bản: 1.0.0',
                       style: TextStyle(
                           fontSize: screenWidth * 0.04,
                           fontWeight: FontWeight.bold),

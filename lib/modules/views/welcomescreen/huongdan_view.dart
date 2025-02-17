@@ -3,10 +3,13 @@ import 'package:get/get.dart';
 import 'package:nms_app/global_widget/welcomescreen/custom_bottom_navigation_bar.dart';
 import 'package:nms_app/global_widget/welcomescreen/custom_header.dart';
 import 'package:nms_app/router.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:in_app_review/in_app_review.dart';
+
+import 'package:nms_app/core/values/app_color.dart';
 
 class HuongDanView extends StatelessWidget {
-  const HuongDanView({super.key});
-
+  final InAppReview inAppReview=InAppReview.instance;
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -18,8 +21,7 @@ class HuongDanView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: screenHeight * 0.04),
-            Text(
+            /*Text(
               'Nội dung:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -45,7 +47,82 @@ class HuongDanView extends StatelessWidget {
             Text(
               '4. Chọn "Giới thiệu" để xem thông tin ứng dụng',
               style: TextStyle(fontSize: screenWidth * 0.04),
+            ),*/ListTile(
+            leading: Icon(Icons.attach_file_rounded,
+                size: 40.0), // Biểu tượng bên trái
+            title: TextButton(
+              onPressed: () async {
+                final Uri url = Uri.parse(
+                    'https://youtu.be/uyfshNjbn38');
+               if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              style: TextButton.styleFrom(
+                textStyle: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ), // Kiểu chữ
+              ),
+              child: Text('Hướng dẫn sử dụng NMS App'),
             ),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          ), 
+          ListTile(
+            leading: Icon(Icons.file_copy_outlined,
+                size: 40.0), // Biểu tượng bên trái
+            title: TextButton(
+              onPressed: () async {
+                final Uri url = Uri.parse(
+                    'https://docs.google.com/document/d/1QJklT1Xl2DPIz_eRjGHVEakqe0pCg9myDltq0rr0XOY/edit?usp=sharing');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              style: TextButton.styleFrom(
+                textStyle: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ), // Kiểu chữ
+              ),
+              child: Text('Điều khoản sử dụng'),
+            ),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          ),
+          ListTile(
+            leading: Icon(Icons.message_outlined,
+                size: 40.0), // Biểu tượng bên trái
+            title: TextButton(
+              onPressed: () async {
+               try{
+                if(await inAppReview.isAvailable()){
+                  inAppReview.requestReview();
+                }
+               }
+               catch(e){
+                print(e);
+               }
+              },
+              style: TextButton.styleFrom(
+                textStyle: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ), // Kiểu chữ
+              ),
+              child: Text('Góp ý'),
+            ),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          )
           ],
         ),
       ),

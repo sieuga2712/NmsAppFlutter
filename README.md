@@ -1,4 +1,4 @@
-# nsm_app
+# nms_app
 
 A new Flutter project.
 

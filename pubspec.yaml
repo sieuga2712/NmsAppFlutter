@@ -56,6 +56,8 @@ dependencies:
   diacritic: ^0.1.1
 
 dev_dependencies:
+  in_app_review: ^2.0.10
+  url_launcher: ^6.1.11
   flutter_test:
     sdk: flutter
 
