@@ -9,6 +9,7 @@ class ChitietBantinModel {
   String? hanXuLyQuayPhim;
   String? hanXuLySanXuat;
   String? hanXuLyDuyetSanXuat;
+  String? theLoaiTin;
   String? chuongTrinhId;
   ChuongTrinh? chuongTrinh;
   String? trangThaiChuongTrinhBanTinId;
@@ -28,6 +29,7 @@ class ChitietBantinModel {
       this.hanXuLyQuayPhim,
       this.hanXuLySanXuat,
       this.hanXuLyDuyetSanXuat,
+      this.theLoaiTin,
       this.chuongTrinhId,
       this.chuongTrinh,
       this.trangThaiChuongTrinhBanTinId,
@@ -47,6 +49,7 @@ class ChitietBantinModel {
     hanXuLyQuayPhim = json['hanXuLyQuayPhim'];
     hanXuLySanXuat = json['hanXuLySanXuat'];
     hanXuLyDuyetSanXuat = json['hanXuLyDuyetSanXuat'];
+    theLoaiTin = json['theLoaiTin'];
     chuongTrinhId = json['chuongTrinhId'];
     chuongTrinh = json['chuongTrinh'] != null
         ? new ChuongTrinh.fromJson(json['chuongTrinh'])
@@ -85,6 +88,8 @@ class ChitietBantinModel {
     data['hanXuLyQuayPhim'] = this.hanXuLyQuayPhim;
     data['hanXuLySanXuat'] = this.hanXuLySanXuat;
     data['hanXuLyDuyetSanXuat'] = this.hanXuLyDuyetSanXuat;
+    data['theLoaiTin'] = this.theLoaiTin;
+
     data['chuongTrinhId'] = this.chuongTrinhId;
     if (this.chuongTrinh != null) {
       data['chuongTrinh'] = this.chuongTrinh!.toJson();

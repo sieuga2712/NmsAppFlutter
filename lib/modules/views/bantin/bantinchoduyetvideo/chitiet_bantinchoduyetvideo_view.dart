@@ -126,6 +126,29 @@ class _ChitietBantinchoduyetvideoViewState
                                   ),
                                 ],
                               ),
+                              
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Thể loại: ',
+                                    style: TextStyle(
+                                      fontSize: FontSizeSmall,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${chiTietBanTin?.theLoaiTin}',
+                                      style: TextStyle(
+                                        fontSize: FontSizeSmall,
+                                        color: AppColor.redColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(height: 4),
                               Row(
                                 children: [

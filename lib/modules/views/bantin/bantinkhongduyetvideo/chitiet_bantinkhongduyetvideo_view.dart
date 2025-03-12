@@ -105,6 +105,7 @@ class _ChitietBantinKhongduyetvideoViewState
                                 ],
                               ),
                               const SizedBox(height: 4),
+                              
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -122,6 +123,28 @@ class _ChitietBantinKhongduyetvideoViewState
                                     style: TextStyle(
                                       fontSize: FontSizeSmall,
                                       color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Thể loại: ',
+                                    style: TextStyle(
+                                      fontSize: FontSizeSmall,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${chiTietBanTin?.theLoaiTin}',
+                                      style: TextStyle(
+                                        fontSize: FontSizeSmall,
+                                        color: AppColor.redColor,
+                                      ),
                                     ),
                                   ),
                                 ],

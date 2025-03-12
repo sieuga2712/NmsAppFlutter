@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/modules/controllers/user/user_controller.dart';
 import 'package:nms_app/provider/user/user_provider.dart';
 import 'package:nms_app/router.dart';
@@ -79,10 +80,11 @@ class NavigationDrawer extends StatelessWidget {
                       child: Column(
                         children: [
                           if (nhomquyen != 11 && _canShowMenuItem('trangchu'))
-                            buildDrawerItems(
+                            buildDrawerItemsTrangchu(
                                 context: context,
                                 text: 'Trang chủ',
                                 icon: Icons.home,
+                                isChild: false,
                                 textIconColor: (Get.isDarkMode
                                     ? AppColor.whiteColor
                                     : AppColor.helpBlue),
@@ -100,13 +102,13 @@ class NavigationDrawer extends StatelessWidget {
                                       color: AppColor.greyColor, width: 0.5),
                                 ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: ExpansionTile(
-                                  leading: Icon(Icons.newspaper,
-                                      color: Get.isDarkMode
-                                          ? AppColor.whiteColor
-                                          : AppColor.helpBlue),
+                             child: ExpansionTile(
+                              iconColor: AppColor.blueAccentColor,
+                              collapsedIconColor: AppColor.blueAccentColor,
+                              visualDensity:
+                                  VisualDensity(horizontal: 0, vertical: -4),
+                              leading: const Icon(Icons.business_center,
+                                  color: AppColor.helpBlue),
                                   title: Text(
                                     'Danh sách chương trình',
                                     style: Theme.of(context)
@@ -124,6 +126,7 @@ class NavigationDrawer extends StatelessWidget {
                                       buildDrawerItems(
                                           context: context,
                                           text: 'Chờ phê duyệt kịch bản',
+                                          isChild: true,
                                           icon: Icons.watch_later_outlined,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
@@ -140,6 +143,7 @@ class NavigationDrawer extends StatelessWidget {
                                       buildDrawerItems(
                                           context: context,
                                           text: 'Đã phê duyệt kịch bản',
+                                          isChild: true,
                                           icon: Icons.task_alt_outlined,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
@@ -156,6 +160,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Không phê duyệt kịch bản',
                                           icon: Icons.block_flipped,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -172,6 +177,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Đã xuất bản',
                                           icon: Icons.play_circle_outline,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -185,7 +191,6 @@ class NavigationDrawer extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ),
                           if (_canShowMenuItem('bantin'))
                             Container(
                               decoration: BoxDecoration(
@@ -194,13 +199,13 @@ class NavigationDrawer extends StatelessWidget {
                                       color: AppColor.greyColor, width: 0.5),
                                 ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: ExpansionTile(
-                                  leading: Icon(Icons.cell_tower,
-                                      color: Get.isDarkMode
-                                          ? AppColor.whiteColor
-                                          : AppColor.helpBlue),
+                              child: ExpansionTile(
+                              iconColor: AppColor.blueAccentColor,
+                              collapsedIconColor: AppColor.blueAccentColor,
+                              visualDensity:
+                                  VisualDensity(horizontal: 0, vertical: -4),
+                              leading: const Icon(Icons.business_center,
+                                  color: AppColor.helpBlue),
                                   title: Text(
                                     'Danh sách bản tin',
                                     style: Theme.of(context)
@@ -218,6 +223,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Chờ duyệt tin bài',
                                           icon: Icons.watch_later_outlined,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -232,6 +238,7 @@ class NavigationDrawer extends StatelessWidget {
                                       buildDrawerItems(
                                           context: context,
                                           text: 'Tin không được duyệt',
+                                          isChild: true,
                                           icon: Icons.cancel_outlined,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
@@ -248,6 +255,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Đang sản xuất',
                                           icon: Icons.area_chart_outlined,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -264,6 +272,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Chờ duyệt video',
                                           icon: Icons.videocam_outlined,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -279,6 +288,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Không duyệt video',
                                           icon: Icons.videocam_off_outlined,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -294,6 +304,7 @@ class NavigationDrawer extends StatelessWidget {
                                           context: context,
                                           text: 'Đã xuất bản',
                                           icon: Icons.play_circle_outline,
+                                          isChild: true,
                                           textIconColor: (Get.isDarkMode
                                               ? AppColor.whiteColor
                                               : AppColor.helpBlue),
@@ -306,11 +317,12 @@ class NavigationDrawer extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ),
+                            
                           buildDrawerItems(
                               context: context,
                               text: 'Tài khoản',
                               icon: Icons.people,
+                              isChild: false,
                               textIconColor: (Get.isDarkMode
                                   ? AppColor.whiteColor
                                   : AppColor.helpBlue),
@@ -322,6 +334,7 @@ class NavigationDrawer extends StatelessWidget {
                               }),
                           buildDrawerItems(
                               context: context,
+                              isChild: false,
                               text: 'Đăng xuất',
                               icon: Icons.logout,
                               textIconColor: (Get.isDarkMode
@@ -413,7 +426,7 @@ class NavigationDrawer extends StatelessWidget {
         ));
   }
 
-  Widget buildDrawerItems(
+  /*Widget buildDrawerItems(
       {required BuildContext context,
       required String text,
       required IconData? icon,
@@ -440,6 +453,84 @@ class NavigationDrawer extends StatelessWidget {
               tileColor: titleColor,
               onTap: onTap,
             )));
+  }*/
+  Widget buildDrawerItems(
+      {required BuildContext context,
+      required String text,
+      required IconData? icon,
+      required bool isChild,
+      required Color? textIconColor,
+      required Color? titleColor,
+      required VoidCallback onTap}) {
+    return isChild
+        ? Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: AppColor.greyColor, width: 0.5),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: ListTile(
+                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                leading: Icon(icon, color: textIconColor),
+                title: Text(
+                  text,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: textIconColor,
+                      ),
+                ),
+                tileColor: titleColor,
+                onTap: onTap,
+                
+              ),
+            ))
+        : Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: AppColor.greyColor, width: 0.5),
+              ),
+            ),
+            child: Container(
+                child: ListTile(
+              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+              //contentPadding: EdgeInsets.all(2.0),
+              leading: Icon(icon, color: textIconColor),
+
+              title: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: textIconColor,
+                    ),
+              ),
+              
+              tileColor: titleColor,
+              onTap: onTap,
+            )));
+  }
+
+  Widget buildDrawerItemsTrangchu(
+      {required BuildContext context,
+      required String text,
+      required IconData? icon,
+      required bool isChild,
+      required Color? textIconColor,
+      required Color? titleColor,
+      required VoidCallback onTap}) {
+    return Container(
+        child: ListTile(
+      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+      leading: Icon(icon, color: textIconColor),
+      title: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: textIconColor,
+            ),
+      ),
+     
+      tileColor: titleColor,
+      onTap: onTap,
+    ));
   }
 
   navigate(String index) {
