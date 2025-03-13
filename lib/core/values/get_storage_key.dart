@@ -5,6 +5,7 @@ class GetStorageKey {
   static const passWord = "iOpassword";
   static const isLogin = "isLogin";
   static const version = "1";
+  static const accessTokenFCM = "fcm_token";
   // thông tin cán bộ
   static const hoVaTen = "ho_va_ten";
   static const nhomquyen = "nhomquyen";

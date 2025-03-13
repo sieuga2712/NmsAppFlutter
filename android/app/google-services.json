@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258950648734",
+    "project_id": "nms-f55b4",
+    "storage_bucket": "nms-f55b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258950648734:android:e47b27d9fc3e2e0a533c8f",
+        "android_client_info": {
+          "package_name": "com.vnpt.nms_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCENx6XfXuq-Ng0NCZmX-QIGSXcJ3gS8dw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

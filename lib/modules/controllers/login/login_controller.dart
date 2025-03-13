@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -63,6 +64,15 @@ class LoginController extends GetxController {
     }
 
     loginModel.value = await loadFromStorage();
+  }
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  String? token = "";
+
+  Future<void> getToken() async {
+    final storage = GetStorage();
+    String? token = await messaging.getToken();
+    storage.write(GetStorageKey.accessTokenFCM, token);
   }
 
   // Xử lý trạng thái khi người dùng đã đăng nhập:
@@ -149,6 +159,9 @@ class LoginController extends GetxController {
   Future<void> performAuthentication() async {
     try {
       log.i('Starting authentication process.');
+      final storage = GetStorage();
+      await getToken();
+      print("FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
 
       final issuer = await Issuer.discover(Uri.parse(_issuer));
       final client = Client(issuer, _clientId);
