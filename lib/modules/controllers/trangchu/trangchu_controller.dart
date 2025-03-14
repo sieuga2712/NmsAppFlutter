@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:nms_app/model/trangchu/trangchu_model.dart';
 import 'package:get/get.dart';
@@ -34,11 +37,36 @@ class TrangchuController extends GetxController
       isLoading(false);
     }
   }
+Future<String?> getFirebaseToken() async {
+    String? fcmToken;
+  if (Platform.isIOS) {
+    // On iOS we need to see an APN token is available first
 
+    String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    int maxGetToken=0;
+    while(apnsToken == null || maxGetToken<5){
+      await Future<void>.delayed(const Duration(seconds: 2,));
+      apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      maxGetToken++;
+    }
+    fcmToken = await FirebaseMessaging.instance.getToken();
+  }
+  else {
+    // android platform
+    fcmToken = await FirebaseMessaging.instance.getToken();
+  }
+  return fcmToken;
+  }
+void getTokenFCM() async{
+    String? fcmToken = await getFirebaseToken();
+}
   @override
   void onInit() {
     super.onInit();
     saveInfoAccount();
     getTrangChu();
+    getTokenFCM();
+
   }
 }
+ 
