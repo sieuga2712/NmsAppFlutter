@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:nms_app/model/auth/granted_policies.dart';
+import 'package:nms_app/provider/fcmtoken/fcm_provider.dart';
 import 'package:nms_app/router.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,6 +19,7 @@ import 'package:nms_app/provider/login/login_provider.dart';
 
 class LoginController extends GetxController {
   final LoginProvider _loginProvider = LoginProvider();
+  final FcmTokenProvider _fcmTokenProvider = FcmTokenProvider();
   final String _clientId = 'NMS_Mobile';
   static const String _issuer = 'https://apinpm.egov.phutho.vn';
   final String _redirectUri = 'com.yourapp://callback';
@@ -69,9 +71,11 @@ class LoginController extends GetxController {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   String? token = "";
 
-  Future<void> getToken() async {
+  Future<void> saveFcmToken() async {
     final storage = GetStorage();
     String? token = await messaging.getToken();
+    print("FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
+    await _fcmTokenProvider.saveFcmToken(token);
     storage.write(GetStorageKey.accessTokenFCM, token);
   }
 
@@ -160,8 +164,6 @@ class LoginController extends GetxController {
     try {
       log.i('Starting authentication process.');
       final storage = GetStorage();
-      await getToken();
-      print("FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
 
       final issuer = await Issuer.discover(Uri.parse(_issuer));
       final client = Client(issuer, _clientId);
@@ -201,6 +203,8 @@ class LoginController extends GetxController {
                 loginModel.value = loginData;
                 await saveToStorage();
                 await fetchAndSetPermissions();
+                await saveFcmToken();
+                print("FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
                 Get.back();
                 Get.offAllNamed(Paths.TRANGCHU);
               } else {

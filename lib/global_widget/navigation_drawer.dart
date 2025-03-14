@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/modules/controllers/user/user_controller.dart';
 import 'package:nms_app/provider/user/user_provider.dart';
 import 'package:nms_app/router.dart';

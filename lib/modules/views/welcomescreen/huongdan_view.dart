@@ -6,7 +6,6 @@ import 'package:nms_app/router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:in_app_review/in_app_review.dart';
 
-import 'package:nms_app/core/values/app_color.dart';
 
 class HuongDanView extends StatelessWidget {
   final InAppReview inAppReview=InAppReview.instance;

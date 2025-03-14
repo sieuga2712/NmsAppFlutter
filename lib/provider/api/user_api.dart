@@ -5,4 +5,6 @@ class UserApi {
   static String usCapNhatMatKhau = '/api/can-bo/cap-nhat-mat-khau';
   // Danh Bạ
   static String danhSachDanhBanDv = "/api/he-thong/cay-can-bo-tra-cuu-danh-ba";
+  // Fcm Token
+    static String saveFcmToken = "/api/app/fcm-user-token/cud-fcm-user-token";
 }

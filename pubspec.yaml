@@ -48,6 +48,8 @@ dependencies:
   cookie_jar: ^4.0.8
   html: ^0.15.0
   logger: ^2.5.0
+  flutter_appauth: ^9.0.0
+  flutter_local_notifications: ^17.2.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6

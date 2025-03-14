@@ -33,6 +33,8 @@ analyzer:
     unnecessary_overrides: ignore
     unnecessary_this: ignore
     unused_field: ignore
+    unused_local_variable: ignore
+    use_key_in_widget_constructors: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:
