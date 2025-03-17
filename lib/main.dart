@@ -1,3 +1,4 @@
+import 'package:nms_app/firebase_api.dart';
 import 'package:nms_app/network/network_binding.dart';
 import 'package:nms_app/router.dart';
 import 'package:nms_app/setup/setup_binding.dart';
@@ -13,6 +14,7 @@ void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FireBaseApi().initNotification();
   Get.put(LoginController());
   runApp(GetMaterialApp(
       localizationsDelegates: const [

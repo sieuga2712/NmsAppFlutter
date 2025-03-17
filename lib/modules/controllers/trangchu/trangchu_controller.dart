@@ -6,10 +6,13 @@ import 'package:nms_app/model/trangchu/trangchu_model.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/provider/trangchu/trangchu_provider.dart';
+import 'package:nms_app/provider/fcmtoken/fcm_provider.dart';
 
 class TrangchuController extends GetxController
     with StateMixin<List<TrangchuModel?>> {
   final trangChuProvider = TrangChuProvider();
+  final FcmTokenProvider _fcmTokenProvider = FcmTokenProvider();
+
   var storage = GetStorage();
   var selectDonVi = "".obs;
   var dataList = <TrangchuModel?>[].obs;
@@ -59,6 +62,9 @@ Future<String?> getFirebaseToken() async {
   }
 void getTokenFCM() async{
     String? fcmToken = await getFirebaseToken();
+    print(fcmToken);
+    await _fcmTokenProvider.saveFcmToken(fcmToken);
+    //storage.write(GetStorageKey.accessTokenFCM, token);
 }
   @override
   void onInit() {
