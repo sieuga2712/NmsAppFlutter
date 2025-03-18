@@ -67,7 +67,8 @@ class FireBaseApi {
           iOS: const DarwinNotificationDetails(
               presentAlert: true, presentBadge: true, presentSound: true),
           android: AndroidNotificationDetails(channel.id, channel.name,
-              channelDescription: channel.description, icon: '@mipmap/logo_vnpt'
+              channelDescription: channel.description,
+              icon: '@mipmap/launcher_icon'
               //      one that already exists in example app.
               ),
         ),
@@ -120,7 +121,8 @@ class FireBaseApi {
     );
     final InitializationSettings initializationSettings =
         InitializationSettings(
-            android: const AndroidInitializationSettings("@mipmap/logo_vnpt"),
+            android:
+                const AndroidInitializationSettings("@mipmap/launcher_icon"),
             iOS: initializationSettingsDarwin);
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse:
