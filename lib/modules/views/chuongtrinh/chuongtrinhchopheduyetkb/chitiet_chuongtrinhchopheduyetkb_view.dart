@@ -8,6 +8,7 @@ import 'package:nms_app/core/theme/app_theme.dart';
 import 'package:nms_app/global_widget/mausac_trangthai.dart';
 import 'package:intl/intl.dart';
 import 'package:nms_app/core/ultis/read_more_text.dart';
+import 'package:nms_app/global_widget/status_config.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhchoduyet/chitiet_chuongtrinhchopd_controller.dart';
 
 class ChitietChuongtrinhChoPheDuyetKBView extends StatefulWidget {
@@ -30,8 +31,9 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(8.0),
+        color: AppColor.whiteColor,
         child: Column(
           children: [
             Expanded(
@@ -193,11 +195,12 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                   Container(
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: AppColor.whiteColor,
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: AppColor.blackColor
+                                              .withOpacity(0.1),
                                           blurRadius: 4,
                                           offset: Offset(0, 2),
                                         ),
@@ -217,6 +220,178 @@ class _ChitietChuongtrinhChoPheDuyetKBViewState
                                 ],
                               ),
                               const SizedBox(height: 12),
+
+                              // Hiển thị danh sách bản tin cần xử lý
+                              Obx(() {
+                                final dsBanTin =
+                                    controller.dsBanTinCanXuLyByChuongTrinhId;
+                                if (dsBanTin.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(
+                                        'Danh sách bản tin cần xử lý',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Obx(() {
+                                          return Checkbox(
+                                            value:
+                                                controller.isAllSelected.value,
+                                            onChanged: (bool? value) {
+                                              controller.isAllSelected.value =
+                                                  value ?? false;
+                                              if (controller
+                                                  .isAllSelected.value) {
+                                                // Chọn tất cả các bản tin
+                                                controller.selectedBanTinIds
+                                                    .clear();
+                                                controller.selectedBanTinIds
+                                                    .addAll(dsBanTin
+                                                        .map((banTin) =>
+                                                            banTin.id)
+                                                        .whereType<String>());
+                                              } else {
+                                                // Bỏ chọn tất cả
+                                                controller.selectedBanTinIds
+                                                    .clear();
+                                              }
+                                            },
+                                          );
+                                        }),
+                                        const Text('Chọn tất cả'),
+                                      ],
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: AppColor.greyColor.shade300),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: dsBanTin.length,
+                                        itemBuilder: (context, index) {
+                                          final banTin = dsBanTin[index];
+
+                                          return Obx(() {
+                                            final isSelected = controller
+                                                .selectedBanTinIds
+                                                .contains(banTin.id);
+                                            final statusInfo = statusConfig[
+                                                banTin.trangThaiChuongTrinhBanTin ??
+                                                    ''];
+
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                border:
+                                                    index < dsBanTin.length - 1
+                                                        ? Border(
+                                                            bottom: BorderSide(
+                                                                color: AppColor
+                                                                    .greyColor
+                                                                    .shade300),
+                                                          )
+                                                        : null,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Checkbox(
+                                                    value: isSelected,
+                                                    onChanged: (bool? value) {
+                                                      controller
+                                                          .toggleBanTinSelection(
+                                                              banTin.id ?? '');
+                                                    },
+                                                  ),
+                                                  Expanded(
+                                                    child: ListTile(
+                                                      title: Text(
+                                                        banTin.ten ??
+                                                            'Không có tên',
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              FontSizeSmall,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColor
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                      subtitle: Row(
+                                                        children: [
+                                                          Text(
+                                                            'Trạng Thái: ',
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  FontSizeSmall,
+                                                              color: AppColor
+                                                                  .blackColor,
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        6,
+                                                                    vertical:
+                                                                        2),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: statusInfo
+                                                                      ?.backgroundColor ??
+                                                                  Colors.grey
+                                                                      .shade400,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                            child: Text(
+                                                              statusInfo
+                                                                      ?.name ??
+                                                                  (banTin.trangThaiChuongTrinhBanTin ??
+                                                                      'Chưa xác định'),
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    FontSizeSmall,
+                                                                color: statusInfo
+                                                                        ?.textColor ??
+                                                                    AppColor
+                                                                        .blackColor,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                  ],
+                                );
+                              }),
+
                               // Hiển thị danh sách nút
                               Obx(() {
                                 final chucNang = controller

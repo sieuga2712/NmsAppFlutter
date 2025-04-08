@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/model/bantin/chitiet_bantin_model.dart';
+import 'package:nms_app/model/bantin/danhsach_bantin_canxuly_model.dart';
 import 'package:nms_app/model/bantin/danhsach_bantin_model.dart';
 import 'package:nms_app/network/api_provider.dart';
 import 'package:nms_app/provider/api/bantin_api.dart';
@@ -104,6 +105,24 @@ class BantinProvider {
       return Future.error(exception.toString());
     }
   }
+
+  Future<List<DanhsachBantinCanxulyModel>> danhSachBanTinCanXuLyByChuongTrinhId(
+    String? chuongTrinhId) async {
+    try {
+      final response =
+          await dio.get("${BantinApi.dsBanTinCanXuLy}/$chuongTrinhId");
+
+      final List<dynamic> data = response.data;
+
+      return data
+          .map((item) => DanhsachBantinCanxulyModel.fromJson(item))
+          .toList();
+    } catch (exception) {
+      print('Lỗi khi gọi API: $exception');
+      return Future.error(exception.toString());
+    }
+  }
+
 
   Future<ChitietBantinModel> getChiTietBanTin(idBanTin) async {
     try {

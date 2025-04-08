@@ -13,7 +13,7 @@ class ChuongtrinhProvider {
     int maxResultCount = 10,
   }) async {
     try {
-      String trangThaiChuongTrinhBanTin = 'DaPheDuyetKichBan';
+      String trangThaiChuongTrinhBanTin = 'ChuongTrinhDangSanXuat';
       String sorting = 'ten ASC';
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
@@ -28,7 +28,7 @@ class ChuongtrinhProvider {
     int maxResultCount = 10,
   }) async {
     try {
-      String trangThaiChuongTrinhBanTin = 'ChoPheDuyetKichBan';
+      String trangThaiChuongTrinhBanTin = 'ChuongTrinhCanLanhDaoPheDuyet';
       String sorting = 'ten ASC';
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
@@ -68,14 +68,13 @@ class ChuongtrinhProvider {
     }
   }
 
-  Future<ChitietChuongtrinhModel> getChiTietChuongTrinh(
-      String idChuongTrinh) async {
+  Future<ChitietChuongtrinhModel> getChiTietChuongTrinh(idChuongTrinh) async {
     try {
       final response = await dio
           .get("${ChuongtrinhApi.chiTietChuongTrinh}?input=$idChuongTrinh");
       return ChitietChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
-      print('response: $exception');
+      print('Lỗi getChiTietChuongTrinh: $exception');
       return Future.error(exception.toString());
     }
   }

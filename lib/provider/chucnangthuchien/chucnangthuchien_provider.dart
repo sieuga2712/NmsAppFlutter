@@ -73,4 +73,31 @@ class ChucnangthuchienProvider {
       }
     }
   }
+
+  Future<dynamic> xuLyChuongTrinhBanTinByInputV2(data) async {
+    try {
+      final response =
+          await dio.post(ChucnangthuchienApi.xuLyChuongTrinhBanTin, data: data);
+
+      print('dsChucNangThucHien: ${response.data}');
+      return response.data;
+    } catch (error) {
+      if (error is DioError &&
+          error.response?.data is Map &&
+          error.response!.data.containsKey('error')) {
+        final errorMessage = error.response!.data['error']['details'];
+        print('Lỗi chi tiết: $errorMessage');
+        return {
+          'isSuccess': false,
+          'error': errorMessage,
+        };
+      } else {
+        print('Lỗi không xác định: $error');
+        return {
+          'isSuccess': false,
+          'error': 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+        };
+      }
+    }
+  }
 }
