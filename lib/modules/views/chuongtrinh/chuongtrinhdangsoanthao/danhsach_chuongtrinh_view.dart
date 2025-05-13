@@ -29,7 +29,7 @@ class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
           ),
           Expanded(
             child: controller.obx(
-              (filteredDsChuongTrinhDaDuyet) =>
+              (filteredDsChuongTrinhChopd) =>
                   NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
                   if (!controller.isLoadingMore.value &&
@@ -50,9 +50,9 @@ class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
                       parent: BouncingScrollPhysics(),
                     ),
                     // Sử dụng filteredDsChuongTrinhChoPheDuyetData để hiển thị
-                    itemCount: filteredDsChuongTrinhDaDuyet!.length + 1,
+                    itemCount: filteredDsChuongTrinhChopd!.length + 1,
                     itemBuilder: (context, index) {
-                      if (index == filteredDsChuongTrinhDaDuyet.length) {
+                      if (index == filteredDsChuongTrinhChopd.length) {
                         return Obx(() => controller.isLoadingMore.value
                             ? const Padding(
                                 padding: EdgeInsets.all(16.0),
@@ -64,7 +64,7 @@ class DanhsachChuongtrinhView extends GetView<DanhsachChuongtrinhController> {
                             : const SizedBox());
                       }
 
-                      var chuongTrinh = filteredDsChuongTrinhDaDuyet[index];
+                      var chuongTrinh = filteredDsChuongTrinhChopd[index];
                       final statusInfo = TrangthaiColos[
                           chuongTrinh.trangThaiChuongTrinhBanTin];
 

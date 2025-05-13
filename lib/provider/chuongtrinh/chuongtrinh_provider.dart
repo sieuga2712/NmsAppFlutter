@@ -13,7 +13,7 @@ class ChuongtrinhProvider {
     int maxResultCount = 10,
   }) async {
     try {
-      String trangThaiChuongTrinhBanTin = 'ChuongTrinhDangSanXuat';
+      String trangThaiChuongTrinhBanTin = 'ChuongTrinhDangSoanThao';
       String sorting = 'ten ASC';
       final response = await dio.get(
           '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');

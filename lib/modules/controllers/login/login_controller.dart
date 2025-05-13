@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/model/auth/granted_policies.dart';
 import 'package:nms_app/provider/fcmtoken/fcm_provider.dart';
 import 'package:nms_app/router.dart';
@@ -204,7 +205,8 @@ class LoginController extends GetxController {
                 await saveToStorage();
                 await fetchAndSetPermissions();
                 //await saveFcmToken();
-                print("FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
+                print(
+                    "FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
                 Get.back();
                 Get.offAllNamed(Paths.TRANGCHU);
               } else {
@@ -225,8 +227,12 @@ class LoginController extends GetxController {
 
       await authenticator.authorize();
     } catch (e, stackTrace) {
-      log.e('Error during authentication: $e',
-          error: e, stackTrace: stackTrace);
+      log.e('Error during authentication: $e', error: e, stackTrace: stackTrace);
+      CustomSnackBar.showErrorSnackBar(
+        context: Get.context,
+        title: "Thông báo",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại sau!',
+      );
     }
   }
 

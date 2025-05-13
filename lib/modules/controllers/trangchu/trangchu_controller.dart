@@ -63,7 +63,7 @@ Future<String?> getFirebaseToken() async {
 void getTokenFCM() async{
     String? fcmToken = await getFirebaseToken();
     print(fcmToken);
-    await _fcmTokenProvider.saveFcmToken(fcmToken);
+    // await _fcmTokenProvider.saveFcmToken(fcmToken);
     //storage.write(GetStorageKey.accessTokenFCM, token);
 }
   @override

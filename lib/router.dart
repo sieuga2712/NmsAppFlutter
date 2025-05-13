@@ -36,8 +36,8 @@ import 'package:nms_app/modules/views/bantin/bantinkhongduyetvideo/chitiet_banti
 import 'package:nms_app/modules/views/bantin/bantinkhongduyetvideo/danhsach_bantinkhongduyetvideo_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhchopheduyetkb/chitiet_chuongtrinhchopheduyetkb_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhchopheduyetkb/danhsach_chuongtrinhchopheduyetkb_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdapheduyetkb/chitiet_chuongtrinh_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdapheduyetkb/danhsach_chuongtrinh_view.dart';
+import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdangsoanthao/chitiet_chuongtrinh_view.dart';
+import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdangsoanthao/danhsach_chuongtrinh_view.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_binding.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdaxuatban/chitiet_chuongtrinhdaxuatban_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdaxuatban/danhsach_chuongtrinhdaxuatban_view.dart';
@@ -81,7 +81,7 @@ class PageRouters {
         name: Paths.DSCHUONGTRINH,
         page: () => HeaderAppbar(
             body: DanhsachChuongtrinhView(),
-            title: "Chương Trình Đã Phê Duyệt Kịch Bản",
+            title: "Chương Trình Đang Soạn Thảo",
             isDrawer: true,
             pathScreen: Paths.DSCHUONGTRINH),
         bindings: [DanhsachchuongtrinhBinding()]),
@@ -89,7 +89,7 @@ class PageRouters {
         name: Paths.CHITIETCHUONGTRINH,
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhView(),
-              title: "Chi tiết chương trình",
+              title: "Chi tiết chương trình đang soạn thảo",
               isDrawer: false,
               pathScreen: Paths.CHITIETCHUONGTRINH,
               onBackButtonPressed: () {

@@ -26,6 +26,7 @@ class NavigationDrawer extends StatelessWidget {
   }
   bool _canShowMenuItem(String permission) {
     final permissions = loginController.menuPermissions.value;
+    print('permissions, $permissions');
     if (permissions == null) return false;
 
     switch (permission) {
@@ -37,6 +38,8 @@ class NavigationDrawer extends StatelessWidget {
         return permissions.nMSMenuChuongTrinhChoDuyet ?? false;
       case 'chuongtrinh.dapheduyet':
         return permissions.nMSMenuChuongTrinhDaPheDuyetKichBan ?? false;
+      case 'chuongtrinh.dangsoanthao':
+        return permissions.nMSMenuChuongTrinhSoanThao ?? false;
       case 'chuongtrinh.khongpheduyet':
         return permissions.nMSMenuChuongTrinhKhongPheDuyetKichBan ?? false;
       case 'chuongtrinh.daxuatban':
@@ -101,95 +104,94 @@ class NavigationDrawer extends StatelessWidget {
                                       color: AppColor.greyColor, width: 0.5),
                                 ),
                               ),
-                             child: ExpansionTile(
-                              iconColor: AppColor.blueAccentColor,
-                              collapsedIconColor: AppColor.blueAccentColor,
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -4),
-                              leading: const Icon(Icons.business_center,
-                                  color: AppColor.helpBlue),
-                                  title: Text(
-                                    'Danh sách chương trình',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue,
-                                        ),
-                                  ),
-                                  children: [
-                                    if (_canShowMenuItem(
-                                        'chuongtrinh.chopheduyet'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Chờ phê duyệt kịch bản',
-                                          isChild: true,
-                                          icon: Icons.watch_later_outlined,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachchuongtrinhchopheduyet');
-                                          }),
-                                    if (_canShowMenuItem(
-                                        'chuongtrinh.dapheduyet'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Đã phê duyệt kịch bản',
-                                          isChild: true,
-                                          icon: Icons.task_alt_outlined,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate('danhsachchuongtrinh');
-                                          }),
-                                    if (_canShowMenuItem(
-                                        'chuongtrinh.khongpheduyet'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Không phê duyệt kịch bản',
-                                          icon: Icons.block_flipped,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachchuongtrinhkhongduyetkb');
-                                          }),
-                                    if (_canShowMenuItem(
-                                        'chuongtrinh.daxuatban'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Đã xuất bản',
-                                          icon: Icons.play_circle_outline,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachchuongtrinhdaxuatban');
-                                          }),
-                                  ],
+                              child: ExpansionTile(
+                                iconColor: AppColor.blueAccentColor,
+                                collapsedIconColor: AppColor.blueAccentColor,
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: -4),
+                                leading: const Icon(Icons.business_center,
+                                    color: AppColor.helpBlue),
+                                title: Text(
+                                  'Danh sách chương trình',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue,
+                                      ),
                                 ),
+                                children: [
+                                  if (_canShowMenuItem(
+                                      'chuongtrinh.chopheduyet'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Chờ phê duyệt kịch bản',
+                                        isChild: true,
+                                        icon: Icons.watch_later_outlined,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate(
+                                              'danhsachchuongtrinhchopheduyet');
+                                        }),
+                                  if (_canShowMenuItem(
+                                      'chuongtrinh.dangsoanthao'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Chương trình đang soạn thảo',
+                                        isChild: true,
+                                        icon: Icons.task_alt_outlined,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate('danhsachchuongtrinh');
+                                        }),
+                                  if (_canShowMenuItem(
+                                      'chuongtrinh.khongpheduyet'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Không phê duyệt kịch bản',
+                                        icon: Icons.block_flipped,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate(
+                                              'danhsachchuongtrinhkhongduyetkb');
+                                        }),
+                                  if (_canShowMenuItem('chuongtrinh.daxuatban'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Đã xuất bản',
+                                        icon: Icons.play_circle_outline,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate(
+                                              'danhsachchuongtrinhdaxuatban');
+                                        }),
+                                ],
                               ),
+                            ),
                           if (_canShowMenuItem('bantin'))
                             Container(
                               decoration: BoxDecoration(
@@ -199,124 +201,121 @@ class NavigationDrawer extends StatelessWidget {
                                 ),
                               ),
                               child: ExpansionTile(
-                              iconColor: AppColor.blueAccentColor,
-                              collapsedIconColor: AppColor.blueAccentColor,
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -4),
-                              leading: const Icon(Icons.business_center,
-                                  color: AppColor.helpBlue),
-                                  title: Text(
-                                    'Danh sách bản tin',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue,
-                                        ),
-                                  ),
-                                  children: [
-                                    if (_canShowMenuItem('bantin.choduyet'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Chờ duyệt tin bài',
-                                          icon: Icons.watch_later_outlined,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachbantinchoduyettinbai');
-                                          }),
-                                    if (_canShowMenuItem('bantin.khongduyet'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Tin không được duyệt',
-                                          isChild: true,
-                                          icon: Icons.cancel_outlined,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachbantinkhongduyettin');
-                                          }),
-                                    if (_canShowMenuItem('bantin.dangsanxuat'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Đang sản xuất',
-                                          icon: Icons.area_chart_outlined,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachbantindangsanxuat');
-                                          }),
-                                    if (_canShowMenuItem(
-                                        'bantin.choduyet.video'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Chờ duyệt video',
-                                          icon: Icons.videocam_outlined,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate('danhsachbantin');
-                                          }),
-                                    if (_canShowMenuItem(
-                                        'bantin.khongduyet.video'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Không duyệt video',
-                                          icon: Icons.videocam_off_outlined,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate(
-                                                'danhsachbantinkhongduyetvideo');
-                                          }),
-                                    if (_canShowMenuItem('bantin.daxuatban'))
-                                      buildDrawerItems(
-                                          context: context,
-                                          text: 'Đã xuất bản',
-                                          icon: Icons.play_circle_outline,
-                                          isChild: true,
-                                          textIconColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.helpBlue),
-                                          titleColor: (Get.isDarkMode
-                                              ? AppColor.whiteColor
-                                              : AppColor.whiteColor),
-                                          onTap: () {
-                                            navigate('danhsachbantindaxuatban');
-                                          }),
-                                  ],
+                                iconColor: AppColor.blueAccentColor,
+                                collapsedIconColor: AppColor.blueAccentColor,
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: -4),
+                                leading: const Icon(Icons.business_center,
+                                    color: AppColor.helpBlue),
+                                title: Text(
+                                  'Danh sách bản tin',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue,
+                                      ),
                                 ),
+                                children: [
+                                  if (_canShowMenuItem('bantin.choduyet'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Chờ duyệt tin bài',
+                                        icon: Icons.watch_later_outlined,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate(
+                                              'danhsachbantinchoduyettinbai');
+                                        }),
+                                  if (_canShowMenuItem('bantin.khongduyet'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Tin không được duyệt',
+                                        isChild: true,
+                                        icon: Icons.cancel_outlined,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate(
+                                              'danhsachbantinkhongduyettin');
+                                        }),
+                                  if (_canShowMenuItem('bantin.dangsanxuat'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Đang sản xuất',
+                                        icon: Icons.area_chart_outlined,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate('danhsachbantindangsanxuat');
+                                        }),
+                                  if (_canShowMenuItem('bantin.choduyet.video'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Chờ duyệt video',
+                                        icon: Icons.videocam_outlined,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate('danhsachbantin');
+                                        }),
+                                  if (_canShowMenuItem(
+                                      'bantin.khongduyet.video'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Không duyệt video',
+                                        icon: Icons.videocam_off_outlined,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate(
+                                              'danhsachbantinkhongduyetvideo');
+                                        }),
+                                  if (_canShowMenuItem('bantin.daxuatban'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Đã xuất bản',
+                                        icon: Icons.play_circle_outline,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          navigate('danhsachbantindaxuatban');
+                                        }),
+                                ],
                               ),
-                            
+                            ),
                           buildDrawerItems(
                               context: context,
                               text: 'Tài khoản',
@@ -481,7 +480,6 @@ class NavigationDrawer extends StatelessWidget {
                 ),
                 tileColor: titleColor,
                 onTap: onTap,
-                
               ),
             ))
         : Container(
@@ -502,7 +500,7 @@ class NavigationDrawer extends StatelessWidget {
                       color: textIconColor,
                     ),
               ),
-              
+
               tileColor: titleColor,
               onTap: onTap,
             )));
@@ -526,7 +524,6 @@ class NavigationDrawer extends StatelessWidget {
               color: textIconColor,
             ),
       ),
-     
       tileColor: titleColor,
       onTap: onTap,
     ));

@@ -14,11 +14,11 @@ class DanhsachChuongtrinhController extends GetxController
   late TextEditingController searchController;
   late FocusNode searchFocusNode;
 
-  var dsChuongTrinhData = <DanhsachChuongtrinhData>[].obs;
+  // Main data list
+  var dsChuongTrinhChoPheDuyetData = <DanhsachChuongtrinhData>[].obs;
+  // Filtered list for display
+  var filteredDsChuongTrinhChoPheDuyetData = <DanhsachChuongtrinhData>[].obs;
 
-  var filteredDsChuongTrinhData = <DanhsachChuongtrinhData>[].obs;
-
-  // Từ khóa tìm kiếm
   String? keyWord = "";
   var isLoadingMore = false.obs;
   var currentPage = 0.obs;
@@ -37,29 +37,14 @@ class DanhsachChuongtrinhController extends GetxController
 
   void _updateFilteredList() {
     if (keyWord == null || keyWord!.isEmpty) {
-      filteredDsChuongTrinhData.assignAll(dsChuongTrinhData);
+      filteredDsChuongTrinhChoPheDuyetData
+          .assignAll(dsChuongTrinhChoPheDuyetData);
     } else {
-      filteredDsChuongTrinhData.assignAll(
-        dsChuongTrinhData.where(_itemMatchesSearch),
+      filteredDsChuongTrinhChoPheDuyetData.assignAll(
+        dsChuongTrinhChoPheDuyetData.where(_itemMatchesSearch),
       );
     }
   }
-
-  // void loadDanhSachChuongTrinh() async {
-  //   change(null, status: RxStatus.loading());
-  //   try {
-  //     await chuongTrinhProvider.dsChuongTrinh().then((value) {
-  //       dsChuongTrinhData.clear();
-  //       if (value.items != null) {
-  //         dsChuongTrinhData.addAll(value.items!);
-  //       }
-  //       change(dsChuongTrinhData, status: RxStatus.success());
-  //     });
-  //   } catch (error) {
-  //     print('Lỗi khi tải dữ liệu bản tin: $error');
-  //     change(null, status: RxStatus.error('Đã xảy ra lỗi khi tải dữ liệu.'));
-  //   }
-  // }
 
   void loadDanhSachChuongTrinh({bool isLoadMore = false}) async {
     if (!isLoadMore) {
@@ -82,7 +67,7 @@ class DanhsachChuongtrinhController extends GetxController
         hasMoreItems.value = false;
       } else {
         // Add new items to main list
-        dsChuongTrinhData.addAll(result.items!);
+        dsChuongTrinhChoPheDuyetData.addAll(result.items!);
 
         // Update filtered list
         _updateFilteredList();
@@ -92,10 +77,11 @@ class DanhsachChuongtrinhController extends GetxController
       }
 
       // Update status based on filtered results
-      if (filteredDsChuongTrinhData.isEmpty) {
+      if (filteredDsChuongTrinhChoPheDuyetData.isEmpty) {
         change(null, status: RxStatus.empty());
       } else {
-        change(filteredDsChuongTrinhData, status: RxStatus.success());
+        change(filteredDsChuongTrinhChoPheDuyetData,
+            status: RxStatus.success());
       }
     } catch (error) {
       print('Lỗi khi tải dữ liệu bản tin: $error');
@@ -121,7 +107,7 @@ class DanhsachChuongtrinhController extends GetxController
     _updateFilteredList();
 
     // Update status based on filtered results
-    if (filteredDsChuongTrinhData.isEmpty) {
+    if (filteredDsChuongTrinhChoPheDuyetData.isEmpty) {
       if (keyWord?.isNotEmpty == true) {
         // If we have a search term and no results, try loading more
         if (hasMoreItems.value) {
@@ -133,7 +119,7 @@ class DanhsachChuongtrinhController extends GetxController
         change(null, status: RxStatus.empty());
       }
     } else {
-      change(filteredDsChuongTrinhData, status: RxStatus.success());
+      change(filteredDsChuongTrinhChoPheDuyetData, status: RxStatus.success());
     }
   }
 
@@ -145,8 +131,8 @@ class DanhsachChuongtrinhController extends GetxController
   }
 
   void resetController() {
-    dsChuongTrinhData.clear();
-    filteredDsChuongTrinhData.clear();
+    dsChuongTrinhChoPheDuyetData.clear();
+    filteredDsChuongTrinhChoPheDuyetData.clear();
     keyWord = "";
     isLoadingMore.value = false;
     currentPage.value = 0;
