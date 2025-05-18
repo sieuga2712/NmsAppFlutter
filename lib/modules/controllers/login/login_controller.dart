@@ -204,7 +204,7 @@ class LoginController extends GetxController {
                 loginModel.value = loginData;
                 await saveToStorage();
                 await fetchAndSetPermissions();
-                //await saveFcmToken();
+                await saveFcmToken();
                 print(
                     "FCM Token: ${storage.read(GetStorageKey.accessTokenFCM)}");
                 Get.back();
