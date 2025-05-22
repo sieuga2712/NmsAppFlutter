@@ -1,5 +1,6 @@
 import 'package:nms_app/core/values/app_images.dart';
 import 'package:nms_app/global_widget/header_appbar.dart';
+import 'package:nms_app/modules/controllers/bantin/chitietbantin/bantin_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/bantinchoduyettinbai_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyettinbai/danhsach_bantinchoduyettinbai_controller.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantindangsanxuat/bantindangsanxuat_binding.dart';
@@ -10,39 +11,27 @@ import 'package:nms_app/modules/controllers/bantin/dsbantinkhongduyettin/bantink
 import 'package:nms_app/modules/controllers/bantin/dsbantinkhongduyettin/danhsach_bantinkhongduyettin_controller.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinkhongduyetvideo/bantinkhongduyetvideo_binding.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinkhongduyetvideo/danhsach_bantinkhongduyetvideo_controller.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhchoduyet/chuongtrinhchopd_binding.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/chitiet_chuongtrinh_controller.dart';
 import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_binding.dart';
-import 'package:nms_app/modules/controllers/bantin/dsbantinchopheduyetvideo/danhsach_bantinchopheduyetvideo_controller.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/chuongtrinh_binding.dart';
 import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/danhsach_chuongtrinh_controller.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhchoduyet/danhsach_chuongtrinhchopd_controller.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhdaxuatban/chuongtrinhdaxuatban_binding.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhdaxuatban/danhsach_chuongtrinhdaxuatban_controller.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhkhongduyetkb/chuongtrinhkhongduyetkb_binding.dart';
-import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinhkhongduyetkb/danhsach_chuongtrinhkhongduyetkb_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_binding.dart';
 import 'package:nms_app/modules/controllers/welcomescreen/welcome_screen_binding.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/chitiet_bantinchoduyettinbai_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyettinbai/danhsach_bantinchoduyettinbai_view.dart';
-import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/chitiet_bantinchoduyetvideo_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinchoduyetvideo/danhsach_bantinchoduyetvideo_view.dart';
 import 'package:nms_app/modules/views/bantin/bantindangsanxuat/chitiet_bantindangsanxuat_view.dart';
 import 'package:nms_app/modules/views/bantin/bantindangsanxuat/danhsach_bantindangsanxuat_view.dart';
+import 'package:nms_app/modules/views/bantin/chitietbantin/chitiet_bantin_view.dart';
 import 'package:nms_app/modules/views/bantin/bantindaxuatban/chitiet_bantindaxuatban_view.dart';
 import 'package:nms_app/modules/views/bantin/bantindaxuatban/danhsach_bantindaxuatban_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinkhongduyettin/chitiet_bantinkhongduyettin_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinkhongduyettin/danhsach_bantinkhongduyettin_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinkhongduyetvideo/chitiet_bantinkhongduyetvideo_view.dart';
 import 'package:nms_app/modules/views/bantin/bantinkhongduyetvideo/danhsach_bantinkhongduyetvideo_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhchopheduyetkb/chitiet_chuongtrinhchopheduyetkb_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhchopheduyetkb/danhsach_chuongtrinhchopheduyetkb_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdangsoanthao/chitiet_chuongtrinh_view.dart';
 import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdangsoanthao/danhsach_chuongtrinh_view.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_binding.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdaxuatban/chitiet_chuongtrinhdaxuatban_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhdaxuatban/danhsach_chuongtrinhdaxuatban_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhkhongduyetkb/chitiet_chuongtrinhkhongduyetkb_view.dart';
-import 'package:nms_app/modules/views/chuongtrinh/chuongtrinhkhongduyetkb/danhsach_chuongtrinhkhongduyetkb_view.dart';
 import 'package:nms_app/modules/views/trangchu/trangchu_view.dart';
 import 'package:nms_app/modules/controllers/login/login_binding.dart';
 import 'package:nms_app/modules/views/login/login_view.dart';
@@ -81,7 +70,7 @@ class PageRouters {
         name: Paths.DSCHUONGTRINH,
         page: () => HeaderAppbar(
             body: DanhsachChuongtrinhView(),
-            title: "Chương Trình Đang Soạn Thảo",
+            title: "Danh sách chương trình",
             isDrawer: true,
             pathScreen: Paths.DSCHUONGTRINH),
         bindings: [DanhsachchuongtrinhBinding()]),
@@ -89,7 +78,7 @@ class PageRouters {
         name: Paths.CHITIETCHUONGTRINH,
         page: () => HeaderAppbar(
               body: ChitietChuongtrinhView(),
-              title: "Chi tiết chương trình đang soạn thảo",
+              title: "Chi tiết chương trình",
               isDrawer: false,
               pathScreen: Paths.CHITIETCHUONGTRINH,
               onBackButtonPressed: () {
@@ -98,69 +87,6 @@ class PageRouters {
             ),
         bindings: [ChitietchuongtrinhBinding()]),
     GetPage(
-        name: Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN,
-        page: () => HeaderAppbar(
-            body: DanhsachChuongtrinhChopheduyetkbView(),
-            title: "Chương Trình Chờ Phê Duyệt Kịch Bản",
-            isDrawer: true,
-            pathScreen: Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN),
-        bindings: [DanhsachchuongtrinhchopheduyetBinding()]),
-    GetPage(
-        name: Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN,
-        page: () => HeaderAppbar(
-              body: ChitietChuongtrinhChoPheDuyetKBView(),
-              title: "Chi tiết chương trình",
-              isDrawer: false,
-              pathScreen: Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN,
-              onBackButtonPressed: () {
-                Get.find<DanhsachChuongtrinhChopdController>()
-                    .refreshFromDetail();
-              },
-            ),
-        bindings: [ChitietchuongtrinhchopheduyetBinding()]),
-    GetPage(
-        name: Paths.DSCHUONGTRINHKHONGDUYETKICHBAN,
-        page: () => HeaderAppbar(
-            body: DanhsachChuongtrinhKhongduyetKBView(),
-            title: "Chương Trình Không Duyệt Kịch Bản",
-            isDrawer: true,
-            pathScreen: Paths.DSCHUONGTRINHKHONGDUYETKICHBAN),
-        bindings: [DanhsachchuongtrinhKhongduyetKBBinding()]),
-    GetPage(
-        name: Paths.CHITIETCHUONGTRINHKHONGDUYETKICHBAN,
-        page: () => HeaderAppbar(
-              body: ChitietChuongtrinhKhongDuyetKBView(),
-              title: "Chi tiết chương trình",
-              isDrawer: false,
-              pathScreen: Paths.CHITIETCHUONGTRINHKHONGDUYETKICHBAN,
-              onBackButtonPressed: () {
-                Get.find<DanhsachChuongtrinhKhongduyetKBController>()
-                    .refreshFromDetail();
-              },
-            ),
-        bindings: [ChitietchuongtrinhKhongduyetKBBinding()]),
-    GetPage(
-        name: Paths.DSCHUONGTRINHDAXUATBAN,
-        page: () => HeaderAppbar(
-            body: DanhsachChuongtrinhDaxuatbanView(),
-            title: "Chương Trình Đã Xuất Bản",
-            isDrawer: true,
-            pathScreen: Paths.DSCHUONGTRINHDAXUATBAN),
-        bindings: [DanhsachchuongtrinhDaXuatBanBinding()]),
-    GetPage(
-        name: Paths.CHITIETCHUONGTRINHDAXUATBAN,
-        page: () => HeaderAppbar(
-              body: ChitietChuongtrinhDaXuatBanView(),
-              title: "Chi tiết chương trình",
-              isDrawer: false,
-              pathScreen: Paths.CHITIETCHUONGTRINHDAXUATBAN,
-              onBackButtonPressed: () {
-                Get.find<DanhsachChuongtrinhDaXuatBanController>()
-                    .refreshFromDetail();
-              },
-            ),
-        bindings: [ChitietchuongtrinhDaXuatBanBinding()]),
-    GetPage(
         name: Paths.DSBANTINCHOPHEDUYETVIDEO,
         page: () => HeaderAppbar(
             body: DanhsachBantinchoduyetvideoView(),
@@ -168,19 +94,20 @@ class PageRouters {
             isDrawer: true,
             pathScreen: Paths.DSBANTINCHOPHEDUYETVIDEO),
         bindings: [DanhsachBantinchopheduyetvideoBinding()]),
+    // chi tiết bản tin đang soạn thảo
     GetPage(
-        name: Paths.CHITIETBANTIN,
+        name: Paths.CHITIETBANTINDANGSOANTHAO,
         page: () => HeaderAppbar(
-              body: ChitietBantinchoduyetvideoView(),
+              body: ChitietBantinView(),
               title: "Chi tiết bản tin",
               isDrawer: false,
-              pathScreen: Paths.CHITIETBANTIN,
+              pathScreen: Paths.CHITIETBANTINDANGSOANTHAO,
               onBackButtonPressed: () {
-                Get.find<DanhsachBantinchopheduyetvideoController>()
-                    .refreshFromDetail();
+                final controller = Get.find<ChitietChuongtrinhController>();
+                controller.loadChiTietChuongTrinhChoPheDuyet();
               },
             ),
-        bindings: [ChitietBantinchopheduyetvideoBinding()]),
+        bindings: [ChiTietBanTinBinding()]),
     GetPage(
         name: Paths.DSBANTINCHODUYETTINBAI,
         page: () => HeaderAppbar(
@@ -312,17 +239,14 @@ class Routers {
   static const DSCHUONGTRINH = Paths.DSCHUONGTRINH;
   static const CHITIETCHUONGTRINH = Paths.CHITIETCHUONGTRINH;
 
-  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN =
-      Paths.DSCHUONGTRINHCHOPHEDUYETKICHBAN;
+  static const CHITIETBANTINDANGSOANTHAO = Paths.CHITIETBANTINDANGSOANTHAO;
+
   static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN =
       Paths.CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN;
 
-  static const DSCHUONGTRINHKHONGDUYETKICHBAN =
-      Paths.DSCHUONGTRINHKHONGDUYETKICHBAN;
   static const CHITIETCHUONGTRINHKHONGDUYETKICHBAN =
       Paths.CHITIETCHUONGTRINHKHONGDUYETKICHBAN;
 
-  static const DSCHUONGTRINHDAXUATBAN = Paths.DSCHUONGTRINHDAXUATBAN;
   static const CHITIETCHUONGTRINHDAXUATBAN = Paths.CHITIETCHUONGTRINHDAXUATBAN;
 
   static const CHITIETBANTIN = Paths.CHITIETBANTIN;
@@ -362,21 +286,18 @@ class Paths {
   static const DSCHUONGTRINH = '/dschuongtrinh';
   static const CHITIETCHUONGTRINH = '/chitietchuongtrinh';
 
-  static const DSCHUONGTRINHCHOPHEDUYETKICHBAN =
-      "/dschuongtrinhchopheduyetkichban";
   static const CHITIETCHUONGTRINHCHOPHEDUYETKICHBAN =
       "/chitietchuongtrinhchopheduyet";
 
-  static const DSCHUONGTRINHKHONGDUYETKICHBAN =
-      "/dschuongtrinhkhongduyetkichban";
   static const CHITIETCHUONGTRINHKHONGDUYETKICHBAN =
       "/chitietchuongtrinhkhongduyetkichban";
 
-  static const DSCHUONGTRINHDAXUATBAN = "/dschuongtrinhdaxuatban";
   static const CHITIETCHUONGTRINHDAXUATBAN = "/chitietchuongtrinhdaxuatban";
 
   static const DSBANTINCHOPHEDUYETVIDEO = '/dsbantinchopheduyetvideo';
   static const CHITIETBANTIN = '/chitietbantin';
+
+  static const CHITIETBANTINDANGSOANTHAO = '/chitietbantindangsoanthao';
 
   static const DSBANTINCHODUYETTINBAI = '/dsbantinchoduyettinbai';
   static const CHITIETBANTINCHODUYETTIN = '/chitietbantinchoduyettin';

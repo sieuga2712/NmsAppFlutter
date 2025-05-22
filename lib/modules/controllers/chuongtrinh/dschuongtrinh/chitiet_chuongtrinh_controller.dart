@@ -8,6 +8,7 @@ import 'package:nms_app/model/chuongtrinh/chitiet_chuongtrinh_model.dart';
 import 'package:nms_app/provider/bantin/bantin_provider.dart';
 import 'package:nms_app/provider/chucnangthuchien/chucnangthuchien_provider.dart';
 import 'package:nms_app/provider/chuongtrinh/chuongtrinh_provider.dart';
+import 'package:nms_app/router.dart';
 
 class ChitietChuongtrinhController extends GetxController
     with StateMixin<ChitietChuongtrinhModel> {
@@ -22,17 +23,19 @@ class ChitietChuongtrinhController extends GetxController
   Rx<ChucnangthuchienModel?> danhSachChucNang =
       Rx<ChucnangthuchienModel?>(null);
   var dsBanTinCanXuLyByChuongTrinhId = <DanhsachBantinCanxulyModel>[].obs;
+  var dsBanTinByChuongTrinhId = <DanhsachBantinCanxulyModel>[].obs;
   var isAllSelected = false.obs;
 
   void loadChiTietChuongTrinhChoPheDuyet() async {
     change(null, status: RxStatus.loading());
-    print('chuongTrinhId loadChiTietChuongTrinhChoPheDuyet: $chuongTrinhId');
+    print('chuongTrinhId : $chuongTrinhId');
     try {
       if (chuongTrinhId != null) {
         await chuongTrinhProvider
             .getChiTietChuongTrinh(chuongTrinhId!)
             .then((response) async {
           await loadDsBanTinCanXuLyByChuongTrinhId(chuongTrinhId);
+          await loadDsBanTinByChuongTrinhId(chuongTrinhId);
           await loadChucNangThucHien(chuongTrinhId);
           chiTietChuongTrinh.value = response;
           change(chiTietChuongTrinh.value, status: RxStatus.success());
@@ -58,6 +61,21 @@ class ChitietChuongtrinhController extends GetxController
       });
     } catch (exception) {
       print('Lỗi loadDsBanTinCanXuLyByChuongTrinhId: $exception');
+    }
+  }
+
+  Future<void> loadDsBanTinByChuongTrinhId(String? chuongTrinhId) async {
+    try {
+      dsBanTinByChuongTrinhId.clear();
+      await banTinProvider
+          .danhSachBanTinByChuongTrinhId(chuongTrinhId)
+          .then((response) {
+        dsBanTinByChuongTrinhId.addAll(response);
+        print(
+            'loadDsBanTinByChuongTrinhId: $dsBanTinByChuongTrinhId');
+      });
+    } catch (exception) {
+      print('Lỗi loadDsBanTinByChuongTrinhId: $exception');
     }
   }
 
@@ -106,6 +124,13 @@ class ChitietChuongtrinhController extends GetxController
         ),
       );
     }
+  }
+
+  Future<void> onSwitchPage(banTinId) async {
+    print('banTinId: $banTinId');
+    Get.toNamed(Routers.CHITIETBANTINDANGSOANTHAO, arguments: {
+      'banTinId': banTinId,
+    });
   }
 
   void _processChucNang(chucNang) async {
@@ -158,7 +183,7 @@ class ChitietChuongtrinhController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    loadChiTietChuongTrinhChoPheDuyet();
+    this.loadChiTietChuongTrinhChoPheDuyet();
   }
 
   @override

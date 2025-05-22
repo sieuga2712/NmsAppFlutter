@@ -123,6 +123,23 @@ class BantinProvider {
     }
   }
 
+  Future<List<DanhsachBantinCanxulyModel>> danhSachBanTinByChuongTrinhId(
+    String? chuongTrinhId) async {
+    try {
+      final response =
+          await dio.get("${BantinApi.dsBanTin}/$chuongTrinhId");
+
+      final List<dynamic> data = response.data;
+
+      return data
+          .map((item) => DanhsachBantinCanxulyModel.fromJson(item))
+          .toList();
+    } catch (exception) {
+      print('Lỗi khi gọi API: $exception');
+      return Future.error(exception.toString());
+    }
+  }
+
 
   Future<ChitietBantinModel> getChiTietBanTin(idBanTin) async {
     try {

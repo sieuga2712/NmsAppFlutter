@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/model/chuongtrinh/danhsach_chuongtrinh_model.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/chitiet_chuongtrinh_controller.dart';
 import 'package:nms_app/provider/chuongtrinh/chuongtrinh_provider.dart';
 import 'package:nms_app/router.dart';
 
@@ -46,6 +47,7 @@ class DanhsachChuongtrinhController extends GetxController
     }
   }
 
+  final trangThaiChuongTrinh = ''.obs;
   void loadDanhSachChuongTrinh({bool isLoadMore = false}) async {
     if (!isLoadMore) {
       resetController();
@@ -61,6 +63,7 @@ class DanhsachChuongtrinhController extends GetxController
       final result = await chuongTrinhProvider.dsChuongTrinh(
         skipCount: currentPage.value * itemsPerPage,
         maxResultCount: itemsPerPage,
+        trangThaiChuongTrinhBanTin: trangThaiChuongTrinh.value,
       );
 
       if (result.items == null || result.items!.isEmpty) {
@@ -125,6 +128,7 @@ class DanhsachChuongtrinhController extends GetxController
 
   Future<void> onSwitchPage(chuongTrinhId) async {
     print('chuongtrinhId: $chuongTrinhId');
+    Get.delete<ChitietChuongtrinhController>();
     Get.toNamed(Routers.CHITIETCHUONGTRINH, arguments: {
       'chuongTrinhId': chuongTrinhId,
     });
@@ -158,6 +162,9 @@ class DanhsachChuongtrinhController extends GetxController
     super.onInit();
     searchController = TextEditingController();
     searchFocusNode = FocusNode();
+    final savedState =
+        GetStorage().read('trangThaiChuongTrinh') ?? 'ChuongTrinhDangSoanThao';
+    trangThaiChuongTrinh.value = savedState;
     loadDanhSachChuongTrinh();
   }
 

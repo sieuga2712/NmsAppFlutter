@@ -9,19 +9,21 @@ class ChuongtrinhProvider {
   final GetStorage _store = GetStorage();
 
   Future<DanhsachChuongtrinhModel> dsChuongTrinh({
-    int skipCount = 0,
-    int maxResultCount = 10,
+  int skipCount = 0,
+  int maxResultCount = 10,
+  required String trangThaiChuongTrinhBanTin,
   }) async {
     try {
-      String trangThaiChuongTrinhBanTin = 'ChuongTrinhDangSoanThao';
       String sorting = 'ten ASC';
       final response = await dio.get(
-          '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount');
+        '${ChuongtrinhApi.danhSachChuongTrinh}?trangThaiChuongTrinhBanTin=$trangThaiChuongTrinhBanTin&sorting=$sorting&skipCount=$skipCount&maxResultCount=$maxResultCount',
+      );
       return DanhsachChuongtrinhModel.fromJson(response.data);
     } catch (exception) {
       return Future.error(exception.toString());
     }
   }
+
 
   Future<DanhsachChuongtrinhModel> dsChuongTrinhChoPheDuyet({
     int skipCount = 0,

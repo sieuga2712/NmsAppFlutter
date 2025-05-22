@@ -4,4 +4,6 @@ class BantinApi {
   static String downloadFile = '/api/app/file';
   static String dsBanTinCanXuLy =
       '/api/app/ban-tin/ban-tin-can-xu-ly-theo-chuong-trinh-id';
+  static String dsBanTin =
+      '/api/app/ban-tin/by-chuong-trinh-id-v2';
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/core/values/app_color.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/danhsach_chuongtrinh_controller.dart';
 import 'package:nms_app/router.dart';
 
 class NavigationBottom extends GetView {
@@ -28,22 +30,44 @@ class NavigationBottom extends GetView {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.newspaper, color: AppColor.whiteColor),
+              icon: const Icon(Icons.edit_note, color: AppColor.whiteColor),
               onPressed: () {
-                navigator('chuongtrinhchopheduyet');
+                GetStorage()
+                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangSoanThao');
+                if (Get.isRegistered<DanhsachChuongtrinhController>()) {
+                  final controller = Get.find<DanhsachChuongtrinhController>();
+                  controller.trangThaiChuongTrinh.value =
+                      'ChuongTrinhDangSoanThao';
+                  controller.loadDanhSachChuongTrinh();
+                }
+                navigator('dschuongtrinh');
               },
             ),
             IconButton(
-              icon: const Icon(Icons.cell_tower, color: AppColor.whiteColor),
+              icon: const Icon(Icons.task_alt, color: AppColor.whiteColor),
               onPressed: () {
-                navigator('bantinchopheduyettinbai');
+                GetStorage()
+                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangSoanThao');
+                if (Get.isRegistered<DanhsachChuongtrinhController>()) {
+                  final controller = Get.find<DanhsachChuongtrinhController>();
+                  controller.trangThaiChuongTrinh.value = 'DaPheDuyetKichBan';
+                  controller.loadDanhSachChuongTrinh();
+                }
+                navigator('dschuongtrinh');
               },
             ),
             IconButton(
-              icon: const Icon(Icons.videocam_outlined,
-                  color: AppColor.whiteColor),
+              icon: const Icon(Icons.block, color: AppColor.whiteColor),
               onPressed: () {
-                navigator("bantinchopheduyetvideo");
+                GetStorage()
+                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangSoanThao');
+                if (Get.isRegistered<DanhsachChuongtrinhController>()) {
+                  final controller = Get.find<DanhsachChuongtrinhController>();
+                  controller.trangThaiChuongTrinh.value =
+                      'KhongPheDuyetKichBan';
+                  controller.loadDanhSachChuongTrinh();
+                }
+                navigator("dschuongtrinh");
               },
             ),
           ],
@@ -57,14 +81,8 @@ class NavigationBottom extends GetView {
       case 'trangchu':
         Get.offNamed(Routers.TRANGCHU);
         break;
-      case 'chuongtrinhchopheduyet':
-        Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYETKICHBAN);
-        break;
-      case 'bantinchopheduyetvideo':
-        Get.offNamed(Routers.DSBANTINCHOPHEDUYETVIDEO);
-        break;
-      case 'bantinchopheduyettinbai':
-        Get.offNamed(Routers.DSBANTINCHODUYETTINBAI);
+      case 'dschuongtrinh':
+        Get.offNamed(Routers.DSCHUONGTRINH);
         break;
       default:
         break;

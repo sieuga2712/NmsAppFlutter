@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/danhsach_chuongtrinh_controller.dart';
 import 'package:nms_app/modules/controllers/user/user_controller.dart';
 import 'package:nms_app/provider/user/user_provider.dart';
 import 'package:nms_app/router.dart';
@@ -112,7 +113,7 @@ class NavigationDrawer extends StatelessWidget {
                                 leading: const Icon(Icons.business_center,
                                     color: AppColor.helpBlue),
                                 title: Text(
-                                  'Danh sách chương trình',
+                                  'Quản lý chương trình',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -124,10 +125,40 @@ class NavigationDrawer extends StatelessWidget {
                                 ),
                                 children: [
                                   if (_canShowMenuItem(
+                                      'chuongtrinh.dangsoanthao'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Đang soạn thảo',
+                                        isChild: true,
+                                        icon: Icons.edit_note_outlined,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'ChuongTrinhDangSoanThao');
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                    .value =
+                                                'ChuongTrinhDangSoanThao';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
+                                        }),
+                                  if (_canShowMenuItem(
                                       'chuongtrinh.chopheduyet'))
                                     buildDrawerItems(
                                         context: context,
-                                        text: 'Chờ phê duyệt kịch bản',
+                                        text: 'Đang chờ duyệt',
                                         isChild: true,
                                         icon: Icons.watch_later_outlined,
                                         textIconColor: (Get.isDarkMode
@@ -137,16 +168,29 @@ class NavigationDrawer extends StatelessWidget {
                                             ? AppColor.whiteColor
                                             : AppColor.whiteColor),
                                         onTap: () {
-                                          navigate(
-                                              'danhsachchuongtrinhchopheduyet');
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'ChuongTrinhDangChoDuyet');
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                    .value =
+                                                'ChuongTrinhDangChoDuyet';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
                                         }),
                                   if (_canShowMenuItem(
-                                      'chuongtrinh.dangsoanthao'))
+                                      'chuongtrinh.dapheduyet'))
                                     buildDrawerItems(
                                         context: context,
-                                        text: 'Chương trình đang soạn thảo',
-                                        isChild: true,
+                                        text: 'Đã phê duyệt kịch bản',
                                         icon: Icons.task_alt_outlined,
+                                        isChild: true,
                                         textIconColor: (Get.isDarkMode
                                             ? AppColor.whiteColor
                                             : AppColor.helpBlue),
@@ -154,6 +198,19 @@ class NavigationDrawer extends StatelessWidget {
                                             ? AppColor.whiteColor
                                             : AppColor.whiteColor),
                                         onTap: () {
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'DaPheDuyetKichBan');
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                .value = 'DaPheDuyetKichBan';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
                                           navigate('danhsachchuongtrinh');
                                         }),
                                   if (_canShowMenuItem(
@@ -170,8 +227,20 @@ class NavigationDrawer extends StatelessWidget {
                                             ? AppColor.whiteColor
                                             : AppColor.whiteColor),
                                         onTap: () {
-                                          navigate(
-                                              'danhsachchuongtrinhkhongduyetkb');
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'KhongPheDuyetKichBan');
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                .value = 'KhongPheDuyetKichBan';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
                                         }),
                                   if (_canShowMenuItem('chuongtrinh.daxuatban'))
                                     buildDrawerItems(
@@ -186,13 +255,26 @@ class NavigationDrawer extends StatelessWidget {
                                             ? AppColor.whiteColor
                                             : AppColor.whiteColor),
                                         onTap: () {
-                                          navigate(
-                                              'danhsachchuongtrinhdaxuatban');
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'DaXuatBan');
+                                          // Nếu controller đã tồn tại, gọi lại API ngay
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                .value = 'DaXuatBan';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
                                         }),
                                 ],
                               ),
                             ),
-                          if (_canShowMenuItem('bantin'))
+                          if (_canShowMenuItem('tạm ẩn'))
                             Container(
                               decoration: BoxDecoration(
                                 border: Border(
@@ -424,34 +506,6 @@ class NavigationDrawer extends StatelessWidget {
         ));
   }
 
-  /*Widget buildDrawerItems(
-      {required BuildContext context,
-      required String text,
-      required IconData? icon,
-      required Color? textIconColor,
-      required Color? titleColor,
-      required VoidCallback onTap}) {
-    return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(color: AppColor.greyColor, width: 0.5),
-          ),
-        ),
-        child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: ListTile(
-              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-              leading: Icon(icon, color: textIconColor),
-              title: Text(
-                text,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: textIconColor,
-                    ),
-              ),
-              tileColor: titleColor,
-              onTap: onTap,
-            )));
-  }*/
   Widget buildDrawerItems(
       {required BuildContext context,
       required String text,
@@ -539,15 +593,6 @@ class NavigationDrawer extends StatelessWidget {
         break;
       case 'danhsachchuongtrinh':
         Get.offNamed(Routers.DSCHUONGTRINH);
-        break;
-      case 'danhsachchuongtrinhchopheduyet':
-        Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYETKICHBAN);
-        break;
-      case 'danhsachchuongtrinhkhongduyetkb':
-        Get.offNamed(Routers.DSCHUONGTRINHKHONGDUYETKICHBAN);
-        break;
-      case 'danhsachchuongtrinhdaxuatban':
-        Get.offNamed(Routers.DSCHUONGTRINHDAXUATBAN);
         break;
       case 'danhsachbantin':
         Get.offNamed(Routers.DSBANTINCHOPHEDUYETVIDEO);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:nms_app/core/values/app_color.dart';
 import 'package:nms_app/global_widget/trangchu/oval_clipper.dart';
 import 'package:nms_app/global_widget/trangchu/stat_card.dart';
 import 'package:nms_app/model/trangchu/trangchu_model.dart';
+import 'package:nms_app/modules/controllers/chuongtrinh/dschuongtrinh/danhsach_chuongtrinh_controller.dart';
 import 'package:nms_app/modules/controllers/trangchu/trangchu_controller.dart';
 import 'package:nms_app/router.dart';
 
@@ -115,31 +117,54 @@ class TrangchuView extends GetView<TrangchuController> {
                   if (items.isNotEmpty)
                     Expanded(
                       child: StatCard(
-                        title: items[0].description ?? 'N/A',
-                        value: items[0].count?.toString() ?? '0',
-                        colors: const [
-                          Color(0xFF4328EA),
-                          Color.fromARGB(255, 182, 168, 254)
-                        ],
-                        progress:
-                            items[0].count != null ? items[0].count! / 56 : 0,
-                        onTap: () => navigator('chuongtrinhdangsx'),
-                      ),
+                          title: items[0].description ?? 'N/A',
+                          value: items[0].count?.toString() ?? '0',
+                          colors: const [
+                            Color(0xFF4328EA),
+                            Color.fromARGB(255, 182, 168, 254)
+                          ],
+                          progress:
+                              items[0].count != null ? items[0].count! / 56 : 0,
+                          onTap: () {
+                            GetStorage().write('trangThaiChuongTrinh',
+                                'ChuongTrinhDangSoanThao');
+                            if (Get.isRegistered<
+                                DanhsachChuongtrinhController>()) {
+                              final controller =
+                                  Get.find<DanhsachChuongtrinhController>();
+                              controller.trangThaiChuongTrinh.value =
+                                  'ChuongTrinhDangSoanThao';
+                              controller.loadDanhSachChuongTrinh();
+                            }
+
+                            navigator('danhsachchuongtrinh');
+                          }),
                     ),
                   SizedBox(width: cardSpacing),
                   if (items.length > 1)
                     Expanded(
                       child: StatCard(
-                        title: items[1].description ?? 'N/A',
-                        value: items[1].count?.toString() ?? '0',
-                        colors: const [
-                          Color(0xFFEA3F28),
-                          Color.fromARGB(255, 249, 166, 155)
-                        ],
-                        progress:
-                            items[1].count != null ? items[1].count! / 56 : 0,
-                        onTap: () => navigator('chuongtrinhchopheduyet'),
-                      ),
+                          title: items[1].description ?? 'N/A',
+                          value: items[1].count?.toString() ?? '0',
+                          colors: const [
+                            Color(0xFFEA3F28),
+                            Color.fromARGB(255, 249, 166, 155)
+                          ],
+                          progress:
+                              items[1].count != null ? items[1].count! / 56 : 0,
+                          onTap: () {
+                            GetStorage()
+                                .write('trangThaiChuongTrinh', 'DaXuatBan');
+                            if (Get.isRegistered<
+                                DanhsachChuongtrinhController>()) {
+                              final controller =
+                                  Get.find<DanhsachChuongtrinhController>();
+                              controller.trangThaiChuongTrinh.value =
+                                  'DaXuatBan';
+                              controller.loadDanhSachChuongTrinh();
+                            }
+                            navigator('danhsachchuongtrinh');
+                          }),
                     ),
                 ],
               ),
@@ -152,31 +177,53 @@ class TrangchuView extends GetView<TrangchuController> {
                   if (items.length > 2)
                     Expanded(
                       child: StatCard(
-                        title: items[2].description ?? 'N/A',
-                        value: items[2].count?.toString() ?? '0',
-                        colors: const [
-                          Color(0xFF0084FF),
-                          Color.fromARGB(255, 165, 210, 252)
-                        ],
-                        progress:
-                            items[2].count != null ? items[2].count! / 56 : 0,
-                        onTap: () => navigator('bantinchopheduyettinbai'),
-                      ),
+                          title: items[2].description ?? 'N/A',
+                          value: items[2].count?.toString() ?? '0',
+                          colors: const [
+                            Color(0xFF0084FF),
+                            Color.fromARGB(255, 165, 210, 252)
+                          ],
+                          progress:
+                              items[2].count != null ? items[2].count! / 56 : 0,
+                          onTap: () {
+                            GetStorage().write('trangThaiChuongTrinh',
+                                'ChuongTrinhDangChoDuyet');
+                            if (Get.isRegistered<
+                                DanhsachChuongtrinhController>()) {
+                              final controller =
+                                  Get.find<DanhsachChuongtrinhController>();
+                              controller.trangThaiChuongTrinh.value =
+                                  'ChuongTrinhDangChoDuyet';
+                              controller.loadDanhSachChuongTrinh();
+                            }
+                            navigator('danhsachchuongtrinh');
+                          }),
                     ),
                   SizedBox(width: cardSpacing),
                   if (items.length > 3)
                     Expanded(
                       child: StatCard(
-                        title: items[3].description ?? 'N/A',
-                        value: items[3].count?.toString() ?? '0',
-                        colors: const [
-                          Color(0xFFEA2891),
-                          Color.fromARGB(255, 249, 161, 209)
-                        ],
-                        progress:
-                            items[3].count != null ? items[3].count! / 56 : 0,
-                        onTap: () => navigator('bantinchopheduyetvideo'),
-                      ),
+                          title: items[3].description ?? 'N/A',
+                          value: items[3].count?.toString() ?? '0',
+                          colors: const [
+                            Color(0xFFEA2891),
+                            Color.fromARGB(255, 249, 161, 209)
+                          ],
+                          progress:
+                              items[3].count != null ? items[3].count! / 56 : 0,
+                          onTap: () {
+                            GetStorage().write(
+                                'trangThaiChuongTrinh', 'KhongPheDuyetKichBan');
+                            if (Get.isRegistered<
+                                DanhsachChuongtrinhController>()) {
+                              final controller =
+                                  Get.find<DanhsachChuongtrinhController>();
+                              controller.trangThaiChuongTrinh.value =
+                                  'KhongPheDuyetKichBan';
+                              controller.loadDanhSachChuongTrinh();
+                            }
+                            navigator('danhsachchuongtrinh');
+                          }),
                     ),
                 ],
               ),
@@ -189,17 +236,8 @@ class TrangchuView extends GetView<TrangchuController> {
 
   void navigator(String maScreen) {
     switch (maScreen) {
-      case 'chuongtrinhdangsx':
+      case 'danhsachchuongtrinh':
         Get.offNamed(Routers.DSCHUONGTRINH);
-        break;
-      case 'chuongtrinhchopheduyet':
-        Get.offNamed(Routers.DSCHUONGTRINHCHOPHEDUYETKICHBAN);
-        break;
-      case 'bantinchopheduyettinbai':
-        Get.offNamed(Routers.DSBANTINCHODUYETTINBAI);
-        break;
-      case 'bantinchopheduyetvideo':
-        Get.offNamed(Routers.DSBANTINCHOPHEDUYETVIDEO);
         break;
       default:
         break;
