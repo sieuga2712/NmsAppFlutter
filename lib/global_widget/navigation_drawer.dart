@@ -43,6 +43,10 @@ class NavigationDrawer extends StatelessWidget {
         return permissions.nMSMenuChuongTrinhSoanThao ?? false;
       case 'chuongtrinh.khongpheduyet':
         return permissions.nMSMenuChuongTrinhKhongPheDuyetKichBan ?? false;
+      case 'chuongtrinh.canlanhdaopheduyet':
+        return permissions.nMSMenuChuongTrinhCanLanhDaoPheDuyet ?? false;
+      case 'chuongtrinh.chuongtrinhkhongpheduyet':
+        return permissions.nMSMenuChuongTrinhKhongPheDuyet ?? false;
       case 'chuongtrinh.daxuatban':
         return permissions.nMSMenuChuongTrinhDaXuatBan ?? false;
       case 'bantin':
@@ -208,6 +212,66 @@ class NavigationDrawer extends StatelessWidget {
                                                 DanhsachChuongtrinhController>();
                                             controller.trangThaiChuongTrinh
                                                 .value = 'DaPheDuyetKichBan';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
+                                        }),
+                                  if (_canShowMenuItem(
+                                      'chuongtrinh.canlanhdaopheduyet'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Cần LĐ phê duyệt',
+                                        icon: Icons.watch_later_outlined,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'ChuongTrinhCanLanhDaoPheDuyet');
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                    .value =
+                                                'ChuongTrinhCanLanhDaoPheDuyet';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
+                                        }),
+                                  if (_canShowMenuItem(
+                                      'chuongtrinh.chuongtrinhkhongpheduyet'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'Không được phê duyệt',
+                                        icon: Icons.block_flipped,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'ChuongTrinhKhongDuocPheDuyet');
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                    .value =
+                                                'ChuongTrinhKhongDuocPheDuyet';
                                             controller
                                                 .loadDanhSachChuongTrinh();
                                           }

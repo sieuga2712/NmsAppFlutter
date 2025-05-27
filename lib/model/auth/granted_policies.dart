@@ -21,6 +21,8 @@ class ChinhSachDuocCapModel {
   bool? nMSMenuChuongTrinhDaPheDuyetKichBan;
   bool? nMSMenuChuongTrinhKhongPheDuyetKichBan;
   bool? nMSMenuChuongTrinhDaXuatBan;
+  bool? nMSMenuChuongTrinhCanLanhDaoPheDuyet;
+  bool? nMSMenuChuongTrinhKhongPheDuyet;
   bool? nMSChuongTrinhEdit;
   bool? nMSChuongTrinhPheDuyetKichBanCapPhong;
   bool? nMSChuongTrinhPheDuyetTinBaiCapPhong;
@@ -46,6 +48,8 @@ class ChinhSachDuocCapModel {
       this.nMSMenuTinDaXuatBan,
       this.nMSMenuBaoCao,
       this.nMSMenuBaoCaoChuongTrinh,
+      this.nMSMenuChuongTrinhCanLanhDaoPheDuyet,
+      this.nMSMenuChuongTrinhKhongPheDuyet,
       this.nMSChuongTrinh,
       this.nMSChuongTrinhCreate,
       this.nMSMenuChuongTrinh,
@@ -80,6 +84,8 @@ class ChinhSachDuocCapModel {
     nMSMenuTinDaXuatBan = json['NMS.Menu.TinDaXuatBan'];
     nMSMenuBaoCao = json['NMS.Menu.BaoCao'];
     nMSMenuBaoCaoChuongTrinh = json['NMS.Menu.BaoCaoChuongTrinh'];
+    nMSMenuChuongTrinhCanLanhDaoPheDuyet = json['NMS.Menu.ChuongTrinhCanLanhDaoPheDuyet'];
+    nMSMenuChuongTrinhKhongPheDuyet = json['NMS.Menu.ChuongTrinhKhongPheDuyet'];
     nMSChuongTrinh = json['NMS.ChuongTrinh'];
     nMSChuongTrinhCreate = json['NMS.ChuongTrinh.Create'];
     nMSMenuChuongTrinh = json['NMS.Menu.ChuongTrinh'];
@@ -127,6 +133,8 @@ class ChinhSachDuocCapModel {
     data['NMS.Menu.TinDaXuatBan'] = this.nMSMenuTinDaXuatBan;
     data['NMS.Menu.BaoCao'] = this.nMSMenuBaoCao;
     data['NMS.Menu.BaoCaoChuongTrinh'] = this.nMSMenuBaoCaoChuongTrinh;
+    data['NMS.Menu.ChuongTrinhCanLanhDaoPheDuyet'] = this.nMSMenuChuongTrinhCanLanhDaoPheDuyet;
+    data['NMS.Menu.ChuongTrinhKhongPheDuyet'] = this.nMSMenuChuongTrinhKhongPheDuyet;
     data['NMS.ChuongTrinh'] = this.nMSChuongTrinh;
     data['NMS.ChuongTrinh.Create'] = this.nMSChuongTrinhCreate;
     data['NMS.Menu.ChuongTrinh'] = this.nMSMenuChuongTrinh;

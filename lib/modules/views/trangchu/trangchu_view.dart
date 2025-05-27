@@ -103,134 +103,91 @@ class TrangchuView extends GetView<TrangchuController> {
       return const Center(child: Text('Không có dữ liệu'));
     }
 
-    var items = data.first?.items ?? [];
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final cardSpacing = 12.0;
+    final items = (data.first?.items ?? []).take(4).toList(); // Giới hạn 4 item
 
-        return Column(
-          children: [
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (items.isNotEmpty)
-                    Expanded(
-                      child: StatCard(
-                          title: items[0].description ?? 'N/A',
-                          value: items[0].count?.toString() ?? '0',
-                          colors: const [
-                            Color(0xFF4328EA),
-                            Color.fromARGB(255, 182, 168, 254)
-                          ],
-                          progress:
-                              items[0].count != null ? items[0].count! / 56 : 0,
-                          onTap: () {
-                            GetStorage().write('trangThaiChuongTrinh',
-                                'ChuongTrinhDangSoanThao');
-                            if (Get.isRegistered<
-                                DanhsachChuongtrinhController>()) {
-                              final controller =
-                                  Get.find<DanhsachChuongtrinhController>();
-                              controller.trangThaiChuongTrinh.value =
-                                  'ChuongTrinhDangSoanThao';
-                              controller.loadDanhSachChuongTrinh();
-                            }
+    // Mapping từ description → trangThaiChuongTrinh
+    final Map<String, String> trangThaiMapping = {
+      'Chương trình đang SX': 'ChuongTrinhDangSanXuat',
+      'Chờ phê duyệt KB': 'ChuongTrinhCanLanhDaoPheDuyet',
+      'Chờ duyệt tin bài': 'ChuongTrinhCanLanhDaoPheDuyet',
+      'Chờ duyệt Video': 'ChoDuyetVideo',
+      'Chương trình soạn thảo': 'ChuongTrinhDangSoanThao',
+      'Đã xuất bản': 'DaXuatBan',
+      'Chương trình đang chờ duyệt': 'ChuongTrinhDangChoDuyet',
+      'Không phê duyệt kịch bản': 'KhongPheDuyetKichBan',
+      'Kịch bản bị trả': 'KhongPheDuyetKichBan',
+    };
 
-                            navigator('danhsachchuongtrinh');
-                          }),
-                    ),
-                  SizedBox(width: cardSpacing),
-                  if (items.length > 1)
-                    Expanded(
-                      child: StatCard(
-                          title: items[1].description ?? 'N/A',
-                          value: items[1].count?.toString() ?? '0',
-                          colors: const [
-                            Color(0xFFEA3F28),
-                            Color.fromARGB(255, 249, 166, 155)
-                          ],
-                          progress:
-                              items[1].count != null ? items[1].count! / 56 : 0,
-                          onTap: () {
-                            GetStorage()
-                                .write('trangThaiChuongTrinh', 'DaXuatBan');
-                            if (Get.isRegistered<
-                                DanhsachChuongtrinhController>()) {
-                              final controller =
-                                  Get.find<DanhsachChuongtrinhController>();
-                              controller.trangThaiChuongTrinh.value =
-                                  'DaXuatBan';
-                              controller.loadDanhSachChuongTrinh();
-                            }
-                            navigator('danhsachchuongtrinh');
-                          }),
-                    ),
-                ],
+    final cardSpacing = 12.0;
+
+    List<Color> _getCardColors(int index) {
+      const defaultColors = [
+        [Color(0xFF1565C0), Color(0xFF90CAF9)],
+        [Color(0xFFC62828), Color(0xFFFFCDD2)],
+        [Color(0xFF2E7D32), Color(0xFFA5D6A7)],
+        [Color(0xFF6A1B9A), Color(0xFFE1BEE7)],
+      ];
+
+      return defaultColors[index % defaultColors.length];
+    }
+
+    List<Widget> _buildRows() {
+      List<Widget> rows = [];
+
+      for (int i = 0; i < items.length; i += 2) {
+        final rowChildren = <Widget>[];
+
+        for (int j = i; j < i + 2 && j < items.length; j++) {
+          final item = items[j];
+          final desc = item.description ?? '';
+          final trangThai = trangThaiMapping[desc];
+
+          rowChildren.add(
+            Expanded(
+              child: StatCard(
+                title: desc,
+                value: item.count?.toString() ?? '0',
+                colors: _getCardColors(j),
+                progress: (item.count ?? 0) / 56,
+                onTap: () {
+                  if (trangThai != null) {
+                    GetStorage().write('trangThaiChuongTrinh', trangThai);
+                    if (Get.isRegistered<DanhsachChuongtrinhController>()) {
+                      final controller =
+                          Get.find<DanhsachChuongtrinhController>();
+                      controller.trangThaiChuongTrinh.value = trangThai;
+                      controller.loadDanhSachChuongTrinh();
+                    }
+                    navigator('danhsachchuongtrinh');
+                  }
+                },
               ),
             ),
-            const SizedBox(height: 12),
-            IntrinsicHeight(
+          );
+
+          if (j < i + 1 && j + 1 < items.length) {
+            rowChildren.add(SizedBox(width: cardSpacing));
+          }
+        }
+
+        rows.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (items.length > 2)
-                    Expanded(
-                      child: StatCard(
-                          title: items[2].description ?? 'N/A',
-                          value: items[2].count?.toString() ?? '0',
-                          colors: const [
-                            Color(0xFF0084FF),
-                            Color.fromARGB(255, 165, 210, 252)
-                          ],
-                          progress:
-                              items[2].count != null ? items[2].count! / 56 : 0,
-                          onTap: () {
-                            GetStorage().write('trangThaiChuongTrinh',
-                                'ChuongTrinhDangChoDuyet');
-                            if (Get.isRegistered<
-                                DanhsachChuongtrinhController>()) {
-                              final controller =
-                                  Get.find<DanhsachChuongtrinhController>();
-                              controller.trangThaiChuongTrinh.value =
-                                  'ChuongTrinhDangChoDuyet';
-                              controller.loadDanhSachChuongTrinh();
-                            }
-                            navigator('danhsachchuongtrinh');
-                          }),
-                    ),
-                  SizedBox(width: cardSpacing),
-                  if (items.length > 3)
-                    Expanded(
-                      child: StatCard(
-                          title: items[3].description ?? 'N/A',
-                          value: items[3].count?.toString() ?? '0',
-                          colors: const [
-                            Color(0xFFEA2891),
-                            Color.fromARGB(255, 249, 161, 209)
-                          ],
-                          progress:
-                              items[3].count != null ? items[3].count! / 56 : 0,
-                          onTap: () {
-                            GetStorage().write(
-                                'trangThaiChuongTrinh', 'KhongPheDuyetKichBan');
-                            if (Get.isRegistered<
-                                DanhsachChuongtrinhController>()) {
-                              final controller =
-                                  Get.find<DanhsachChuongtrinhController>();
-                              controller.trangThaiChuongTrinh.value =
-                                  'KhongPheDuyetKichBan';
-                              controller.loadDanhSachChuongTrinh();
-                            }
-                            navigator('danhsachchuongtrinh');
-                          }),
-                    ),
-                ],
+                children: rowChildren,
               ),
             ),
-          ],
+          ),
         );
-      },
+      }
+
+      return rows;
+    }
+
+    return Column(
+      children: _buildRows(),
     );
   }
 
