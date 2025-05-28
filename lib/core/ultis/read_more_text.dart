@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart' as html_parser;
 
 class ReadMoreText extends StatefulWidget {
   final String text;
@@ -20,14 +21,21 @@ class ReadMoreText extends StatefulWidget {
 class _ReadMoreTextState extends State<ReadMoreText> {
   bool _isExpanded = false;
 
+  String _plainText(String htmlString) {
+    final document = html_parser.parse(htmlString);
+    return document.body?.text ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final String text = widget.text;
+    final String fullText = widget.text;
+    final String plainText = _plainText(fullText);
 
     // Nếu nội dung ngắn hơn hoặc bằng maxLength, hiển thị toàn bộ HTML
-    if (text.length <= widget.maxLength) {
+    // Nếu ngắn hơn maxLength -> render toàn bộ HTML
+    if (plainText.length <= widget.maxLength) {
       return Html(
-        data: text,
+        data: fullText,
         style: {
           "body": Style.fromTextStyle(widget.style),
         },
@@ -35,13 +43,14 @@ class _ReadMoreTextState extends State<ReadMoreText> {
     }
 
     // Nếu nội dung dài hơn maxLength
-    final String truncatedText = text.substring(0, widget.maxLength) + '...';
+    final String truncatedText =
+        plainText.substring(0, widget.maxLength) + '...';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Html(
-          data: _isExpanded ? text : truncatedText,
+          data: _isExpanded ? fullText : truncatedText,
           style: {
             "body": Style.fromTextStyle(widget.style),
           },

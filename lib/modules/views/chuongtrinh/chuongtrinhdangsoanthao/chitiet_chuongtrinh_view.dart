@@ -39,10 +39,9 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                 child: controller.obx(
                   (chiTietChuongTrinh) {
                     final statusInfo = TrangthaiColos[
-                        chiTietChuongTrinh
-                            ?.trangThaiChuongTrinhBanTin];
-                    final hanXuLySanXuat = DateTime.tryParse(
-                        chiTietChuongTrinh?.hanXuLy ?? "");
+                        chiTietChuongTrinh?.trangThaiChuongTrinhBanTin];
+                    final hanXuLySanXuat =
+                        DateTime.tryParse(chiTietChuongTrinh?.hanXuLy ?? "");
                     final hanXuLySanXuatDate = hanXuLySanXuat != null
                         ? DateFormat('dd/MM/yyyy').format(hanXuLySanXuat)
                         : "Chưa có hạn xử lý";
@@ -57,7 +56,7 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Tên Chương Trình: ',
+                                      'Tên chương trình: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -82,7 +81,7 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Tên Bản Tin: ',
+                                      'Tên bản tin: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -109,7 +108,7 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Mô Tả: ',
+                                      'Mô tả: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -118,8 +117,12 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      chiTietChuongTrinh?.moTa ??
-                                          'Không có mô tả',
+                                      (chiTietChuongTrinh?.moTa != null &&
+                                              chiTietChuongTrinh!.moTa!
+                                                  .trim()
+                                                  .isNotEmpty)
+                                          ? chiTietChuongTrinh.moTa!
+                                          : 'Không có mô tả...',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -131,7 +134,7 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Hạn Xử Lý: ',
+                                      'Hạn xử lý: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -153,7 +156,7 @@ class _ChitietChuongtrinhViewState extends State<ChitietChuongtrinhView> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Trạng Thái: ',
+                                      'Trạng thái: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,

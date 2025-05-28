@@ -46,8 +46,7 @@ class NavigationBottom extends GetView {
             IconButton(
               icon: const Icon(Icons.task_alt, color: AppColor.whiteColor),
               onPressed: () {
-                GetStorage()
-                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangSoanThao');
+                GetStorage().write('trangThaiChuongTrinh', 'DaPheDuyetKichBan');
                 if (Get.isRegistered<DanhsachChuongtrinhController>()) {
                   final controller = Get.find<DanhsachChuongtrinhController>();
                   controller.trangThaiChuongTrinh.value = 'DaPheDuyetKichBan';
@@ -60,7 +59,7 @@ class NavigationBottom extends GetView {
               icon: const Icon(Icons.block, color: AppColor.whiteColor),
               onPressed: () {
                 GetStorage()
-                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangSoanThao');
+                    .write('trangThaiChuongTrinh', 'KhongPheDuyetKichBan');
                 if (Get.isRegistered<DanhsachChuongtrinhController>()) {
                   final controller = Get.find<DanhsachChuongtrinhController>();
                   controller.trangThaiChuongTrinh.value =

@@ -14,12 +14,10 @@ class ChitietBantinView extends StatefulWidget {
   const ChitietBantinView({super.key});
 
   @override
-  _ChitietBantinViewState createState() =>
-      _ChitietBantinViewState();
+  _ChitietBantinViewState createState() => _ChitietBantinViewState();
 }
 
-class _ChitietBantinViewState
-    extends State<ChitietBantinView> {
+class _ChitietBantinViewState extends State<ChitietBantinView> {
   final ChiTietBanTinController controller = Get.find();
 
   @override
@@ -60,7 +58,7 @@ class _ChitietBantinViewState
                                 Row(
                                   children: [
                                     Text(
-                                      'Tên Chương Trình: ',
+                                      'Tên chương trình: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -85,7 +83,7 @@ class _ChitietBantinViewState
                                 Row(
                                   children: [
                                     Text(
-                                      'Tên Bản Tin: ',
+                                      'Tên bản tin: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -110,7 +108,7 @@ class _ChitietBantinViewState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Mô Tả: ',
+                                      'Mô tả: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -119,7 +117,12 @@ class _ChitietBantinViewState
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      chiTietBanTin?.moTa ?? 'Không có mô tả',
+                                      (chiTietBanTin?.moTa != null &&
+                                              chiTietBanTin!.moTa!
+                                                  .trim()
+                                                  .isNotEmpty)
+                                          ? chiTietBanTin.moTa!
+                                          : 'Không có mô tả...',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         color: AppColor.blackColor,
@@ -153,7 +156,7 @@ class _ChitietBantinViewState
                                 Row(
                                   children: [
                                     Text(
-                                      'Hạn Sản Xuất: ',
+                                      'Hạn sản xuất: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
@@ -175,7 +178,7 @@ class _ChitietBantinViewState
                                 Row(
                                   children: [
                                     Text(
-                                      'Trạng Thái: ',
+                                      'Trạng thái: ',
                                       style: TextStyle(
                                         fontSize: FontSizeSmall,
                                         fontWeight: FontWeight.bold,
