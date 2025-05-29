@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:nms_app/core/ultis/custom_snack_bar.dart';
 import 'package:nms_app/core/values/get_storage_key.dart';
 import 'package:nms_app/model/trangchu/trangchu_model.dart';
 import 'package:get/get.dart';
@@ -26,53 +28,60 @@ class TrangchuController extends GetxController
     change(null, status: RxStatus.loading());
     try {
       isLoading(true);
-      final response = await trangChuProvider.getTrangChu();
+      await trangChuProvider.getTrangChu().then((response) {
+        dataList.clear();
+        dataList.addAll(response);
 
-      dataList.clear();
-      dataList.addAll(response);
-
-      print('Controller Data: $dataList');
-      change(dataList, status: RxStatus.success());
+        change(dataList, status: RxStatus.success());
+      });
     } catch (e) {
-      print('Controller error: $e');
       change(null, status: RxStatus.error(e.toString()));
     } finally {
       isLoading(false);
     }
   }
-Future<String?> getFirebaseToken() async {
-    String? fcmToken;
-  if (Platform.isIOS) {
-    // On iOS we need to see an APN token is available first
 
-    String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-    int maxGetToken=0;
-    while(apnsToken == null || maxGetToken<5){
-      await Future<void>.delayed(const Duration(seconds: 2,));
-      apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-      maxGetToken++;
+  void getFirebaseToken() async {
+    String? fcmToken;
+    if (Platform.isIOS) {
+      // On iOS we need to see an APN token is available first
+
+      String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      int maxGetToken = 0;
+      while (apnsToken == null && maxGetToken <= 10) {
+        await Future<void>.delayed(const Duration(
+          seconds: 2,
+        ));
+        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        maxGetToken++;
+      }
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } else {
+      // android platform
+      fcmToken = await FirebaseMessaging.instance.getToken();
     }
-    fcmToken = await FirebaseMessaging.instance.getToken();
+    saveTokenFCM(fcmToken ?? "");
   }
-  else {
-    // android platform
-    fcmToken = await FirebaseMessaging.instance.getToken();
+
+  void onRefreshTokenFCM() {
+    FirebaseMessaging.instance.onTokenRefresh.listen((fmcToken) {
+      saveTokenFCM(fmcToken);
+      // storage.write(GetStorageKey.accessTokenFCM, fmcToken);
+    });
   }
-  return fcmToken;
+
+  void saveTokenFCM(String token) async {
+    // ignore: avoid_print
+    // print(token);
+    // ignore: avoid_print
+    await _fcmTokenProvider.saveFcmToken(token);
   }
-void getTokenFCM() async{
-    String? fcmToken = await getFirebaseToken();
-    print(fcmToken);
-    // await _fcmTokenProvider.saveFcmToken(fcmToken);
-    //storage.write(GetStorageKey.accessTokenFCM, token);
-}
+
   @override
   void onInit() {
     super.onInit();
     saveInfoAccount();
     getTrangChu();
-    getTokenFCM();
-
+    getFirebaseToken();
   }
 }
- 

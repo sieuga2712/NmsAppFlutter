@@ -26,6 +26,14 @@ void main() async {
         Locale('vi', 'VN'), // Vietnamese
         // Add more locales if needed
       ],
+       builder: (context, child) {
+      final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+      double tile=data.size.shortestSide < 600 ? 1.1 : 1.2;
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: tile,boldText: false), // Khóa cỡ chữ toàn bộ
+        child: child!,
+      );
+    },
       debugShowCheckedModeBanner: false,
       initialRoute: PageRouters.INITIAL,
       getPages: PageRouters.routers,
