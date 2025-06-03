@@ -30,14 +30,15 @@ class NavigationBottom extends GetView {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.edit_note, color: AppColor.whiteColor),
+              icon: const Icon(Icons.watch_later_outlined,
+                  color: AppColor.whiteColor),
               onPressed: () {
                 GetStorage()
-                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangSoanThao');
+                    .write('trangThaiChuongTrinh', 'ChuongTrinhDangChoDuyet');
                 if (Get.isRegistered<DanhsachChuongtrinhController>()) {
                   final controller = Get.find<DanhsachChuongtrinhController>();
                   controller.trangThaiChuongTrinh.value =
-                      'ChuongTrinhDangSoanThao';
+                      'ChuongTrinhDangChoDuyet';
                   controller.loadDanhSachChuongTrinh();
                 }
                 navigator('dschuongtrinh');
@@ -46,10 +47,12 @@ class NavigationBottom extends GetView {
             IconButton(
               icon: const Icon(Icons.task_alt, color: AppColor.whiteColor),
               onPressed: () {
-                GetStorage().write('trangThaiChuongTrinh', 'DaPheDuyetKichBan');
+                GetStorage().write(
+                    'trangThaiChuongTrinh', 'ChuongTrinhCanLanhDaoPheDuyet');
                 if (Get.isRegistered<DanhsachChuongtrinhController>()) {
                   final controller = Get.find<DanhsachChuongtrinhController>();
-                  controller.trangThaiChuongTrinh.value = 'DaPheDuyetKichBan';
+                  controller.trangThaiChuongTrinh.value =
+                      'ChuongTrinhCanLanhDaoPheDuyet';
                   controller.loadDanhSachChuongTrinh();
                 }
                 navigator('dschuongtrinh');
@@ -58,12 +61,12 @@ class NavigationBottom extends GetView {
             IconButton(
               icon: const Icon(Icons.block, color: AppColor.whiteColor),
               onPressed: () {
-                GetStorage()
-                    .write('trangThaiChuongTrinh', 'KhongPheDuyetKichBan');
+                GetStorage().write(
+                    'trangThaiChuongTrinh', 'ChuongTrinhKhongDuocPheDuyet');
                 if (Get.isRegistered<DanhsachChuongtrinhController>()) {
                   final controller = Get.find<DanhsachChuongtrinhController>();
                   controller.trangThaiChuongTrinh.value =
-                      'KhongPheDuyetKichBan';
+                      'ChuongTrinhKhongDuocPheDuyet';
                   controller.loadDanhSachChuongTrinh();
                 }
                 navigator("dschuongtrinh");

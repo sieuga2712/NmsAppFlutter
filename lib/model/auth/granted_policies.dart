@@ -33,6 +33,7 @@ class ChinhSachDuocCapModel {
   bool? nMSChuongTrinhPheDuyetKichBanCapPGD;
   bool? nMSChuongTrinhPheDuyetTinBaiCapPGD;
   bool? nMSChuongTrinhPheDuyetFileThanhPhamCapPGD;
+  bool? nMSMenuChuongTrinhDangSanXuat;
 
   ChinhSachDuocCapModel(
       {this.nMSBanTin,
@@ -68,6 +69,7 @@ class ChinhSachDuocCapModel {
       this.nMSChuongTrinhPheDuyetFileThanhPhamCapGD,
       this.nMSChuongTrinhPheDuyetKichBanCapPGD,
       this.nMSChuongTrinhPheDuyetTinBaiCapPGD,
+      this.nMSMenuChuongTrinhDangSanXuat,
       this.nMSChuongTrinhPheDuyetFileThanhPhamCapPGD});
 
   ChinhSachDuocCapModel.fromJson(Map<String, dynamic> json) {
@@ -84,7 +86,8 @@ class ChinhSachDuocCapModel {
     nMSMenuTinDaXuatBan = json['NMS.Menu.TinDaXuatBan'];
     nMSMenuBaoCao = json['NMS.Menu.BaoCao'];
     nMSMenuBaoCaoChuongTrinh = json['NMS.Menu.BaoCaoChuongTrinh'];
-    nMSMenuChuongTrinhCanLanhDaoPheDuyet = json['NMS.Menu.ChuongTrinhCanLanhDaoPheDuyet'];
+    nMSMenuChuongTrinhCanLanhDaoPheDuyet =
+        json['NMS.Menu.ChuongTrinhCanLanhDaoPheDuyet'];
     nMSMenuChuongTrinhKhongPheDuyet = json['NMS.Menu.ChuongTrinhKhongPheDuyet'];
     nMSChuongTrinh = json['NMS.ChuongTrinh'];
     nMSChuongTrinhCreate = json['NMS.ChuongTrinh.Create'];
@@ -116,6 +119,7 @@ class ChinhSachDuocCapModel {
         json['NMS.ChuongTrinh.PheDuyetTinBaiCapPGD'];
     nMSChuongTrinhPheDuyetFileThanhPhamCapPGD =
         json['NMS.ChuongTrinh.PheDuyetFileThanhPhamCapPGD'];
+    nMSMenuChuongTrinhDangSanXuat = json['NMS.Menu.ChuongTrinhDangSanXuat'];
   }
 
   Map<String, dynamic> toJson() {
@@ -133,8 +137,10 @@ class ChinhSachDuocCapModel {
     data['NMS.Menu.TinDaXuatBan'] = this.nMSMenuTinDaXuatBan;
     data['NMS.Menu.BaoCao'] = this.nMSMenuBaoCao;
     data['NMS.Menu.BaoCaoChuongTrinh'] = this.nMSMenuBaoCaoChuongTrinh;
-    data['NMS.Menu.ChuongTrinhCanLanhDaoPheDuyet'] = this.nMSMenuChuongTrinhCanLanhDaoPheDuyet;
-    data['NMS.Menu.ChuongTrinhKhongPheDuyet'] = this.nMSMenuChuongTrinhKhongPheDuyet;
+    data['NMS.Menu.ChuongTrinhCanLanhDaoPheDuyet'] =
+        this.nMSMenuChuongTrinhCanLanhDaoPheDuyet;
+    data['NMS.Menu.ChuongTrinhKhongPheDuyet'] =
+        this.nMSMenuChuongTrinhKhongPheDuyet;
     data['NMS.ChuongTrinh'] = this.nMSChuongTrinh;
     data['NMS.ChuongTrinh.Create'] = this.nMSChuongTrinhCreate;
     data['NMS.Menu.ChuongTrinh'] = this.nMSMenuChuongTrinh;
@@ -165,6 +171,8 @@ class ChinhSachDuocCapModel {
         this.nMSChuongTrinhPheDuyetTinBaiCapPGD;
     data['NMS.ChuongTrinh.PheDuyetFileThanhPhamCapPGD'] =
         this.nMSChuongTrinhPheDuyetFileThanhPhamCapPGD;
+    data['NMS.Menu.ChuongTrinhDangSanXuat'] =
+        this.nMSMenuChuongTrinhDangSanXuat;
     return data;
   }
 }

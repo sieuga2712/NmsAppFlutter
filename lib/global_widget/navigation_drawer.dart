@@ -49,6 +49,8 @@ class NavigationDrawer extends StatelessWidget {
         return permissions.nMSMenuChuongTrinhKhongPheDuyet ?? false;
       case 'chuongtrinh.daxuatban':
         return permissions.nMSMenuChuongTrinhDaXuatBan ?? false;
+      case 'chuongtrinh.dangsanxuat':
+        return permissions.nMSMenuChuongTrinhDangSanXuat ?? false;
       case 'bantin':
         return permissions.nMSMenuBanTin ?? false;
       case 'bantin.choduyet':
@@ -301,6 +303,37 @@ class NavigationDrawer extends StatelessWidget {
                                                 DanhsachChuongtrinhController>();
                                             controller.trangThaiChuongTrinh
                                                 .value = 'KhongPheDuyetKichBan';
+                                            controller
+                                                .loadDanhSachChuongTrinh();
+                                          }
+                                          navigate('danhsachchuongtrinh');
+                                        }),
+                                  if (_canShowMenuItem(
+                                      'chuongtrinh.dangsanxuat'))
+                                    buildDrawerItems(
+                                        context: context,
+                                        text: 'CT đang sản xuất',
+                                        icon: Icons.play_circle_outline,
+                                        isChild: true,
+                                        textIconColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.helpBlue),
+                                        titleColor: (Get.isDarkMode
+                                            ? AppColor.whiteColor
+                                            : AppColor.whiteColor),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          GetStorage().write(
+                                              'trangThaiChuongTrinh',
+                                              'ChuongTrinhDangSanXuat');
+                                          // Nếu controller đã tồn tại, gọi lại API ngay
+                                          if (Get.isRegistered<
+                                              DanhsachChuongtrinhController>()) {
+                                            final controller = Get.find<
+                                                DanhsachChuongtrinhController>();
+                                            controller.trangThaiChuongTrinh
+                                                    .value =
+                                                'ChuongTrinhDangSanXuat';
                                             controller
                                                 .loadDanhSachChuongTrinh();
                                           }
